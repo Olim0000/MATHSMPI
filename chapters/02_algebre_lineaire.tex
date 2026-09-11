@@ -1,0 +1,604 @@
+\chapter{Algèbre linéaire}
+\label{chap:algebre-lineaire}
+
+\section{Espaces vectoriels : notations et rappels}
+
+\paragraph{Notations.} Dans tout le chapitre, $K$ désigne un corps commutatif (en pratique $\mathbb{R}$ ou $\mathbb{C}$), et « $K$-e.v. » abrège « $K$-espace vectoriel ». On suppose connues de première année les notions suivantes, qui ne sont pas redéfinies ici :
+\begin{itemize}
+\item espace vectoriel, sous-espace vectoriel (sev), famille de vecteurs, $\Vect$ ;
+\item $\mathcal{L}(E,F)$ : ensemble des applications linéaires de $E$ dans $F$ ; $\mathcal{L}(E)=\mathcal{L}(E,E)$ : \emph{endomorphismes} de $E$ ; $\id_E$ : identité de $E$ ;
+\item $\mathcal{M}_{n,p}(K)$ : matrices à $n$ lignes et $p$ colonnes ; $\mathcal{M}_n(K)=\mathcal{M}_{n,n}(K)$ ; $GL_n(K)$ : matrices inversibles de $\mathcal{M}_n(K)$ ;
+\item déterminant $\det$, rang $\rg$, matrice $\mathrm{Mat}(u,\mathcal{B})$ d'un endomorphisme dans une base $\mathcal{B}$ ;
+\item pour $u\in\mathcal{L}(E)$ et $P=\sum_{k=0}^d a_kX^k \in K[X]$, on note $P(u)=\sum_{k=0}^d a_k\,u^k \in \mathcal{L}(E)$, avec la convention $u^0=\id_E$. On rappelle que $P\mapsto P(u)$ est un morphisme d'algèbres ; en particulier, deux polynômes en $u$ commutent toujours entre eux, et avec $u$.
+\end{itemize}
+
+\begin{prop}
+\label{prop:lambda-x-nul}
+Soit $E$ un $K$-e.v. Pour $\lambda\in K$ et $\vec{x}\in E$,
+\[\lambda \vec{x} = \vec{0} \iff \lambda=0 \text{ ou } \vec{x}=\vec{0}\]
+\end{prop}
+
+\begin{proof}
+$(\Leftarrow)$ Supposons $\lambda=0$ ou $\vec{x}=\vec{0}$.
+
+\textbf{Premier cas :} $\lambda=0$.
+\[0\vec{x} = (0+0)\vec{x} \quad \text{car } 0 \text{ est neutre pour } + \text{ dans } K\]
+\[= 0\vec{x}+0\vec{x}\]
+\[\Rightarrow 0\vec{x}-0\vec{x} = 0\vec{x}+0\vec{x}-0\vec{x}\]
+\[\Rightarrow \vec{0} = 0\vec{x}\]
+
+\textbf{Deuxième cas :} $\vec{x}=\vec{0}$.
+\[\lambda\vec{0} = \lambda(\vec{0}+\vec{0}) = \lambda\vec{0}+\lambda\vec{0}\]
+\[\Rightarrow \lambda\vec{0}-\lambda\vec{0} = \lambda\vec{0}+\lambda\vec{0}-\lambda\vec{0}\]
+\[\Rightarrow \vec{0} = \lambda\vec{0}\]
+
+$(\Rightarrow)$ Supposons $\lambda\vec{x}=\vec{0}$.
+
+\textbf{Premier cas :} $\lambda=0$, ok.
+
+\textbf{Deuxième cas :} $\lambda\neq 0$. On a $\lambda\vec{x}=\vec{0}$, donc
+\[\frac{1}{\lambda}(\lambda\vec{x}) = \frac{1}{\lambda}\vec{0}\]
+\[\Rightarrow \left(\frac{1}{\lambda}\cdot\lambda\right)\vec{x} = \frac{1}{\lambda}\vec{0}\]
+\[\Rightarrow 1\cdot\vec{x} = \vec{0}\]
+\[\Rightarrow \vec{x} = \vec{0}\]
+\end{proof}
+
+\section{Les applications linéaires}
+
+$E$ et $F$ deux $K$-e.v.
+
+\begin{defi}[Application linéaire]
+Une application $f:E\to F$ est dite linéaire si
+\[\forall (\lambda,x,y)\in K\times E\times E,\quad f(\lambda x+y) = \lambda f(x)+f(y)\]
+ce qui équivaut à
+\[\forall (\lambda,x)\in K\times E,\ f(\lambda x) = \lambda f(x) \qquad \text{et} \qquad \forall (x,y)\in E^2,\ f(x+y)=f(x)+f(y)\]
+\end{defi}
+
+\begin{prop}
+$f(0_E) = 0_F$
+\end{prop}
+
+\begin{proof}
+\[f(0_E) = f(0_E+0_E) = f(0_E)+f(0_E)\]
+\[\Rightarrow f(0_E) - f(0_E) = f(0_E)+f(0_E)-f(0_E)\]
+\[\Rightarrow 0_F = f(0_E)\]
+\end{proof}
+
+\subsection{Ensembles remarquables}
+
+Noyau ($\Ker f$) et image ($\Img f$).
+
+\begin{defi}
+\[\Ker f = \{x\in E \mid f(x)=0_F\}\]
+\[\Img f = \{y\in F \mid \exists\, x\in E,\ f(x)=y\}\]
+\end{defi}
+
+Plus naturellement : $\Img f = \{f(x) \mid x\in E\} = f(E)$.
+
+On peut également noter que $\Ker f = f^{-1}(\{0_F\})$.
+
+\begin{prop}
+\label{prop:ker-im}
+Soit $f\in\mathcal{L}(E,F)$. Alors
+\[\Ker f = \{0_E\} \iff f \text{ est injective}\]
+\[\Img f = F \iff f \text{ est surjective}\]
+\end{prop}
+
+\begin{proof}
+\textbf{Première équivalence.} $(\Rightarrow)$ Supposons $\Ker f=\{0_E\}$ et soient $x,y\in E$ tels que $f(x)=f(y)$. Par linéarité $f(x-y)=f(x)-f(y)=0_F$, donc $x-y\in\Ker f=\{0_E\}$, d'où $x=y$ : $f$ est injective.
+
+$(\Leftarrow)$ Supposons $f$ injective. On a toujours $0_E\in\Ker f$. Réciproquement, si $x\in\Ker f$, alors $f(x)=0_F=f(0_E)$, donc $x=0_E$ par injectivité. Ainsi $\Ker f=\{0_E\}$.
+
+\textbf{Seconde équivalence.} C'est une reformulation de la définition : $f$ est surjective si et seulement si tout $y\in F$ possède un antécédent, c'est-à-dire si et seulement si $F\subset\Img f$ ; comme $\Img f\subset F$ toujours, cela équivaut à $\Img f=F$.
+\end{proof}
+
+\begin{prop}
+Soit $f\in\mathcal{L}(E)$ un \emph{endomorphisme} de $E$. Alors
+\[\Ker f \subset \Ker f^2 \qquad\text{et}\qquad \Img f^2 \subset \Img f\]
+\end{prop}
+
+\begin{proof}
+Si $x\in\Ker f$, alors $f^2(x)=f\big(f(x)\big)=f(0_E)=0_E$, donc $x\in\Ker f^2$.
+
+Si $y\in\Img f^2$, il existe $x\in E$ tel que $y=f^2(x)=f\big(f(x)\big)$, donc $y$ est l'image par $f$ du vecteur $f(x)$ : $y\in\Img f$.
+\end{proof}
+
+\begin{remarque}
+L'hypothèse « $f$ endomorphisme » est nécessaire pour que $f^2=f\circ f$ ait un sens.
+\end{remarque}
+
+\subsection{Valeurs propres, espaces propres}
+
+\begin{defi}[Éléments propres]
+\label{defi:elements-propres}
+Soit $E$ un $K$-e.v. et $u\in\mathcal{L}(E)$.
+\begin{itemize}
+\item $\lambda\in K$ est une \textbf{valeur propre} de $u$ s'il existe $x\in E$, $x\neq 0_E$, tel que $u(x)=\lambda x$.
+\item Un tel vecteur $x$ est appelé \textbf{vecteur propre} de $u$ associé à $\lambda$. \emph{Un vecteur propre est par définition non nul}, alors qu'une valeur propre peut être nulle.
+\item Le couple $(\lambda,x)$ est un \textbf{élément propre} de $u$.
+\end{itemize}
+\end{defi}
+
+\begin{defi}[Espace propre]
+\label{defi:espace-propre}
+Soit $E$ un $K$-e.v. et $u\in\mathcal{L}(E)$. On appelle espace propre de $u$ pour la valeur propre $\lambda\in K$ l'ensemble
+\[E_\lambda(u) = \Ker(u-\lambda\, \id_E)\]
+\end{defi}
+
+\begin{prop}[Critère]
+\label{prop:critere-vp}
+Soit $u\in\mathcal{L}(E)$ et $\lambda\in K$. Alors
+\[\lambda \text{ est valeur propre de } u \iff E_\lambda(u) = \Ker(u-\lambda\,\id_E) \neq \{0_E\}\]
+En dimension finie, cela équivaut encore à $\det(u-\lambda\,\id_E)=0$.
+\end{prop}
+
+\begin{proof}
+Pour $x\in E$, on a $u(x)=\lambda x \iff (u-\lambda\,\id_E)(x)=0_E \iff x\in E_\lambda(u)$. Dire que $\lambda$ est valeur propre, c'est donc dire qu'il existe un tel $x$ \emph{non nul}, c'est-à-dire que $E_\lambda(u)$ contient un vecteur non nul, soit $E_\lambda(u)\neq\{0_E\}$. En dimension finie, cela signifie que $u-\lambda\,\id_E$ n'est pas injective, donc pas bijective, donc de déterminant nul (proposition~\ref{prop:ker-im}).
+\end{proof}
+
+\begin{exemple}
+Pour $u=\id_E$ et $\lambda\in K$ :
+\begin{align*}
+E_\lambda(\id) &= \Ker(\id-\lambda\,\id) = \{x\in E \mid (\id-\lambda\,\id)(x)=0\} \\
+&= \{x\in E \mid x-\lambda x=0\} = \{x\in E \mid (1-\lambda)x=0\}
+\end{align*}
+D'après la proposition~\ref{prop:lambda-x-nul}, ce dernier ensemble vaut $E$ si $\lambda=1$, et $\{0_E\}$ sinon. Donc, si $E\neq\{0_E\}$, la seule valeur propre de $\id_E$ est $1$, d'espace propre $E_1(\id)=E$.
+\end{exemple}
+
+\begin{exemple}
+\label{ex:matrice-1234}
+Soit $A=\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$. Cherchons les valeurs propres de $A$ :
+\[\det(A-\lambda I_2) = (1-\lambda)(4-\lambda) - 6 = \lambda^2-5\lambda-2\]
+Le discriminant vaut $\Delta = 5^2+4\times 2 = 33$, donc
+\[\lambda_1 = \frac{5+\sqrt{33}}{2}, \qquad \lambda_2 = \frac{5-\sqrt{33}}{2}\]
+Un vecteur propre associé à $\lambda_i$ vérifie $(1-\lambda_i)x+2y=0$, soit $y=\dfrac{\lambda_i-1}{2}x$ : en prenant $x=2$, un vecteur propre est $\begin{pmatrix} 2 \\ \lambda_i-1\end{pmatrix}$.
+\end{exemple}
+
+\begin{defi}[Spectre]
+Le spectre d'un endomorphisme $u$, noté $\Spec(u)$ (ou $\Spec_K(u)$ si l'on veut préciser le corps), est l'ensemble des valeurs propres de $u$.
+\end{defi}
+
+\begin{exemple}
+Pour $\varphi=\id_E$ (avec $E\neq\{0\}$) : $\Spec_K \varphi = \{1\}$.
+\end{exemple}
+
+\begin{remarque}
+Un endomorphisme $v$ dont le spectre est un singleton $\{\lambda\}$ n'est pas nécessairement une homothétie : voir l'exemple~\ref{ex:nilpotent} ci-dessous. On verra à la proposition~\ref{prop:singleton-homothetie} qu'il faut y ajouter l'hypothèse de diagonalisabilité.
+\end{remarque}
+
+\begin{remarque}
+Il existe des endomorphismes dont le spectre est \emph{vide} : voir l'exemple~\ref{ex:XP}. Cela ne peut se produire ni sur $\mathbb{C}$ en dimension finie non nulle (proposition~\ref{prop:spec-C-non-vide}), ni sur $\mathbb{R}$ en dimension finie impaire.
+\end{remarque}
+
+\begin{exemple}
+\label{ex:nilpotent}
+Soit $v$ l'endomorphisme de $K^2$ de matrice $\begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ dans la base canonique $(e_1,e_2)$. Alors $\Spec(v)=\{0\}$ et
+\[E_0(v) = \Ker(v-0\cdot\id) = \Ker v = \Vect(e_1)\]
+mais $v$ n'est pas une homothétie (l'espace propre n'est pas $E$ tout entier).
+\end{exemple}
+
+\begin{exemple}
+Pour $A=\begin{pmatrix} a & b \\ c & d\end{pmatrix}$ :
+\[\det(A-\lambda I_2) = (a-\lambda)(d-\lambda)-bc = \lambda^2-(a+d)\lambda+(ad-bc)\]
+\end{exemple}
+
+\begin{exemple}
+Pour $A=\begin{pmatrix} 0 & -1 \\ 1 & 0\end{pmatrix}$, cherchons un vecteur propre associé à la valeur propre $\lambda=i$ :
+\[\Ker\begin{pmatrix} -i & -1 \\ 1 & -i\end{pmatrix} : \begin{cases} -iX-Y=0 \\ X-iY=0\end{cases}\]
+En substituant ($L_2 \leftarrow L_2 + \frac{1}{i}L_1$) :
+\[\begin{cases} -iX-Y=0 \\ 0=0\end{cases} \implies Y=-iX\]
+Ainsi $\begin{pmatrix} X \\ Y\end{pmatrix} = \begin{pmatrix} X \\ -iX\end{pmatrix} = X\begin{pmatrix} 1 \\ -i\end{pmatrix}$.
+
+Donc $E_i\begin{pmatrix} 0 & -1 \\ 1 & 0\end{pmatrix} = \Vect\begin{pmatrix} 1 \\ -i\end{pmatrix}$.
+\end{exemple}
+
+\begin{prop}
+\label{prop:spec-C-non-vide}
+\[\forall n\geq 1,\ \forall A\in\mathcal{M}_n(\mathbb{C}), \quad \Spec_{\mathbb{C}} A \neq \emptyset\]
+\end{prop}
+
+\begin{proof}
+Le polynôme caractéristique $\chi_A(X)=\det(A-X I_n)$ est un polynôme de degré $n\geq 1$ à coefficients dans $\mathbb{C}$. D'après le théorème de d'Alembert--Gauss, il admet au moins une racine $\lambda\in\mathbb{C}$, et $\det(A-\lambda I_n)=0$ signifie précisément que $\lambda$ est valeur propre de $A$ (proposition~\ref{prop:critere-vp}).
+\end{proof}
+
+En dimension infinie, ce résultat n'est plus vrai : les deux exemples suivants portent sur $\mathbb{C}[X]$.
+
+\begin{exemple}[Dérivation]
+\[D : \mathbb{C}[X]\to\mathbb{C}[X], \quad P\mapsto P'\]
+On recherche $\lambda$ valeur propre : $D(P)=\lambda P$ avec $P\neq 0$.
+
+\textbf{1er cas :} $\lambda\neq 0$. Si $P\neq 0$, $\deg(\lambda P)=\deg P$ alors que $\deg(P')\leq \deg(P)-1$ : incompatibilité en termes de degrés. Aucun $\lambda\neq 0$ n'est donc valeur propre.
+
+\textbf{2ème cas :} $\lambda=0$. L'équation devient $P'=0$, donc $\Ker D = \Vect(1) = \mathbb{C}_0[X] \neq \{0\}$ : d'après le critère~\ref{prop:critere-vp}, $0$ \emph{est} valeur propre de $D$, et $E_0(D)=\mathbb{C}_0[X]$ est l'espace des polynômes constants.
+
+Conclusion : $\Spec D = \{0\}$. Noter que $D$ n'est pas pour autant nilpotent sur $\mathbb{C}[X]$ (il l'est seulement en restriction à chaque $\mathbb{C}_n[X]$).
+\end{exemple}
+
+\begin{exemple}[Multiplication par $X$]
+\label{ex:XP}
+\[\varphi : \mathbb{C}[X]\to\mathbb{C}[X], \quad P\mapsto XP\]
+Si $XP=\lambda P$ avec $P\neq 0$, alors $\deg(XP)=1+\deg(P)$ alors que $\deg(\lambda P)\leq \deg(P)$ : incompatibilité en termes de degrés, donc pas de valeur propre.
+
+On a $\Img\varphi = \{XP \mid P\in\mathbb{C}[X]\} = X\mathbb{C}[X]$ et $\Spec\varphi = \emptyset$ : voilà un endomorphisme à spectre vide.
+\end{exemple}
+
+\begin{defi}[Diagonalisabilité]
+Soit $u\in\mathcal{L}(E)$, $E$ un $K$-e.v. de dimension finie. On dit que $u$ est diagonalisable s'il existe une base de $E$ constituée de vecteurs propres de $u$.
+\end{defi}
+
+\begin{exemple}
+$u=\alpha\, \id$, $\Spec(\alpha\, \id)=\{\alpha\}$. Dans toute base $(e_1,\dots,e_n)$,
+\[\mathrm{Mat}(u,e_1,\dots,e_n) = \begin{pmatrix} \alpha & & 0 \\ & \ddots & \\ 0 & & \alpha\end{pmatrix}\]
+\end{exemple}
+
+\begin{exemple}
+Reprenons $A=\begin{pmatrix} 1 & 2 \\ 3 & 4\end{pmatrix}$ de l'exemple~\ref{ex:matrice-1234}, de valeurs propres $\lambda_1=\dfrac{5+\sqrt{33}}{2}$ et $\lambda_2=\dfrac{5-\sqrt{33}}{2}$, avec vecteurs propres respectifs
+\[v_1 = \begin{pmatrix} 2 \\ \lambda_1-1\end{pmatrix}, \qquad v_2 = \begin{pmatrix} 2 \\ \lambda_2-1\end{pmatrix}\]
+Comme $\lambda_1\neq\lambda_2$, la famille $(v_1,v_2)$ est libre (proposition~\ref{prop:somme-directe-espaces-propres}) donc est une base de $\mathbb{R}^2$. En notant $u$ l'endomorphisme canoniquement associé à $A$, c'est \emph{dans cette base de vecteurs propres} que la matrice est diagonale :
+\[\mathrm{Mat}(u,v_1,v_2) = \begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2\end{pmatrix} = D\]
+(alors que $\mathrm{Mat}(u,e_1,e_2)=A$ dans la base canonique).
+
+$A$ et $D$ sont semblables, i.e. $\exists\, P \mid P^{-1}AP=D$. La matrice de passage est
+\[P = \begin{pmatrix} 2 & 2 \\ \lambda_1-1 & \lambda_2-1\end{pmatrix} \longrightarrow \text{matrice des vecteurs propres.}\]
+\end{exemple}
+
+\begin{prop}
+\label{prop:singleton-homothetie}
+Soit $E$ de dimension finie et $u\in\mathcal{L}(E)$ diagonalisable tel que $\Spec(u)=\{\lambda\}$. Alors $u=\lambda\,\id_E$ est une homothétie.
+\end{prop}
+
+\begin{proof}
+Comme $u$ est diagonalisable, il existe une base $(\varepsilon_1,\dots,\varepsilon_n)$ de $E$ formée de vecteurs propres de $u$. Chaque $\varepsilon_i$ est associé à une valeur propre de $u$, donc à $\lambda$ puisque $\Spec(u)=\{\lambda\}$ : ainsi $u(\varepsilon_i)=\lambda\varepsilon_i$ pour tout $i$. Les endomorphismes $u$ et $\lambda\,\id_E$ coïncident donc sur une base, ils sont égaux (proposition~\ref{prop:determine-par-base}).
+\end{proof}
+
+\begin{prop}
+\label{prop:vp-racines-annulateur}
+Soit $u\in\mathcal{L}(E)$, $P\in K[X]$ tel que $P(u)=0_{\mathcal{L}(E)}$ ($P$ est alors dit \textbf{annulateur} de $u$). Si $\lambda$ est valeur propre de $u$, alors $\lambda$ est racine de $P$ : $P(\lambda)=0$. Autrement dit,
+\[\Spec(u) \subset \{\text{racines de } P\}\]
+\end{prop}
+
+\begin{proof}
+Soit $\lambda$ valeur propre de $u$ : $\exists\, x\neq 0,\ u(x)=\lambda x$ (i.e. $\Ker(u-\lambda\,\id)\neq\{0\}$).
+\[u(u(x)) = u(\lambda x) \implies u^2(x) = \lambda u(x) \implies u^2(x)=\lambda^2 x\]
+Par récurrence on obtient $u^k(x)=\lambda^k x$ pour tout $k\geq 1$.
+
+\textbf{Remarque :} $u^0(x)=\id(x)=x$ et $\lambda^0 x = 1\cdot x = x$, donc le résultat précédent reste également valide en $0$.
+
+Écrivons $P(X) = \displaystyle\sum_{k=0}^{d} a_k X^k$, $\deg P = d$. Alors
+\[P(u)(x) = \sum_{k=0}^{d} a_k u^k(x) = \sum_{k=0}^{d} a_k \lambda^k x = P(\lambda)\, x\]
+Or $P(u)=0$, donc $P(\lambda)\, x = 0$. Comme $x\neq 0$, on conclut $P(\lambda)=0$ (proposition~\ref{prop:lambda-x-nul}).
+\end{proof}
+
+\begin{remarque}
+La réciproque est fausse : une racine d'un polynôme annulateur n'est pas nécessairement valeur propre. Par exemple $P(X)=X(X-1)$ annule $u=\id_E$, mais $0\notin\Spec(\id_E)$. L'inclusion $\Spec(u)\subset\{\text{racines de }P\}$ est donc en général stricte.
+\end{remarque}
+
+\begin{exemple}
+Soit $u$ tel que $u^2-u=0$, i.e. $P(X)=X^2-X=X(X-1)$ est annulateur de $u$. Les racines de $P$ sont $0$ et $1$, donc $\Spec(u)\subset\{0,1\}$ : les valeurs propres de $u$ sont parmi les racines d'un polynôme annulateur.
+
+C'est le cas d'un projecteur, dont les valeurs propres valent $0$ ou $1$ :
+\[p=\id \implies \Spec(p)=\{1\}, \qquad p=0 \implies \Spec(p)=\{0\}\]
+\end{exemple}
+
+\begin{exemple}[Exercice de cours]
+Soit $\lambda\in\mathbb{C}^*$ (\emph{l'hypothèse $\lambda\neq 0$ est indispensable}) et $P(X)=X^2-\lambda^2 = (X-\lambda)(X+\lambda)$. Si $P$ est annulateur de $u$, montrer que
+\[E = \Ker(u-\lambda\,\id) \oplus \Ker(u+\lambda\,\id)\]
+et en déduire que $u$ est diagonalisable.
+
+\emph{Indication :} écrire $x = \dfrac{1}{2\lambda}\big(u(x)+\lambda x\big) - \dfrac{1}{2\lambda}\big(u(x)-\lambda x\big)$ et vérifier que le premier terme est dans $\Ker(u-\lambda\,\id)$, le second dans $\Ker(u+\lambda\,\id)$.
+
+\emph{Contre-exemple pour $\lambda=0$ :} $P(X)=X^2$ annule $u=\begin{pmatrix}0&1\\0&0\end{pmatrix}$, qui n'est pas diagonalisable ; la « somme » ci-dessus se réduirait à $\Ker u\neq E$.
+\end{exemple}
+
+\section{Sous-espaces stables}
+
+\begin{defi}[Sous-espace stable]
+Soit $u\in\mathcal{L}(E)$, $E$ un $K$-e.v., et $F$ un sous-espace vectoriel de $E$. $F$ est dit $u$-stable si
+\[u(F)\subset F\]
+\end{defi}
+
+Trivialité : $E$ est $u$-stable, $\{0\}$ est $u$-stable.
+
+\begin{prop}[Droites stables]
+\label{prop:droite-stable}
+Soit $u\in\mathcal{L}(E)$ et $D=\Vect(a)$ avec $a\neq 0$. Alors
+\[D \text{ est } u\text{-stable} \iff \exists\, \alpha\in K,\ u(a)=\alpha\, a \iff a \text{ est un vecteur propre de } u\]
+\end{prop}
+
+\begin{proof}
+$(\Leftarrow)$ Supposons $u(a)=\alpha a$. $\forall x\in\Vect(a)$, $\exists\, \beta,\ x=\beta a$.
+\[u(x) = u(\beta a) = \beta u(a) = \beta(\alpha a) = (\beta\alpha)a \in \Vect(a)\]
+Donc $\Vect(a)$ est $u$-stable.
+
+$(\Rightarrow)$ Supposons $D$ $u$-stable. En particulier $a\in D$, donc $u(a)\in u(D)\subset D=\Vect(a)$ : il existe $\alpha\in K$ tel que $u(a)=\alpha a$. Comme $a\neq 0$, $a$ est un vecteur propre de $u$ associé à la valeur propre $\alpha$.
+\end{proof}
+
+\begin{exemple}[Exercice de cours]
+$E_\lambda(u) = \Ker(u-\lambda\,\id)$ est $u$-stable : $\forall x\in E_\lambda(u)$,
+\[u(x)=\lambda x \in E_\lambda(u)\]
+car un espace vectoriel est stable par multiplication par un scalaire.
+\end{exemple}
+
+\begin{prop}[Restriction à un sous-espace stable]
+\label{prop:restriction}
+Soit $u\in\mathcal{L}(E)$ un endomorphisme de $E$ et $F$ un sous-espace vectoriel de $E$. Soit $v:F\to E$, $x\mapsto u(x)$. Alors
+\[v \text{ induit un endomorphisme de } F \text{ (i.e. } v(F)\subset F) \iff F \text{ est } u\text{-stable}\]
+Dans ce cas on note $u_{|F} : F\to F,\ x\mapsto u(x)$ l'\textbf{endomorphisme induit} par $u$ sur $F$.
+\end{prop}
+
+\begin{proof}
+Par définition, $v$ induit un endomorphisme de $F$ signifie que $v$ est à valeurs dans $F$, c'est-à-dire $v(x)=u(x)\in F$ pour tout $x\in F$, soit $u(F)\subset F$ : c'est exactement la $u$-stabilité de $F$. Réciproquement, si $F$ est $u$-stable, l'application $u_{|F}:F\to F,\ x\mapsto u(x)$ est bien définie, et elle est linéaire comme restriction d'une application linéaire : $u_{|F}\in\mathcal{L}(F)$.
+\end{proof}
+
+\begin{prop}
+\label{prop:commutent-stable}
+Soient $u,v\in\mathcal{L}(E)$ tels que $u\circ v = v\circ u$. Alors $\Ker v$ et $\Img v$ sont $u$-stables.
+\end{prop}
+
+\begin{proof}
+\textbf{Montrons que $\Ker v$ est $u$-stable.} Soit $x\in\Ker v$ (i.e. $v(x)=0$).
+\[v(u(x)) = u(v(x)) = u(0) = 0\]
+Donc $u(x)\in\Ker v$.
+
+\textbf{Montrons que $\Img v$ est $u$-stable.} Soit $x\in\Img v$, i.e. $\exists\, y,\ x=v(y)$.
+\[u(x) = u(v(y)) = v(u(y)) \in \Img v\]
+\end{proof}
+
+\begin{prop}
+Soit $P\in K[X]$ et $u\in\mathcal{L}(E)$. Alors $\Ker P(u)$ est $u$-stable.
+\end{prop}
+
+\begin{proof}
+On a $P(u)\circ u = u\circ P(u)$ ($P(u)$, polynôme en $u$, commute avec $u$). D'après la proposition~\ref{prop:commutent-stable} appliquée à $v=P(u)$, $\Ker P(u)$ est $u$-stable.
+\end{proof}
+
+\section{Sommes directes}
+
+Soit $E$ un $K$-e.v. et $F_1,\dots,F_h$ des sous-espaces vectoriels de $E$.
+
+\begin{defi}[Somme de sous-espaces]
+\label{defi:somme}
+\[\varphi : F_1\times\cdots\times F_h \to E, \qquad (x_1,\dots,x_h) \mapsto x_1+\dots+x_h = \sum_{j=1}^{h} x_j\]
+$\varphi$ est linéaire. On note
+\[F_1+\dots+F_h = \Img\varphi = \left\{x\in E \ \middle|\ \exists\,(x_1,\dots,x_h)\in F_1\times\cdots\times F_h,\ x=x_1+\dots+x_h\right\}\]
+qui est un sous-espace vectoriel de $E$.
+\end{defi}
+
+\begin{defi}[Somme directe]
+\label{defi:somme-directe}
+Si $\varphi$ est injective, on dit que la somme $F_1+\dots+F_h$ est \textbf{directe}, et on la note alors
+\[F_1\oplus\dots\oplus F_h = \bigoplus_{j=1}^{h} F_j\]
+Autrement dit, la somme est directe si et seulement si
+\[\forall (x_1,\dots,x_h)\in F_1\times\cdots\times F_h,\quad x_1+\dots+x_h=0 \implies x_1=\dots=x_h=0\]
+\end{defi}
+
+\begin{prop}[Cas de deux sous-espaces]
+La somme $F+G$ est directe si et seulement si $F\cap G = \{0\}$.
+\end{prop}
+
+\begin{proof}
+$(\Rightarrow)$ Soit $x\in F\cap G$. Alors $x+(-x)=0$ avec $x\in F$ et $-x\in G$, donc par définition de la somme directe, $x=-x=0$.
+
+$(\Leftarrow)$ Supposons $F\cap G=\{0\}$. Soient $x\in F,\ y\in G$ tels que $x+y=0$. Alors $x=-y$, donc $-y\in F$, d'où $y=-(-y)\in F$. Ainsi $y\in F\cap G$, donc $y=0$, puis $x=0$. La somme est donc directe.
+\end{proof}
+
+\begin{prop}
+\label{prop:somme-directe-espaces-propres}
+Soient $\lambda_1,\dots,\lambda_h\in K$ distincts deux à deux et $u\in\mathcal{L}(E)$. Alors la somme des espaces propres associés est directe :
+\[E_{\lambda_1}(u)+\dots+E_{\lambda_h}(u) = \bigoplus_{j=1}^{h} E_{\lambda_j}(u)\]
+En particulier, une famille de vecteurs propres associés à des valeurs propres deux à deux distinctes est libre.
+\end{prop}
+
+\begin{proof}
+Par récurrence sur $h$.
+
+\textbf{Initialisation ($h=1$) :} immédiat.
+
+\textbf{$h=2$, $\lambda_1\neq\lambda_2$ :} Soit $x\in E_{\lambda_1}\cap E_{\lambda_2}$. Alors $u(x)=\lambda_1 x$ et $u(x)=\lambda_2 x$, donc $(\lambda_1-\lambda_2)x=0$, d'où $x=0$ car $\lambda_1\neq\lambda_2$.
+
+\textbf{Hérédité :} On suppose $\lambda_1,\dots,\lambda_h,\lambda_{h+1}$ distincts deux à deux et le théorème vrai au rang $h$. Soient $x_1,\dots,x_{h+1}$ avec $x_j\in E_{\lambda_j}(u)$ tels que
+\[x_1+\dots+x_h+x_{h+1}=0 \qquad (1)\]
+En appliquant $u$ :
+\[\lambda_1 x_1+\dots+\lambda_h x_h+\lambda_{h+1}x_{h+1}=0 \qquad (2)\]
+En calculant $(2)-\lambda_{h+1}\cdot(1)$ :
+\[(\lambda_1-\lambda_{h+1})x_1+\dots+(\lambda_h-\lambda_{h+1})x_h = 0\]
+Par hypothèse de récurrence (la somme $E_{\lambda_1}\oplus\dots\oplus E_{\lambda_h}$ est directe), chaque terme est nul : $\forall j\in\inter{1}{h},\ (\lambda_j-\lambda_{h+1})x_j=0$, donc $x_j=0$ car $\lambda_j\neq\lambda_{h+1}$. En reportant dans $(1)$, $x_{h+1}=0$ également.
+
+Par le principe de récurrence, le résultat est vrai pour tout $h\geq 1$.
+\end{proof}
+
+\begin{coro}
+Soit $E$ de dimension finie $m$ et $u\in\mathcal{L}(E)$. Alors
+\[\Card\big(\Spec(u)\big) \leq m\]
+\end{coro}
+
+\begin{proof}
+Supposons $\lambda_1,\dots,\lambda_m,\lambda_{m+1}$ distincts deux à deux valeurs propres de $u$. Alors $E_{\lambda_1}\oplus\dots\oplus E_{\lambda_m}\oplus E_{\lambda_{m+1}}$ est directe, et chaque espace propre est de dimension $\geq 1$, donc
+\[\dim\left(\bigoplus_{i=1}^{m+1} E_{\lambda_i}\right) = \sum_{i=1}^{m+1}\dim E_{\lambda_i} \geq m+1 > \dim E\]
+ce qui est absurde. Donc $u$ possède au plus $m$ valeurs propres distinctes.
+\end{proof}
+
+\subsection{Projecteur associé à une décomposition en somme directe}
+
+\begin{prop}
+\label{prop:projecteur}
+Soient $F,G$ deux sous-espaces vectoriels de $E$ tels que $F\oplus G=E$. Alors
+\[\forall x\in E,\ \exists! (x_F,x_G)\in F\times G,\quad x=x_F+x_G\]
+L'application
+\[\varphi : E\to E, \qquad x\mapsto x_F\]
+est linéaire, vérifie $\varphi\circ\varphi=\varphi$, $\Img(\varphi)=F$ et $\Ker(\varphi)=G$. On dit que $\varphi$ est le \textbf{projecteur sur $F$ parallèlement à $G$}.
+\end{prop}
+
+\begin{proof}
+\textbf{Existence et unicité de la décomposition :} l'existence traduit $F+G=E$, et l'unicité l'injectivité de l'application $(x_F,x_G)\mapsto x_F+x_G$ (définition~\ref{defi:somme-directe}). L'application $\varphi$ est donc bien définie.
+
+\textbf{Idempotence :} $\varphi(\varphi(x)) = \varphi(x_F) = x_F$ (car $x_F=x_F+0$ avec $x_F\in F,\ 0\in G$), donc $\varphi\circ\varphi=\varphi$.
+
+\textbf{Linéarité :} Soient $x,y\in E$ et $\lambda\in K$. On a $x=x_F+x_G$, $y=y_F+y_G$, donc
+\[\lambda x = \lambda x_F+\lambda x_G, \quad \text{avec } \lambda x_F\in F,\ \lambda x_G\in G\]
+d'où $\varphi(\lambda x)=\lambda x_F=\lambda\varphi(x)$ par unicité de la décomposition. De même, $\varphi(x+y)=\varphi(x)+\varphi(y)$.
+
+\textbf{$\Img(\varphi)=F$ :} par construction $\varphi(x)=x_F\in F$ pour tout $x$, donc $\Img\varphi\subset F$ ; réciproquement, si $x\in F$, sa décomposition est $x=x+0$, donc $\varphi(x)=x$ et $x\in\Img\varphi$.
+
+\textbf{$\Ker(\varphi)=G$ :} $\varphi(x)=0 \iff x_F=0 \iff x=x_G\in G$.
+\end{proof}
+
+Plus généralement, si $E=F_1\oplus\dots\oplus F_k$, on note $\widehat{F_j} = \bigoplus_{\substack{i=1 \\ i\neq j}}^{k} F_i$, et $P_j$ le projecteur sur $F_j$ parallèlement à $\widehat{F_j}$.
+
+\begin{prop}
+\label{prop:projecteurs-famille}
+\[P_i\circ P_j = \delta_{ij}\, P_j \qquad \text{et} \qquad P_1+\dots+P_k = \id_E\]
+\end{prop}
+
+\begin{proof}
+Soit $x\in E$, qui s'écrit de façon unique $x=x_1+\dots+x_k$ avec $x_j\in F_j$. Par définition, $P_j(x)=x_j$, donc
+\[\sum_{j=1}^{k} P_j(x) = \sum_{j=1}^{k} x_j = x = \id_E(x)\]
+d'où $P_1+\dots+P_k=\id_E$.
+
+Soit $i\neq j$. On a $F_j\subset \widehat{F_i} = \Ker(P_i)$, donc $P_i(F_j)=\{0\}$, d'où $(P_i\circ P_j)(E) = P_i(\Img P_j) = P_i(F_j) = \{0\}$, c'est-à-dire $P_i\circ P_j=0$. Pour $i=j$, $P_i\circ P_i = P_i$ par idempotence. On conclut $P_i\circ P_j=\delta_{ij}P_j$.
+\end{proof}
+
+\subsection{Sous-espaces stables et restriction}
+
+\begin{prop}
+\label{prop:recollement}
+Soit $E=\displaystyle\bigoplus_{j=1}^{h} F_j$ un $K$-e.v. décomposé en somme directe, $G$ un $K$-e.v. et, pour chaque $j$, une application linéaire $u_j\in\mathcal{L}(F_j,G)$. Alors il existe une unique application $u\in\mathcal{L}(E,G)$ telle que
+\[u_{|F_j} = u_j \qquad \forall j\in\inter{1}{h}\]
+\end{prop}
+
+\begin{proof}
+\textbf{Existence :} $u=\displaystyle\sum_{j=1}^{h} u_j\circ P_j$ convient : c'est une application linéaire de $E$ dans $G$ (combinaison linéaire de composées d'applications linéaires), et pour $x\in F_i$, $P_j(x)=\delta_{ij}x$ donne $u(x)=u_i(x)$.
+
+\textbf{Unicité :} Soient $u,v\in\mathcal{L}(E,G)$ vérifiant $u_{|F_j}=v_{|F_j}=u_j$ pour tout $j$. Montrons $u-v=0$. Soit $x\in E$, $x=P_1(x)+\dots+P_h(x)$ (proposition~\ref{prop:projecteurs-famille}). Alors
+\[(u-v)(x) = \sum_{j=1}^{h} (u-v)\big(P_j(x)\big) = \sum_{j=1}^{h} \underbrace{u\big(P_j(x)\big) - v\big(P_j(x)\big)}_{=0 \text{ car } P_j(x)\in F_j} = 0\]
+Donc $u=v$.
+\end{proof}
+
+\section{Familles de vecteurs, bases}
+
+Soit $E$ un $K$-e.v. et $(e_i)_{i\in I}$ une famille de vecteurs de $E$.
+
+\subsection{Combinaison linéaire}
+
+\begin{defi}[Combinaison linéaire]
+Une combinaison linéaire de la famille $(e_i)_{i\in I}$ est un vecteur de la forme
+\[\sum_{j\in J} \alpha_j\, e_j\]
+où $J\subset I$ est \textbf{fini} et $(\alpha_j)_{j\in J}\in K^J$.
+
+\medskip
+\textbf{Attention} : lorsque $I$ est infini, l'écriture $\displaystyle\sum_{i\in I}\alpha_i e_i$ n'a de sens que si la famille $(\alpha_i)_{i\in I}\in K^I$ est \textbf{à support fini}, c'est-à-dire si $\{i\in I \mid \alpha_i\neq 0\}$ est fini : on pose alors $\displaystyle\sum_{i\in I}\alpha_i e_i = \sum_{j\in J}\alpha_j e_j$ pour n'importe quelle partie finie $J$ contenant ce support (la somme ne dépend pas du choix de $J$, les termes ajoutés étant nuls).
+\end{defi}
+
+\begin{defi}[Sous-espace engendré]
+L'ensemble des combinaisons linéaires de $(e_i)_{i\in I}$, noté $\Vect(e_i)_{i\in I}$, est un sous-espace vectoriel de $E$ : il contient $0$ (combinaison vide), et est stable par combinaison linéaire de deux de ses éléments (une combinaison linéaire de combinaisons linéaires des $(e_i)$ est encore une combinaison linéaire des $(e_i)$, quitte à réunir les supports finis en jeu).
+\end{defi}
+
+\subsection{Famille génératrice}
+
+\begin{defi}
+Soit $F$ un sous-espace vectoriel de $E$. La famille $(e_i)_{i\in I}$ est dite \textbf{génératrice} de $F$ si $F=\Vect(e_i)_{i\in I}$ (ce qui suppose en particulier $e_i\in F$ pour tout $i\in I$).
+\end{defi}
+
+\subsection{Famille libre}
+
+\begin{defi}
+La famille $(e_i)_{i\in I}$ est dite \textbf{libre} si, pour toute partie finie $J\subset I$ et toute famille $(\alpha_j)_{j\in J}\in K^J$,
+\[\sum_{j\in J} \alpha_j\, e_j = 0 \implies \forall j\in J,\ \alpha_j=0\]
+Une famille qui n'est pas libre est dite \textbf{liée}.
+\end{defi}
+
+\subsection{Base}
+
+\begin{defi}[Base]
+Une \textbf{base} de $E$ est une famille de vecteurs de $E$ à la fois libre et génératrice de $E$.
+\end{defi}
+
+\begin{prop}
+\label{prop:determine-par-base}
+Soit $E$ un $K$-e.v. de dimension finie muni d'une base $(e_1,\dots,e_n)$ et $F$ un $K$-e.v. quelconque. Pour toute famille $(f_1,\dots,f_n)\in F^n$, il existe une unique application linéaire $u\in\mathcal{L}(E,F)$ telle que
+\[\forall i\in\inter{1}{n},\quad u(e_i)=f_i\]
+Autrement dit, une application linéaire est entièrement déterminée par les images des vecteurs d'une base ; en particulier, deux applications linéaires qui coïncident sur une base sont égales.
+\end{prop}
+
+\begin{proof}
+\textbf{Unicité :} Soit $x\in E$. Comme $(e_1,\dots,e_n)$ est génératrice, $x=\sum_{i=1}^n x_i e_i$ pour une certaine famille $(x_i)\in K^n$ ; comme elle est libre, cette décomposition est unique. Si $u\in\mathcal{L}(E,F)$ vérifie $u(e_i)=f_i$ pour tout $i$, alors par linéarité
+\[u(x) = \sum_{i=1}^n x_i\, u(e_i) = \sum_{i=1}^n x_i f_i\]
+est entièrement déterminé par $(x_i)$, donc $u$ est unique.
+
+\textbf{Existence :} Pour $x\in E$, notons $(x_i)_{1\leq i\leq n}$ l'unique famille de scalaires telle que $x=\sum_i x_i e_i$, et posons $u(x)=\sum_{i=1}^n x_i f_i$. Montrons que $u$ est linéaire : soient $x=\sum x_i e_i,\ y=\sum y_i e_i \in E$ et $\lambda\in K$. Alors $\lambda x+y = \sum_i(\lambda x_i+y_i)e_i$, et par unicité de la décomposition dans la base, les coefficients de $\lambda x+y$ sont $(\lambda x_i+y_i)_i$. Donc
+\[u(\lambda x+y) = \sum_{i=1}^n (\lambda x_i+y_i) f_i = \lambda\sum_{i=1}^n x_i f_i + \sum_{i=1}^n y_i f_i = \lambda\, u(x)+u(y)\]
+Ainsi $u\in\mathcal{L}(E,F)$, et $u(e_i)=f_i$ pour tout $i$ (décomposition triviale de $e_i$ dans la base).
+\end{proof}
+
+\section{Espace vectoriel de dimension finie}
+
+On admet le résultat suivant (issu du théorème de la base incomplète).
+
+\begin{prop}
+\label{prop:dimension}
+Soit $E$ un $K$-e.v. de dimension finie. Pour toute famille libre $\mathcal{L}$, toute base $\mathcal{B}$ et toute famille génératrice finie $\mathcal{G}$ de $E$,
+\[\Card(\mathcal{L}) \leq \Card(\mathcal{B}) \leq \Card(\mathcal{G})\]
+En particulier, toutes les bases de $E$ ont même cardinal : ce cardinal commun est la \textbf{dimension} de $E$, notée $\dim E$.
+\end{prop}
+
+Par convention $\dim\{0\}=0$ (la famille vide, libre et génératrice de $\{0\}$, en est une base) ; réciproquement si $\dim E=0$, $E$ n'admet que la base vide comme famille génératrice, donc $E=\Vect(\varnothing)=\{0\}$. Ainsi
+\[\dim E = 0 \iff E=\{0\}\]
+
+\subsection{Théorème du rang}
+
+\begin{prop}[Supplémentaire du noyau]
+\label{prop:supplementaire-noyau}
+Soit $E$ un $K$-e.v. de dimension finie, $F$ un $K$-e.v., $u\in\mathcal{L}(E,F)$, et $S$ un supplémentaire de $\Ker u$ dans $E$ (i.e. $\Ker u\oplus S = E$). Alors $S$ est isomorphe à $\Img u$, via $u_{|S}$.
+\end{prop}
+
+\begin{proof}
+Posons $v = u_{|S} : S\to\Img u,\ x\mapsto u(x)$ ; c'est une application linéaire (restriction de $u$, bien à valeurs dans $\Img u$). Montrons que $v$ est bijective.
+
+\textbf{Injectivité :} $\Ker(v) = \{x\in S \mid u(x)=0\} = S\cap\Ker u = \{0\}$, car la somme $\Ker u\oplus S$ est directe. Donc $v$ est injective.
+
+\textbf{Surjectivité :} Soit $y\in\Img u$ : il existe $x\in E$ tel que $y=u(x)$. Comme $E=\Ker u\oplus S$, on écrit $x=x_K+x_S$ avec $x_K\in\Ker u$ et $x_S\in S$. Alors
+\[y = u(x) = u(x_K)+u(x_S) = 0+v(x_S) = v(x_S)\]
+donc $y\in\Img(v)$ : $v$ est surjective.
+
+Ainsi $v$ réalise un isomorphisme de $S$ sur $\Img u$.
+\end{proof}
+
+\begin{theo}[Théorème du rang]
+\label{theo:rang}
+Soit $E$ un $K$-e.v. de dimension finie, $F$ un $K$-e.v. et $u\in\mathcal{L}(E,F)$. Alors
+\[\dim(\Ker u) + \dim(\Img u) = \dim E\]
+\end{theo}
+
+\begin{proof}
+Comme $E$ est de dimension finie, $\Ker u$ admet un supplémentaire $S$ dans $E$ (théorème de la base incomplète), donc $E=\Ker u\oplus S$ et
+\[\dim E = \dim(\Ker u) + \dim(S)\]
+D'après la proposition~\ref{prop:supplementaire-noyau}, $S$ est isomorphe à $\Img u$, donc $\dim(S)=\dim(\Img u)$ (deux espaces isomorphes ont même dimension). D'où le résultat.
+\end{proof}
+
+\subsection{Dimension d'une somme de sous-espaces}
+
+\begin{prop}
+\label{prop:dim-produit}
+Si $F_1,\dots,F_h$ sont des $K$-e.v. de dimension finie, alors $F_1\times\cdots\times F_h$ est de dimension finie et
+\[\dim(F_1\times\cdots\times F_h) = \sum_{i=1}^h \dim(F_i)\]
+\end{prop}
+
+\begin{proof}
+En concaténant, pour chaque $i$, une base de $F_i$ plongée dans $F_1\times\cdots\times F_h$ (complétée par des zéros dans les autres facteurs), on obtient une famille libre et génératrice de $F_1\times\cdots\times F_h$, donc une base, de cardinal $\sum_{i=1}^h \dim(F_i)$.
+\end{proof}
+
+\begin{prop}
+Soient $F_1,\dots,F_h$ des sous-espaces vectoriels de dimension finie de $E$. Alors
+\[\dim\left(\sum_{i=1}^h F_i\right) \leq \sum_{i=1}^h \dim(F_i)\]
+avec égalité si et seulement si la somme $F_1+\dots+F_h$ est directe.
+\end{prop}
+
+\begin{proof}
+Reprenons l'application linéaire
+\[\varphi : F_1\times\cdots\times F_h \to E, \qquad (x_1,\dots,x_h)\mapsto x_1+\dots+x_h\]
+introduite en définition~\ref{defi:somme}, qui vérifie $\Img(\varphi) = F_1+\dots+F_h$. D'après le théorème du rang~\ref{theo:rang} appliqué à $\varphi$ (dont l'espace de départ $F_1\times\cdots\times F_h$ est de dimension finie $\sum_i\dim F_i$ d'après la proposition~\ref{prop:dim-produit}) :
+\[\sum_{i=1}^h \dim(F_i) = \dim\big(F_1\times\cdots\times F_h\big) = \dim(\Ker\varphi) + \dim\left(\sum_{i=1}^h F_i\right)\]
+Comme $\dim(\Ker\varphi)\geq 0$, on obtient
+\[\dim\left(\sum_{i=1}^h F_i\right) \leq \sum_{i=1}^h \dim(F_i)\]
+avec égalité si et seulement si $\dim(\Ker\varphi)=0$, i.e. $\Ker\varphi=\{0\}$, i.e. $\varphi$ est injective — ce qui est précisément la définition de « la somme $F_1+\dots+F_h$ est directe » (définition~\ref{defi:somme-directe}).
+\end{proof}

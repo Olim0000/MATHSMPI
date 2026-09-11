@@ -1,0 +1,323 @@
+\documentclass[11pt]{article}
+
+\IfFileExists{preambule.tex}{\input{preambule}}{\input{../preambule}}
+
+\newcounter{qnum}
+\newcommand{\question}[1]{%
+\stepcounter{qnum}%
+\bigskip
+\noindent\textbf{Question \theqnum.} #1\par}
+\newcommand{\reponse}{\noindent\textit{Réponse.}\ }
+
+\title{Fiche de colle --- Semaine 1\\ \large Réponses rédigées aux questions de cours\\ Chapitres 1 et 2 (MPI/MPI*)}
+\author{}
+\date{du 14/09/26 au 18/09/26}
+
+\begin{document}
+\maketitle
+
+\question{Les classes d'équivalence forment une partition de l'ensemble.}
+\reponse
+Soit $E$ un ensemble et $R$ une relation d'équivalence sur $E$. Pour $x\in E$, on note $\Cl(x)=\{y\in E \mid xRy\}$.
+
+\begin{prop}
+Les classes d'équivalence $(\Cl(x))_{x\in E}$ forment une partition de $E$.
+\end{prop}
+
+\begin{proof}
+\textbf{Réunion :} Pour tout $x\in E$, $\Cl(x)\subset E$, et $x\in \Cl(x)$ (réflexivité), donc
+\[\bigcup_{x\in E} \Cl(x) = E\]
+
+\textbf{Disjonction ou égalité :} Soient $x,y\in E$. Montrons que $\Cl(x)\cap \Cl(y)=\emptyset$ ou $\Cl(x)=\Cl(y)$.
+\begin{itemize}
+\item Si $\Cl(x)\cap \Cl(y)=\emptyset$, la propriété est vérifiée.
+\item Sinon, soit $z\in \Cl(x)\cap \Cl(y)$ : $zRx$ et $zRy$. Par symétrie, $xRz$ et $zRy$, donc par transitivité $xRy$. Soit alors $t\in \Cl(x)$ : $xRt$, et par symétrie/transitivité avec $yRx$ (symétrie de $xRy$) et $xRt$, on obtient $yRt$, donc $t\in \Cl(y)$. Ainsi $\Cl(x)\subset \Cl(y)$, et par symétrie du raisonnement $\Cl(y)\subset \Cl(x)$, d'où $\Cl(x)=\Cl(y)$.
+\end{itemize}
+Les classes d'équivalence forment donc bien une partition de $E$.
+\end{proof}
+
+\question{« Être semblable » est une relation d'équivalence.}
+\reponse
+Rappel : $A,B\in\mathcal{M}_n(K)$ sont dites \textbf{semblables} (on note $A\sim B$) s'il existe $P\in GL_n(K)$ telle que $P^{-1}AP=B$.
+
+\begin{prop}
+La relation « être semblable » est une relation d'équivalence sur $\mathcal{M}_n(K)$.
+\end{prop}
+
+\begin{proof}
+\textbf{Réflexivité :} $I_n^{-1}AI_n = A$, donc $A\sim A$.
+
+\textbf{Symétrie :} Si $A\sim B$, soit $P\in GL_n(K)$ tel que $P^{-1}AP=B$. Alors $P\in GL_n(K)$ est inversible d'inverse $P^{-1}$, et
+\[(P^{-1})^{-1} B (P^{-1}) = PBP^{-1} = P(P^{-1}AP)P^{-1} = A\]
+donc $B\sim A$ (avec la matrice de passage $P^{-1}\in GL_n(K)$).
+
+\textbf{Transitivité :} Si $A\sim B$ et $B\sim C$, soient $P,Q\in GL_n(K)$ tels que $P^{-1}AP=B$ et $Q^{-1}BQ=C$. Alors $PQ\in GL_n(K)$ et
+\[(PQ)^{-1}A(PQ) = Q^{-1}P^{-1}APQ = Q^{-1}BQ = C\]
+donc $A\sim C$.
+\end{proof}
+
+\question{Une intersection de tribus est une tribu.}
+\reponse
+\begin{defi}[Tribu]
+Une partie $\mathcal{B}\subset\mathcal{P}(E)$ est une tribu si : (1) $E\in\mathcal{B}$ ; (2) $\mathcal{B}$ est stable par passage au complémentaire ; (3) $\mathcal{B}$ est stable par union dénombrable.
+\end{defi}
+
+\begin{prop}
+Soit $(\mathcal{B}_i)_{i\in I}$ une famille de tribus sur $E$. Alors $\displaystyle\bigcap_{i\in I}\mathcal{B}_i$ est une tribu sur $E$.
+\end{prop}
+
+\begin{proof}
+\begin{itemize}
+\item Pour tout $i\in I$, $E\in\mathcal{B}_i$ (tribu), donc $E\in\bigcap_i \mathcal{B}_i$.
+\item Soit $A\in\bigcap_i\mathcal{B}_i$. Pour tout $i$, $A\in\mathcal{B}_i$ donc $A^c\in\mathcal{B}_i$ ; ainsi $A^c\in\bigcap_i\mathcal{B}_i$.
+\item Soit $(A_n)_{n\in\mathbb{N}}\in\left(\bigcap_i\mathcal{B}_i\right)^{\mathbb{N}}$. Pour tout $i$, $\forall n,\ A_n\in\mathcal{B}_i$, donc $\bigcup_n A_n\in\mathcal{B}_i$ ; ainsi $\bigcup_n A_n\in\bigcap_i\mathcal{B}_i$.
+\end{itemize}
+\end{proof}
+
+\question{Dans $\mathbb{R}$, les parties convexes sont exactement les intervalles.}
+\reponse
+\begin{defi}[Partie convexe]
+$A\subset E$ ($E$ e.v.) est convexe si $\forall (a,b)\in A^2,\ [a,b]\subset A$.
+\end{defi}
+
+\begin{prop}
+Les parties convexes de $\mathbb{R}$ sont exactement les intervalles de $\mathbb{R}$.
+\end{prop}
+
+\begin{proof}
+\textbf{Un intervalle est convexe :} si $I$ est un intervalle et $a,b\in I$ avec $a\leq b$, alors pour $t\in[0,1]$, $(1-t)a+tb\in[a,b]\subset I$ par définition d'un intervalle.
+
+\textbf{Une partie convexe est un intervalle :} Soit $A\subset\mathbb{R}$ convexe. Si $A=\emptyset$ ou $A$ est un singleton, $A$ est un intervalle. Sinon, soient $x<y$ dans $A$ et $z\in(x,y)$. On pose $t=\dfrac{z-x}{y-x}\in(0,1)$, de sorte que $z=(1-t)x+ty\in[x,y]\subset A$ par convexité. Ainsi tout réel compris entre deux éléments de $A$ appartient à $A$ : $A$ est un intervalle.
+\end{proof}
+
+\question{Toute partie infinie de $\mathbb{N}$ est dénombrable.}
+\reponse
+\begin{prop}
+Toute partie infinie $A$ de $\mathbb{N}$ est dénombrable.
+\end{prop}
+
+\begin{proof}
+On construit $f:\mathbb{N}\to A$ par récurrence :
+\[f(0)=\min A, \qquad f(n) = \min\big(A\setminus\{f(0),\dots,f(n-1)\}\big)\]
+Cet ensemble est non vide car $A$ est infinie (donc jamais épuisée par un nombre fini de termes retirés), et toute partie non vide de $\mathbb{N}$ admet un plus petit élément : $f$ est donc bien définie.
+
+\textbf{Injectivité.} Pour tout $n$, on a $A\setminus\{f(0),\dots,f(n)\}\subset A\setminus\{f(0),\dots,f(n-1)\}$ donc $f(n+1)\geq f(n)$, et $f(n+1)\neq f(n)$ puisque $f(n)$ vient d'être retiré : $f$ est strictement croissante, donc injective. Une récurrence immédiate donne alors $f(n)\geq n$ pour tout $n$.
+
+\textbf{Surjectivité.} Par l'absurde, soit $a\in A$ tel que $a\notin f(\mathbb{N})$. Alors $a$ n'est jamais retiré, donc pour tout $n$ on a $a\in A\setminus\{f(0),\dots,f(n-1)\}$, et par minimalité $f(n)\leq a$. Or $f(a+1)\geq a+1>a$ : contradiction.
+
+Ainsi $f$ réalise une bijection $\mathbb{N}\to A$ : $A$ est dénombrable.
+\end{proof}
+
+\question{Une union dénombrable d'ensembles au plus dénombrables est au plus dénombrable.}
+\reponse
+\begin{prop}
+Soit $(A_n)_{n\in\mathbb{N}}$ une famille d'ensembles au plus dénombrables. Alors $\displaystyle\bigcup_{n\in\mathbb{N}} A_n$ est au plus dénombrable.
+\end{prop}
+
+\begin{proof}
+Posons $B_0=A_0$ et $B_n=A_n\setminus(A_0\cup\dots\cup A_{n-1})$ pour $n\geq 1$. Les $(B_n)$ sont deux à deux disjoints, $B_n\subset A_n$ (donc au plus dénombrable), et $\bigcup_n B_n=\bigcup_n A_n$ (si $a$ appartient à un $A_n$, l'ensemble des indices $k$ tels que $a\in A_k$ admet un plus petit élément $k_0$, et $a\in B_{k_0}$).
+
+Pour chaque $n$, soit $f_n:B_n\to\mathbb{N}$ injective. L'application
+\[\varphi:\bigcup_n A_n \to \mathbb{N}\times\mathbb{N}, \qquad a\in B_n\mapsto (n,f_n(a))\]
+est bien définie (les $B_n$ forment une partition) et injective. Composée avec une bijection $\mathbb{N}\times\mathbb{N}\to\mathbb{N}$ (par exemple $(k,\ell)\mapsto 2^k(2\ell+1)-1$), elle fournit une injection de $\bigcup_n A_n$ dans $\mathbb{N}$, donc $\bigcup_n A_n$ est au plus dénombrable.
+\end{proof}
+
+\question{Le produit cartésien de deux ensembles dénombrables est dénombrable.}
+\reponse
+\begin{prop}
+Si $A$ et $B$ sont dénombrables, alors $A\times B$ est dénombrable.
+\end{prop}
+
+\begin{proof}
+Soient $f_A:A\to\mathbb{N}$ et $f_B:B\to\mathbb{N}$ des bijections. Alors
+\[A\times B \to \mathbb{N}\times\mathbb{N}, \qquad (a,b)\mapsto (f_A(a),f_B(b))\]
+est une bijection. Il suffit donc de montrer que $\mathbb{N}\times\mathbb{N}$ est dénombrable : en posant $J_n=\{(p,q)\in\mathbb{N}^2\mid p+q=n\}$, on a $\mathbb{N}\times\mathbb{N}=\bigcup_{n} J_n$ avec $J_n=\{(h,n-h)\mid h\in\inter{0}{n}\}$ fini non vide, donc $\mathbb{N}\times\mathbb{N}$ est dénombrable comme union dénombrable de parties finies non vides deux à deux disjointes. Ainsi $A\times B$ est dénombrable.
+\end{proof}
+
+\question{Inégalité de Jensen.}
+\reponse
+\begin{prop}[Inégalité de Jensen]
+Soit $f:I\to\mathbb{R}$ convexe, $x_1,\dots,x_n\in I$ et $\lambda_1,\dots,\lambda_n\in[0,1]$ tels que $\displaystyle\sum_{i=1}^n \lambda_i=1$. Alors
+\[f\left(\sum_{i=1}^n \lambda_i x_i\right) \leq \sum_{i=1}^n \lambda_i f(x_i)\]
+\end{prop}
+
+\begin{proof}
+Par récurrence sur $n$. Pour $n=1$ (ou $n=2$, qui est la définition même de la convexité), le résultat est immédiat.
+
+Supposons le résultat vrai au rang $n\geq 2$ et soient $\lambda_1,\dots,\lambda_{n+1}\in[0,1]$ de somme $1$. Si $\lambda_{n+1}=1$, l'inégalité est triviale. Sinon, posons $S=\lambda_1+\dots+\lambda_n=1-\lambda_{n+1}\in(0,1]$ et $\mu_i=\lambda_i/S$ pour $i\leq n$, de sorte que $\sum_{i=1}^n \mu_i=1$. Par convexité (deux points $y=\sum_{i=1}^n \mu_i x_i$ et $x_{n+1}$) :
+\[f\left(\sum_{i=1}^{n+1}\lambda_i x_i\right) = f\big(S\, y + \lambda_{n+1}x_{n+1}\big) \leq S\, f(y) + \lambda_{n+1} f(x_{n+1})\]
+Par hypothèse de récurrence appliquée à $y=\sum_{i=1}^n \mu_i x_i$ :
+\[f(y) \leq \sum_{i=1}^n \mu_i f(x_i) = \frac{1}{S}\sum_{i=1}^n \lambda_i f(x_i)\]
+D'où $\displaystyle f\left(\sum_{i=1}^{n+1}\lambda_i x_i\right) \leq \sum_{i=1}^{n+1}\lambda_i f(x_i)$.
+\end{proof}
+
+\question{Une fonction numérique est convexe si et seulement si son épigraphe est convexe.}
+\reponse
+\begin{defi}[Épigraphe]
+Pour $f:I\to\mathbb{R}$, on appelle épigraphe de $f$ la partie de $I\times\mathbb{R}$
+\[\Epi(f) = \{(x,y)\in I\times\mathbb{R} \mid y\geq f(x)\}\]
+\end{defi}
+
+\begin{prop}
+$f$ est convexe sur $I$ si et seulement si $\Epi(f)$ est convexe (en tant que partie de $I\times\mathbb{R}$).
+\end{prop}
+
+\begin{proof}
+$(\Rightarrow)$ Supposons $f$ convexe. Soient $(x,y),(x',y')\in\Epi(f)$ et $t\in[0,1]$. Par convexité de $f$ :
+\[f\big(tx+(1-t)x'\big) \leq t f(x)+(1-t)f(x') \leq ty+(1-t)y'\]
+(la dernière inégalité car $f(x)\leq y$ et $f(x')\leq y'$), donc $t(x,y)+(1-t)(x',y')\in\Epi(f)$.
+
+$(\Leftarrow)$ Supposons $\Epi(f)$ convexe. Soient $x,x'\in I$ et $t\in[0,1]$. Alors $(x,f(x)),(x',f(x'))\in\Epi(f)$, donc par convexité
+\[\big(tx+(1-t)x',\ tf(x)+(1-t)f(x')\big) \in \Epi(f)\]
+c'est-à-dire $f\big(tx+(1-t)x'\big) \leq tf(x)+(1-t)f(x')$ : $f$ est convexe.
+\end{proof}
+
+\question{Dans un e.v., $\lambda\vec{x}=\vec{0} \iff \lambda=0$ ou $\vec{x}=\vec{0}$.}
+\reponse
+\begin{prop}
+Soit $E$ un $K$-e.v. Pour $\lambda\in K$ et $\vec{x}\in E$, $\lambda\vec{x}=\vec{0} \iff \lambda=0$ ou $\vec{x}=\vec{0}$.
+\end{prop}
+
+\begin{proof}
+$(\Leftarrow)$ Si $\lambda=0$ : $0\vec{x}=(0+0)\vec{x}=0\vec{x}+0\vec{x}$, donc en soustrayant $0\vec{x}$ des deux côtés, $\vec{0}=0\vec{x}$. Si $\vec{x}=\vec{0}$ : $\lambda\vec{0}=\lambda(\vec{0}+\vec{0})=\lambda\vec{0}+\lambda\vec{0}$, donc de même $\vec{0}=\lambda\vec{0}$.
+
+$(\Rightarrow)$ Supposons $\lambda\vec{x}=\vec{0}$. Si $\lambda=0$, c'est fini. Sinon $\lambda\neq 0$ est inversible dans $K$, et
+\[\frac{1}{\lambda}(\lambda\vec{x}) = \frac{1}{\lambda}\vec{0} \implies \left(\frac{1}{\lambda}\lambda\right)\vec{x}=\vec{0} \implies \vec{x}=\vec{0}\]
+\end{proof}
+
+\question{Définitions de valeur propre, vecteur propre, éléments propres ; valeurs propres d'une matrice triangulaire.}
+\reponse
+\begin{defi}
+Soit $u\in\mathcal{L}(E)$. On dit que $\lambda\in K$ est une \textbf{valeur propre} de $u$ s'il existe $x\in E$, $x\neq 0$, tel que $u(x)=\lambda x$ ; un tel $x$ est alors un \textbf{vecteur propre} associé à $\lambda$. Le couple $(\lambda,x)$ est appelé \textbf{élément propre} de $u$. L'espace propre associé est $E_\lambda(u)=\Ker(u-\lambda\,\id_E)$.
+\end{defi}
+
+\begin{prop}
+Les valeurs propres d'une matrice triangulaire sont exactement ses coefficients diagonaux.
+\end{prop}
+
+\begin{proof}
+Soit $A=(a_{ij})\in\mathcal{M}_n(K)$ triangulaire (supérieure, par exemple). Alors $A-\lambda I_n$ est encore triangulaire supérieure, de coefficients diagonaux $a_{ii}-\lambda$. Le déterminant d'une matrice triangulaire étant le produit de ses coefficients diagonaux,
+\[\det(A-\lambda I_n) = \prod_{i=1}^{n} (a_{ii}-\lambda)\]
+Ainsi $\lambda$ est valeur propre de $A$ (i.e. $\det(A-\lambda I_n)=0$) si et seulement si $\lambda=a_{ii}$ pour un certain $i$ : les valeurs propres de $A$ sont exactement ses coefficients diagonaux $a_{11},\dots,a_{nn}$ (comptés sans répétition).
+\end{proof}
+
+\question{Les valeurs propres sont parmi les racines d'un polynôme annulateur.}
+\reponse
+\begin{prop}
+Soit $u\in\mathcal{L}(E)$ et $P\in K[X]$ tel que $P(u)=0$. Si $\lambda$ est valeur propre de $u$, alors $P(\lambda)=0$.
+\end{prop}
+
+\begin{proof}
+Soit $x\neq 0$ tel que $u(x)=\lambda x$. Par récurrence, $u^k(x)=\lambda^k x$ pour tout $k\geq 0$ (vrai pour $k=0,1$ ; si $u^k(x)=\lambda^k x$ alors $u^{k+1}(x)=u(\lambda^k x)=\lambda^k u(x)=\lambda^{k+1}x$).
+
+Écrivons $P(X)=\sum_{k=0}^{d} a_k X^k$. Alors
+\[P(u)(x) = \sum_{k=0}^{d} a_k u^k(x) = \sum_{k=0}^{d} a_k \lambda^k x = P(\lambda)\, x\]
+Or $P(u)=0$, donc $P(\lambda)x=0$ avec $x\neq 0$, d'où $P(\lambda)=0$.
+\end{proof}
+
+\question{$u_{|F}$ est un endomorphisme de $F$ si et seulement si $F$ est $u$-stable.}
+\reponse
+\begin{defi}
+Soit $u\in\mathcal{L}(E)$ et $F$ un sous-espace vectoriel de $E$. $F$ est dit $u$-stable si $u(F)\subset F$.
+\end{defi}
+
+\begin{prop}
+Soit $u\in\mathcal{L}(E)$ et $F$ un sous-espace vectoriel de $E$. L'application $v:F\to E,\ x\mapsto u(x)$ définit un endomorphisme de $F$ (i.e. $v\in\mathcal{L}(F)$, ce qui suppose $v(F)\subset F$) si et seulement si $F$ est $u$-stable.
+\end{prop}
+
+\begin{proof}
+Par définition, $v\in\mathcal{L}(F)$ signifie que $v$ est une application linéaire de $F$ dans $F$, ce qui exige $v(x)=u(x)\in F$ pour tout $x\in F$, c'est-à-dire $u(F)\subset F$, soit exactement $F$ est $u$-stable. Réciproquement, si $F$ est $u$-stable, $v:F\to F,\ x\mapsto u(x)$ est bien définie, et elle est linéaire car restriction d'une application linéaire. On note alors $u_{|F}=v\in\mathcal{L}(F)$ l'endomorphisme induit par $u$ sur $F$.
+\end{proof}
+
+\question{Si $u$ et $v$ commutent, alors $\Ker\,v$ et $\Img\,v$ sont $u$-stables.}
+\reponse
+\begin{prop}
+Soient $u,v\in\mathcal{L}(E)$ tels que $u\circ v=v\circ u$. Alors $\Ker\,v$ et $\Img\,v$ sont $u$-stables.
+\end{prop}
+
+\begin{proof}
+\textbf{$\Ker\,v$ est $u$-stable :} Soit $x\in\Ker\,v$, i.e. $v(x)=0$. Alors $v(u(x))=u(v(x))=u(0)=0$, donc $u(x)\in\Ker\,v$.
+
+\textbf{$\Img\,v$ est $u$-stable :} Soit $x\in\Img\,v$, i.e. $x=v(y)$ pour un certain $y\in E$. Alors $u(x)=u(v(y))=v(u(y))\in\Img\,v$.
+\end{proof}
+
+\question{Soit $P$ un polynôme, alors $\Ker\,P(u)$ est $u$-stable.}
+\reponse
+\begin{prop}
+Soit $P\in K[X]$ et $u\in\mathcal{L}(E)$. Alors $\Ker\,P(u)$ est $u$-stable.
+\end{prop}
+
+\begin{proof}
+$P(u)$, polynôme en $u$, commute avec $u$ : $P(u)\circ u=u\circ P(u)$. D'après la proposition précédente (appliquée à $v=P(u)$), $\Ker\,P(u)$ est $u$-stable.
+\end{proof}
+
+\question{Pour $x_0\neq 0$, il y a équivalence entre « $\Vect(x_0)$ est $u$-stable » et « $x_0$ est vecteur propre de $u$ ».}
+\reponse
+\begin{prop}
+Soit $D=\Vect(x_0)$ avec $x_0\neq 0$. Alors $D$ est $u$-stable si et seulement si $x_0$ est un vecteur propre de $u$ (i.e. $\exists\,\alpha\in K,\ u(x_0)=\alpha x_0$).
+\end{prop}
+
+\begin{proof}
+$(\Leftarrow)$ Supposons $u(x_0)=\alpha x_0$ pour un certain $\alpha\in K$. Soit $x\in D$, $x=\beta x_0$ pour un $\beta\in K$. Alors
+\[u(x) = u(\beta x_0) = \beta u(x_0) = \beta(\alpha x_0) = (\alpha\beta)x_0 \in D\]
+donc $D$ est $u$-stable.
+
+$(\Rightarrow)$ Supposons $D$ $u$-stable. Alors $u(x_0)\in D=\Vect(x_0)$, donc il existe $\alpha\in K$ tel que $u(x_0)=\alpha x_0$ : $x_0$ est un vecteur propre de $u$ (associé à $\alpha$), car $x_0\neq 0$.
+\end{proof}
+
+\question{Montrer qu'un projecteur est diagonalisable.}
+\reponse
+\begin{defi}
+$p\in\mathcal{L}(E)$ est un \textbf{projecteur} si $p\circ p=p$.
+\end{defi}
+
+\begin{prop}
+Tout projecteur $p\in\mathcal{L}(E)$ ($E$ de dimension finie) est diagonalisable, de valeurs propres incluses dans $\{0,1\}$.
+\end{prop}
+
+\begin{proof}
+Le polynôme $P(X)=X^2-X=X(X-1)$ annule $p$ (car $p^2-p=0$), donc $\Spec(p)\subset\{0,1\}$ (les valeurs propres sont parmi les racines d'un polynôme annulateur).
+
+Montrons $E=\Ker\,p \oplus \Ker(p-\id) = E_0(p)\oplus E_1(p)$. Pour $x\in E$, écrivons
+\[x = \underbrace{(x-p(x))}_{\in\,\Ker\,p} + \underbrace{p(x)}_{\in\,\Ker(p-\id)}\]
+en effet $p(x-p(x))=p(x)-p^2(x)=p(x)-p(x)=0$, et $(p-\id)(p(x))=p^2(x)-p(x)=0$. Cela montre $E=\Ker\,p+\Ker(p-\id)$. De plus, si $x\in\Ker\,p\cap\Ker(p-\id)$, alors $p(x)=0$ et $p(x)=x$, donc $x=0$ : la somme est directe.
+
+En concaténant une base de $\Ker\,p=E_0(p)$ (vecteurs propres pour $0$) et une base de $\Ker(p-\id)=E_1(p)$ (vecteurs propres pour $1$), on obtient une base de $E$ constituée de vecteurs propres de $p$ : $p$ est diagonalisable, et sa matrice dans cette base est $\mathrm{diag}(0,\dots,0,1,\dots,1)$.
+\end{proof}
+
+\question{Des espaces propres associés à des valeurs propres distinctes sont en somme directe.}
+\reponse
+\begin{prop}
+Soient $\lambda_1,\dots,\lambda_h\in K$ deux à deux distincts et $u\in\mathcal{L}(E)$. Alors la somme $E_{\lambda_1}(u)+\dots+E_{\lambda_h}(u)$ est directe.
+\end{prop}
+
+\begin{proof}
+Par récurrence sur $h$. Pour $h=1$, trivial. Pour $h=2$ ($\lambda_1\neq\lambda_2$) : si $x\in E_{\lambda_1}\cap E_{\lambda_2}$, alors $u(x)=\lambda_1 x=\lambda_2 x$, donc $(\lambda_1-\lambda_2)x=0$, d'où $x=0$.
+
+Hérédité : supposons $\lambda_1,\dots,\lambda_{h+1}$ deux à deux distincts, le résultat vrai au rang $h$, et soient $x_j\in E_{\lambda_j}(u)$ tels que $x_1+\dots+x_{h+1}=0$ $(1)$. En appliquant $u$ : $\lambda_1x_1+\dots+\lambda_{h+1}x_{h+1}=0$ $(2)$. Le calcul $(2)-\lambda_{h+1}\cdot(1)$ donne
+\[(\lambda_1-\lambda_{h+1})x_1+\dots+(\lambda_h-\lambda_{h+1})x_h=0\]
+Par hypothèse de récurrence, chaque terme est nul, donc $x_j=0$ pour $j\leq h$ (car $\lambda_j\neq\lambda_{h+1}$), puis $x_{h+1}=0$ d'après $(1)$. La somme est donc directe pour tout $h\geq 1$.
+\end{proof}
+
+\question{$F\oplus G=E$ : expliquer comment on définit le projecteur sur $F$ parallèlement à $G$ ; préciser ses éléments caractéristiques.}
+\reponse
+\begin{prop}
+Soient $F,G$ deux sous-espaces vectoriels de $E$ tels que $F\oplus G=E$. Alors
+\[\forall x\in E,\ \exists! (x_F,x_G)\in F\times G,\quad x=x_F+x_G\]
+et l'application $\varphi:E\to E,\ x\mapsto x_F$ est linéaire, vérifie $\varphi\circ\varphi=\varphi$ (c'est un projecteur), avec $\Img(\varphi)=F$ et $\Ker(\varphi)=G$. On l'appelle \textbf{projecteur sur $F$ parallèlement à $G$}.
+\end{prop}
+
+\begin{proof}
+\textbf{Existence et unicité de la décomposition} découlent de $F\oplus G=E$ (définition de la somme directe égale à $E$).
+
+\textbf{Linéarité :} pour $x=x_F+x_G$, $y=y_F+y_G$ et $\lambda\in K$, l'unicité de la décomposition de $\lambda x=\lambda x_F+\lambda x_G$ (avec $\lambda x_F\in F,\ \lambda x_G\in G$) donne $\varphi(\lambda x)=\lambda x_F=\lambda\varphi(x)$ ; de même $\varphi(x+y)=\varphi(x)+\varphi(y)$.
+
+\textbf{Idempotence :} $\varphi(x)=x_F\in F$, donc sa propre décomposition est $x_F=x_F+0$ ($x_F\in F,\ 0\in G$), d'où $\varphi(\varphi(x))=\varphi(x_F)=x_F=\varphi(x)$.
+
+\textbf{Image et noyau :} Par construction $\varphi(x)\in F$ pour tout $x$, et pour $x\in F$, $x=x+0$ donc $\varphi(x)=x$ : ainsi $\Img(\varphi)=F$. Et $\varphi(x)=0 \iff x_F=0 \iff x=x_G\in G$, donc $\Ker(\varphi)=G$.
+
+\medskip
+Les éléments caractéristiques d'un projecteur sont donc la donnée du couple $(F,G)$, c'est-à-dire de $(\Img\varphi,\Ker\varphi)$ : un projecteur est entièrement déterminé par son image et son noyau (qui sont supplémentaires), et réciproquement toute décomposition $E=F\oplus G$ définit un unique projecteur sur $F$ parallèlement à $G$.
+\end{proof}
+
+\end{document}

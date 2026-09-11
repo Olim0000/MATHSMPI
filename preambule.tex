@@ -1,0 +1,42 @@
+% Préambule commun au cours (report) et aux fiches de colle (article).
+% Chargé via \IfFileExists pour fonctionner depuis la racine comme depuis colles/.
+
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{stmaryrd}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\geometry{margin=2.5cm}
+
+% --- Environnements de théorèmes -------------------------------------------
+% Tous les énoncés partagent un même compteur, numéroté par chapitre lorsque
+% la classe en fournit un (report), globalement sinon (article).
+\theoremstyle{plain}
+\ifdefined\chapter
+  \newtheorem{prop}{Proposition}[chapter]
+\else
+  \newtheorem{prop}{Proposition}
+\fi
+\newtheorem{theo}[prop]{Théorème}
+\newtheorem{lemme}[prop]{Lemme}
+\newtheorem{coro}[prop]{Corollaire}
+
+\theoremstyle{definition}
+\newtheorem{defi}[prop]{Définition}
+\newtheorem{exemple}[prop]{Exemple}
+
+\theoremstyle{remark}
+\newtheorem*{remarque}{Remarque}
+
+% --- Macros ----------------------------------------------------------------
+\newcommand{\inter}[2]{\llbracket #1,#2 \rrbracket}   % intervalle d'entiers
+\newcommand{\Card}{\operatorname{Card}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\newcommand{\Img}{\operatorname{Im}}
+\newcommand{\Vect}{\operatorname{Vect}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\rg}{\operatorname{rg}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Epi}{\operatorname{Epi}}
+\newcommand{\id}{\operatorname{id}}

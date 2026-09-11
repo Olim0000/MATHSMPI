@@ -8,7 +8,7 @@
 \item espace vectoriel, sous-espace vectoriel (sev), famille de vecteurs, $\Vect$ ;
 \item $\mathcal{L}(E,F)$ : ensemble des applications linéaires de $E$ dans $F$ ; $\mathcal{L}(E)=\mathcal{L}(E,E)$ : \emph{endomorphismes} de $E$ ; $\id_E$ : identité de $E$ ;
 \item $\mathcal{M}_{n,p}(K)$ : matrices à $n$ lignes et $p$ colonnes ; $\mathcal{M}_n(K)=\mathcal{M}_{n,n}(K)$ ; $GL_n(K)$ : matrices inversibles de $\mathcal{M}_n(K)$ ;
-\item déterminant $\det$, rang $\rg$, matrice $\mathrm{Mat}(u,\mathcal{B})$ d'un endomorphisme dans une base $\mathcal{B}$ ;
+\item déterminant $\det$, trace $\operatorname{tr}$, rang $\rg$, matrice $\mathrm{Mat}(u,\mathcal{B})$ d'un endomorphisme dans une base $\mathcal{B}$ ;
 \item pour $u\in\mathcal{L}(E)$ et $P=\sum_{k=0}^d a_kX^k \in K[X]$, on note $P(u)=\sum_{k=0}^d a_k\,u^k \in \mathcal{L}(E)$, avec la convention $u^0=\id_E$. On rappelle que $P\mapsto P(u)$ est un morphisme d'algèbres ; en particulier, deux polynômes en $u$ commutent toujours entre eux, et avec $u$.
 \end{itemize}
 
@@ -136,6 +136,62 @@ En dimension finie, cela équivaut encore à $\det(u-\lambda\,\id_E)=0$.
 Pour $x\in E$, on a $u(x)=\lambda x \iff (u-\lambda\,\id_E)(x)=0_E \iff x\in E_\lambda(u)$. Dire que $\lambda$ est valeur propre, c'est donc dire qu'il existe un tel $x$ \emph{non nul}, c'est-à-dire que $E_\lambda(u)$ contient un vecteur non nul, soit $E_\lambda(u)\neq\{0_E\}$. En dimension finie, cela signifie que $u-\lambda\,\id_E$ n'est pas injective, donc pas bijective, donc de déterminant nul (proposition~\ref{prop:ker-im}).
 \end{proof}
 
+\paragraph{Polynôme caractéristique.}
+
+\begin{defi}[Polynôme caractéristique d'une matrice]
+\label{defi:poly-caracteristique}
+Soit $n\geq 1$ et $A\in\mathcal{M}_n(K)$. On appelle \textbf{polynôme caractéristique} de $A$ le polynôme
+\[\chi_A(X) = \det\big(X I_n - A\big) \in K[X]\]
+(déterminant calculé dans l'anneau commutatif $K[X]$). C'est un polynôme \emph{unitaire} de degré $n$, dont les coefficients extrêmes sont
+\[\chi_A(X) = X^n - \operatorname{tr}(A)\,X^{n-1} + \dots + (-1)^n\det(A)\]
+\end{defi}
+
+\begin{remarque}[Convention]
+Certains auteurs posent plutôt $\widetilde{\chi_A}(X) = \det(A-X I_n)$. Les deux polynômes sont proportionnels,
+\[\det(A - X I_n) = (-1)^n \chi_A(X)\]
+donc ils ont \emph{les mêmes racines} : le choix de convention est sans conséquence pour la recherche des valeurs propres. C'est la quantité $\det(A-\lambda I_n)$ que l'on calcule en pratique, comme dans les exemples ci-dessous.
+\end{remarque}
+
+\begin{prop}[Invariance par similitude]
+\label{prop:chi-similitude}
+Si $A,B\in\mathcal{M}_n(K)$ sont semblables, alors $\chi_A=\chi_B$.
+\end{prop}
+
+\begin{proof}
+Soit $P\in GL_n(K)$ telle que $B=P^{-1}AP$. Comme $P^{-1}(X I_n)P = X I_n$, on a
+\[X I_n - B = P^{-1}(X I_n)P - P^{-1}AP = P^{-1}\big(X I_n-A\big)P\]
+donc, par multiplicativité du déterminant,
+\[\chi_B(X) = \det(P^{-1})\,\det(X I_n-A)\,\det(P) = \det(X I_n - A) = \chi_A(X)\]
+puisque $\det(P^{-1})\det(P)=\det(P^{-1}P)=1$.
+\end{proof}
+
+\begin{defi}[Polynôme caractéristique d'un endomorphisme]
+\label{defi:chi-endo}
+Soit $E$ un $K$-e.v. de dimension finie $n\geq 1$ et $u\in\mathcal{L}(E)$. On pose
+\[\chi_u = \chi_A \qquad \text{où } A=\mathrm{Mat}(u,\mathcal{B}) \text{ pour une base } \mathcal{B} \text{ quelconque de } E\]
+Cette définition est licite : les matrices de $u$ dans deux bases différentes sont semblables, donc ont le même polynôme caractéristique (proposition~\ref{prop:chi-similitude}). Le polynôme $\chi_u$ ne dépend donc que de $u$, et non du choix de la base.
+\end{defi}
+
+\begin{prop}
+\label{prop:spec-racines-chi}
+Soit $E$ un $K$-e.v. de dimension finie $n\geq 1$ et $u\in\mathcal{L}(E)$. Alors
+\[\Spec_K(u) = \{\lambda\in K \mid \chi_u(\lambda)=0\}\]
+Autrement dit, les valeurs propres de $u$ sont exactement les racines dans $K$ de son polynôme caractéristique.
+\end{prop}
+
+\begin{proof}
+Soit $\lambda\in K$. En évaluant en $X=\lambda$,
+\[\chi_u(\lambda) = \det\big(\lambda\,\id_E-u\big) = (-1)^n\det\big(u-\lambda\,\id_E\big)\]
+Comme $(-1)^n\neq 0$, on a donc $\chi_u(\lambda)=0 \iff \det(u-\lambda\,\id_E)=0$, ce qui équivaut à « $\lambda$ est valeur propre de $u$ » d'après le critère~\ref{prop:critere-vp}.
+\end{proof}
+
+\begin{remarque}
+$\chi_u$ étant de degré $n$, il admet au plus $n$ racines : on retrouve $\Card\big(\Spec(u)\big)\leq n$, démontré autrement au corollaire~\ref{coro:card-spec}.
+
+\textbf{Attention} : les racines sont cherchées \emph{dans $K$}. Une matrice réelle peut avoir un polynôme caractéristique sans racine réelle, donc un spectre vide sur $\mathbb{R}$ tout en ayant des valeurs propres sur $\mathbb{C}$ : c'est le cas de $\begin{pmatrix} 0 & -1 \\ 1 & 0\end{pmatrix}$, de polynôme caractéristique $X^2+1$.
+\end{remarque}
+
+
 \begin{exemple}
 Pour $u=\id_E$ et $\lambda\in K$ :
 \begin{align*}
@@ -180,6 +236,9 @@ mais $v$ n'est pas une homothétie (l'espace propre n'est pas $E$ tout entier).
 \begin{exemple}
 Pour $A=\begin{pmatrix} a & b \\ c & d\end{pmatrix}$ :
 \[\det(A-\lambda I_2) = (a-\lambda)(d-\lambda)-bc = \lambda^2-(a+d)\lambda+(ad-bc)\]
+Comme $(-1)^2=1$, on retrouve bien le polynôme caractéristique lui-même :
+\[\chi_A(X) = X^2 - \operatorname{tr}(A)\,X + \det(A)\]
+conformément à la définition~\ref{defi:poly-caracteristique}.
 \end{exemple}
 
 \begin{exemple}
@@ -198,7 +257,7 @@ Donc $E_i\begin{pmatrix} 0 & -1 \\ 1 & 0\end{pmatrix} = \Vect\begin{pmatrix} 1 \
 \end{prop}
 
 \begin{proof}
-Le polynôme caractéristique $\chi_A(X)=\det(A-X I_n)$ est un polynôme de degré $n\geq 1$ à coefficients dans $\mathbb{C}$. D'après le théorème de d'Alembert--Gauss, il admet au moins une racine $\lambda\in\mathbb{C}$, et $\det(A-\lambda I_n)=0$ signifie précisément que $\lambda$ est valeur propre de $A$ (proposition~\ref{prop:critere-vp}).
+Le polynôme caractéristique $\chi_A$ (définition~\ref{defi:poly-caracteristique}) est unitaire de degré $n\geq 1$ à coefficients dans $\mathbb{C}$. D'après le théorème de d'Alembert--Gauss, il admet au moins une racine $\lambda\in\mathbb{C}$, qui est alors valeur propre de $A$ d'après la proposition~\ref{prop:spec-racines-chi}.
 \end{proof}
 
 En dimension infinie, ce résultat n'est plus vrai : les deux exemples suivants portent sur $\mathbb{C}[X]$.
@@ -408,6 +467,7 @@ Par le principe de récurrence, le résultat est vrai pour tout $h\geq 1$.
 \end{proof}
 
 \begin{coro}
+\label{coro:card-spec}
 Soit $E$ de dimension finie $m$ et $u\in\mathcal{L}(E)$. Alors
 \[\Card\big(\Spec(u)\big) \leq m\]
 \end{coro}

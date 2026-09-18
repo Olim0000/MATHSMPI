@@ -1,0 +1,309 @@
+\chapter{Séries dans un espace vectoriel normé}
+\label{chap:series-evn}
+
+\paragraph{Notations.} Dans tout ce chapitre, $K$ désigne $\mathbb{R}$ ou $\mathbb{C}$ et $(E,\|\cdot\|)$ un $K$-espace vectoriel normé (chapitre~\ref{chap:evn}). On note $E^{\mathbb{N}}$ l'ensemble des suites d'éléments de $E$, qui est un $K$-e.v. pour les opérations terme à terme. En pratique on se placera toujours dans le cas où $E$ est de \emph{dimension finie} ; signalons cependant qu'aucun énoncé de ce chapitre n'utilise cette hypothèse : tous ne font intervenir que la définition de la convergence d'une suite, et la seule structure supplémentaire employée est la relation d'ordre de $\mathbb{R}$ dans la section~\ref{sec:stp}.
+
+On suppose connues les notions suivantes, qui ne sont pas redéfinies ici :
+\begin{itemize}
+\item la convergence d'une suite d'un e.v.n. (définition~\ref{defi:convergence}), l'unicité de la limite (proposition~\ref{prop:unicite-limite}) et les théorèmes d'opérations (propositions~\ref{prop:somme-limites} et~\ref{prop:scalaire-limite}) ;
+\item le théorème de la limite monotone (théorème~\ref{theo:limite-monotone}) et sa version dans $\overline{\mathbb{R}}$ (corollaire~\ref{coro:limite-monotone-rbar}) ;
+\item les propriétés élémentaires des sommes finies : linéarité de $(x_0,\dots,x_n)\mapsto\sum_{k=0}^n x_k$, relation de Chasles sur les indices, découpage d'une somme selon une partition de l'ensemble d'indices ;
+\item la fonction $\ln$ et ses propriétés : $\ln(ab)=\ln a+\ln b$ pour $a,b>0$, $\ln(x)\xrightarrow[x\to+\infty]{}+\infty$, $\ln(1)=0$ ;
+\item l'intégrale d'une fonction continue sur un segment : positivité, croissance, relation de Chasles, et le fait que $\arctan$ est une primitive de $t\mapsto\frac{1}{1+t^2}$ sur $\mathbb{R}$, avec $\arctan(1)=\frac{\pi}{4}$ et $\arctan(x)\leq\frac{\pi}{2}$ pour tout $x\in\mathbb{R}$.
+\end{itemize}
+
+On utilisera constamment le lemme élémentaire suivant, qui dit qu'une suite et sa décalée ont même comportement.
+
+\begin{lemme}[Décalage d'indice]
+\label{lemme:decalage}
+Soient $(a_n)_{n\in\mathbb{N}}\in E^{\mathbb{N}}$ et $\ell\in E$. Alors
+\[a_n\xrightarrow[n\to+\infty]{}\ell \iff a_{n+1}\xrightarrow[n\to+\infty]{}\ell\]
+En particulier, $(a_n)$ converge si et seulement si $(a_{n+1})_{n\in\mathbb{N}}$ converge, et les limites sont alors égales.
+\end{lemme}
+
+\begin{proof}
+$(\Rightarrow)$ Supposons $a_n\to\ell$ et soit $\varepsilon>0$. Il existe $N_0\in\mathbb{N}$ tel que $\|a_n-\ell\|\leq\varepsilon$ pour tout $n\geq N_0$. Si $n\geq N_0$ alors $n+1\geq N_0$, donc $\|a_{n+1}-\ell\|\leq\varepsilon$. Ainsi $a_{n+1}\to\ell$.
+
+$(\Leftarrow)$ Supposons $a_{n+1}\to\ell$ et soit $\varepsilon>0$ : il existe $N_0$ tel que $\|a_{n+1}-\ell\|\leq\varepsilon$ pour tout $n\geq N_0$. Soit alors $n\geq N_0+1$ ; en écrivant $n=m+1$ avec $m=n-1\geq N_0$, on obtient $\|a_n-\ell\|=\|a_{m+1}-\ell\|\leq\varepsilon$. Ainsi $a_n\to\ell$.
+
+L'équivalence sur la convergence en découle, et l'égalité des limites est assurée par leur unicité (proposition~\ref{prop:unicite-limite}).
+\end{proof}
+
+\section{Généralités}
+
+\subsection{Définitions}
+
+\begin{defi}[Série, sommes partielles]
+\label{defi:serie}
+Soit $(u_n)_{n\in\mathbb{N}}\in E^{\mathbb{N}}$. Pour $n\in\mathbb{N}$, on appelle \textbf{somme partielle d'ordre $n$} le vecteur
+\[S_n = \sum_{k=0}^{n} u_k \in E\]
+La \textbf{série de terme général $u_n$}, notée $\sum u_n$, est par définition la suite $(S_n)_{n\in\mathbb{N}}\in E^{\mathbb{N}}$ de ses sommes partielles.
+\end{defi}
+
+\begin{remarque}
+La notation $\sum u_n$ est trompeuse : elle ne désigne pas un vecteur, mais une \emph{suite}. Rien n'est perdu à identifier ainsi la série et la suite $(S_n)$, car l'application
+\[\Sigma : E^{\mathbb{N}}\longrightarrow E^{\mathbb{N}},\qquad (u_n)_{n\in\mathbb{N}}\longmapsto (S_n)_{n\in\mathbb{N}}\]
+est une bijection : la suite $(u_n)$ se reconstruit à partir de $(S_n)$ par $u_0=S_0$ et $u_n=S_n-S_{n-1}$ pour $n\geq 1$. Elle est de plus linéaire, ce qui sera utilisé au paragraphe~\ref{subsec:proprietes-algebriques}.
+\end{remarque}
+
+\begin{remarque}
+Une suite n'est parfois définie qu'à partir d'un rang $n_0\in\mathbb{N}$ (par exemple $u_n=\frac{1}{n}$ à partir de $n_0=1$). On note alors $\sum_{n\geq n_0} u_n$ la série correspondante, c'est-à-dire la suite $(S_n)_{n\geq n_0}$ où $S_n=\sum_{k=n_0}^{n} u_k$. Tout ce qui suit s'y transpose sans changement, en remplaçant partout $0$ par $n_0$ ; on énoncera les résultats avec $n_0=0$ pour alléger, sauf lorsque le décalage joue un rôle.
+\end{remarque}
+
+\subsection{Nature d'une série}
+
+\begin{defi}[Nature, somme]
+\label{defi:nature-serie}
+Soit $\sum u_n$ une série d'éléments de $E$, de sommes partielles $(S_n)$.
+\begin{itemize}
+\item La série $\sum u_n$ est dite \textbf{convergente} si la suite $(S_n)_{n\in\mathbb{N}}$ converge dans $E$ au sens de la définition~\ref{defi:convergence}. On appelle alors \textbf{somme} de la série le vecteur
+\[\sum_{n=0}^{+\infty} u_n \;=\; \lim_{N\to+\infty}\ \sum_{k=0}^{N} u_k \;\in E\]
+\item Elle est dite \textbf{divergente} sinon.
+\end{itemize}
+Déterminer la \textbf{nature} de $\sum u_n$, c'est dire laquelle de ces deux situations se produit.
+\end{defi}
+
+\begin{remarque}
+La somme est bien définie grâce à l'unicité de la limite (proposition~\ref{prop:unicite-limite}). Il faut prendre garde à ne pas confondre les deux objets :
+\[\underbrace{\sum u_n}_{\text{une suite de } E,\ \text{définie pour toute } (u_n)} \qquad\text{et}\qquad \underbrace{\sum_{n=0}^{+\infty}u_n}_{\text{un vecteur de } E,\ \text{défini seulement si la série converge}}\]
+Écrire $\sum_{n=0}^{+\infty}u_n$ avant d'avoir établi la convergence n'a aucun sens.
+\end{remarque}
+
+\subsection{Séries télescopiques}
+
+\begin{prop}[Séries télescopiques]
+\label{prop:telescopique}
+Soient $n_0\in\mathbb{N}$ et $(a_n)_{n\geq n_0}$ une suite d'éléments de $E$. La série $\displaystyle\sum_{n\geq n_0}(a_{n+1}-a_n)$ et la suite $(a_n)_{n\geq n_0}$ sont de même nature, c'est-à-dire que l'une converge si et seulement si l'autre converge. En cas de convergence,
+\[\sum_{n=n_0}^{+\infty}(a_{n+1}-a_n) = \Big(\lim_{n\to+\infty} a_n\Big) - a_{n_0}\]
+\end{prop}
+
+\begin{proof}
+Posons $u_n=a_{n+1}-a_n$ pour $n\geq n_0$, et montrons par récurrence sur $n\geq n_0$ que
+\[S_n = \sum_{k=n_0}^{n} u_k = a_{n+1}-a_{n_0} \qquad (\star)\]
+
+\emph{Initialisation :} pour $n=n_0$, $S_{n_0}=u_{n_0}=a_{n_0+1}-a_{n_0}$.
+
+\emph{Hérédité :} si $(\star)$ vaut au rang $n\geq n_0$, alors
+\[S_{n+1}=S_n+u_{n+1}=(a_{n+1}-a_{n_0})+(a_{n+2}-a_{n+1})=a_{n+2}-a_{n_0}\]
+ce qui est $(\star)$ au rang $n+1$.
+
+Ainsi $S_n=a_{n+1}-a_{n_0}$ pour tout $n\geq n_0$, où $a_{n_0}$ est un vecteur \emph{fixe}.
+
+Si $(a_n)$ converge vers $\ell$, alors $(a_{n+1})$ converge vers $\ell$ (lemme~\ref{lemme:decalage}), donc $(S_n)$ converge vers $\ell-a_{n_0}$ par les théorèmes d'opérations (propositions~\ref{prop:somme-limites} et~\ref{prop:scalaire-limite}, appliquées avec la suite constante égale à $-a_{n_0}$) : la série converge, de somme $\ell-a_{n_0}$.
+
+Réciproquement, si $(S_n)$ converge vers $s$, alors $a_{n+1}=S_n+a_{n_0}$ converge vers $s+a_{n_0}$, donc $(a_n)$ converge (lemme~\ref{lemme:decalage}).
+\end{proof}
+
+\begin{exemple}
+\label{ex:serie-ln}
+Déterminons la nature de $\displaystyle\sum_{n\geq 1}\ln\!\left(1+\frac{1}{n}\right)$ dans $E=\mathbb{R}$.
+
+Pour $n\geq 1$, on a $1+\frac{1}{n}=\frac{n+1}{n}>0$, donc
+\[\ln\!\left(1+\frac{1}{n}\right) = \ln\!\left(\frac{n+1}{n}\right) = \ln(n+1)-\ln(n) = a_{n+1}-a_n \qquad\text{en posant } a_n=\ln(n)\]
+D'après la proposition~\ref{prop:telescopique} appliquée avec $n_0=1$, la série a la même nature que la suite $(\ln n)_{n\geq1}$. Or $\ln(n)\xrightarrow[n\to+\infty]{}+\infty$, donc cette suite diverge. \textbf{La série $\sum_{n\geq1}\ln(1+\frac1n)$ diverge}, et plus précisément ses sommes partielles valent $S_n=\ln(n+1)-\ln(1)=\ln(n+1)\to+\infty$.
+\end{exemple}
+
+\subsection{Modification d'un nombre fini de termes}
+
+\begin{prop}
+\label{prop:nombre-fini-termes}
+Soient $(u_n),(v_n)\in E^{\mathbb{N}}$ telles que l'ensemble
+\[I=\{n\in\mathbb{N}\mid u_n\neq v_n\}\]
+soit \emph{fini}. Alors $\sum u_n$ et $\sum v_n$ ont même nature. Plus précisément, en posant $c=\sum_{k\in I}(u_k-v_k)\in E$, si l'une des deux séries converge alors l'autre aussi et
+\[\sum_{n=0}^{+\infty} u_n = \sum_{n=0}^{+\infty} v_n + c\]
+Autrement dit : \emph{on ne modifie pas la nature d'une série en changeant un nombre fini de termes} (mais on modifie sa somme).
+\end{prop}
+
+\begin{proof}
+Si $I=\varnothing$, les deux suites sont égales, $c=0_E$ et il n'y a rien à démontrer. Supposons donc $I\neq\varnothing$ ; étant fini et non vide, $I$ admet un plus grand élément $N=\max I$.
+
+Notons $S_n(u)=\sum_{k=0}^n u_k$ et $S_n(v)=\sum_{k=0}^n v_k$. Soit $n\geq N$. Comme $N=\max I$, on a $I\subseteq\inter{0}{n}$, et en séparant les indices selon leur appartenance à $I$ :
+\[S_n(u)-S_n(v) = \sum_{k=0}^{n}(u_k-v_k) = \underbrace{\sum_{k\in I}(u_k-v_k)}_{=\,c} + \sum_{\substack{k\in\inter{0}{n}\\ k\notin I}}\underbrace{(u_k-v_k)}_{=\,0_E} = c\]
+Le vecteur $c$ ne dépend pas de $n$. On a donc
+\[\forall n\geq N,\qquad S_n(u)=S_n(v)+c \qquad (\star)\]
+
+Supposons $\sum v_n$ convergente, de somme $\ell$, et soit $\varepsilon>0$. Il existe $N_1\in\mathbb{N}$ tel que $\|S_n(v)-\ell\|\leq\varepsilon$ pour tout $n\geq N_1$. Alors, pour tout $n\geq\max(N,N_1)$, la relation $(\star)$ donne
+\[\|S_n(u)-(\ell+c)\| = \|S_n(v)-\ell\| \leq \varepsilon\]
+Donc $\sum u_n$ converge, de somme $\ell+c$. L'implication réciproque s'obtient en échangeant les rôles de $u$ et $v$, ce qui change $c$ en $-c$.
+\end{proof}
+
+\begin{remarque}
+En particulier, la nature d'une série ne dépend pas de l'indice à partir duquel on la fait commencer : pour $n_1\in\mathbb{N}$, les séries $\sum_{n\geq 0}u_n$ et $\sum_{n\geq n_1}u_n$ sont de même nature, puisque la seconde revient à remplacer $u_0,\dots,u_{n_1-1}$ par $0_E$. En revanche leurs sommes diffèrent de $\sum_{k=0}^{n_1-1}u_k$.
+\end{remarque}
+
+\subsection{Propriétés algébriques}
+\label{subsec:proprietes-algebriques}
+
+\begin{prop}[Linéarité]
+\label{prop:linearite}
+Soient $(u_n),(v_n)\in E^{\mathbb{N}}$ et $\lambda\in K$.
+\begin{enumerate}
+\item Pour tout $n\in\mathbb{N}$, $\displaystyle\sum_{k=0}^{n}(\lambda u_k+v_k)=\lambda\sum_{k=0}^{n}u_k+\sum_{k=0}^{n}v_k$.
+\item Si $\sum u_n$ et $\sum v_n$ convergent, alors $\sum(\lambda u_n+v_n)$ converge et
+\[\sum_{n=0}^{+\infty}(\lambda u_n+v_n) = \lambda\sum_{n=0}^{+\infty}u_n + \sum_{n=0}^{+\infty}v_n\]
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\textbf{1.} C'est la linéarité de la somme finie, qui se démontre par une récurrence immédiate sur $n$ à partir de la commutativité et de l'associativité de $+$ dans $E$ et de la distributivité de la loi externe.
+
+\textbf{2.} Notons $S_n(u),S_n(v)$ les sommes partielles de $\sum u_n$ et $\sum v_n$, et $\ell_1,\ell_2$ leurs limites respectives. D'après le point 1, la somme partielle d'ordre $n$ de $\sum(\lambda u_n+v_n)$ vaut $\lambda S_n(u)+S_n(v)$. Les propositions~\ref{prop:somme-limites} et~\ref{prop:scalaire-limite} donnent alors
+\[\lambda S_n(u)+S_n(v)\xrightarrow[n\to+\infty]{}\lambda\ell_1+\ell_2\qedhere\]
+\end{proof}
+
+\begin{coro}
+\label{coro:sev-series-convergentes}
+L'ensemble
+\[\mathcal{SC}(E)=\left\{(u_n)\in E^{\mathbb{N}}\ \middle|\ \sum u_n \text{ converge}\right\}\]
+est un sous-espace vectoriel de $E^{\mathbb{N}}$, et l'application
+\[S : \mathcal{SC}(E)\longrightarrow E,\qquad (u_n)_{n\in\mathbb{N}}\longmapsto \sum_{n=0}^{+\infty}u_n\]
+est linéaire.
+\end{coro}
+
+\begin{proof}
+La suite nulle appartient à $\mathcal{SC}(E)$ : ses sommes partielles sont toutes nulles, donc convergent vers $0_E$. Ainsi $\mathcal{SC}(E)\neq\varnothing$. Le point 2 de la proposition~\ref{prop:linearite} montre que $\lambda(u_n)+(v_n)\in\mathcal{SC}(E)$ dès que $(u_n),(v_n)\in\mathcal{SC}(E)$ et $\lambda\in K$ : $\mathcal{SC}(E)$ est donc un sous-espace vectoriel de $E^{\mathbb{N}}$. La même égalité s'écrit $S(\lambda u+v)=\lambda S(u)+S(v)$, c'est-à-dire la linéarité de $S$, qui est bien définie par unicité de la limite.
+\end{proof}
+
+\begin{remarque}
+Deux mises en garde sur la réciproque du point 2.
+\begin{itemize}
+\item La convergence de $\sum(u_n+v_n)$ n'entraîne pas celle de $\sum u_n$ ni celle de $\sum v_n$ : dans $E=\mathbb{R}$, prendre $u_n=1$ et $v_n=-1$. Alors $\sum(u_n+v_n)$ est la série nulle, qui converge, tandis que $S_n(u)=n+1$ diverge.
+\item En revanche, si $\sum u_n$ converge et $\sum v_n$ diverge, alors $\sum(u_n+v_n)$ \emph{diverge}. En effet, si elle convergeait, alors $(v_n)=\big((u_n+v_n)\big)-(u_n)$ appartiendrait à $\mathcal{SC}(E)$ par le corollaire~\ref{coro:sev-series-convergentes}, ce qui contredirait la divergence de $\sum v_n$.
+\end{itemize}
+\end{remarque}
+
+\section{Condition nécessaire de convergence}
+
+\begin{theo}
+\label{theo:terme-general-nul}
+Si $\sum u_n$ converge, alors $u_n\xrightarrow[n\to+\infty]{}0_E$.
+\end{theo}
+
+\begin{proof}
+Notons $(S_n)$ les sommes partielles et $\ell=\lim_{n\to+\infty}S_n$. Pour tout $n\geq 1$,
+\[S_n - S_{n-1} = \sum_{k=0}^{n}u_k - \sum_{k=0}^{n-1}u_k = u_n\]
+Posons $a_n=S_{n-1}$ pour $n\geq 1$, c'est-à-dire $(a_{n+1})_{n\geq 0}=(S_n)_{n\geq 0}$. Comme $(S_n)$ converge vers $\ell$, le lemme~\ref{lemme:decalage} montre que $(a_n)_{n\geq1}=(S_{n-1})_{n\geq1}$ converge aussi vers $\ell$. Les propositions~\ref{prop:somme-limites} et~\ref{prop:scalaire-limite} donnent alors
+\[u_n = S_n - S_{n-1} \xrightarrow[n\to+\infty]{} \ell-\ell = 0_E\qedhere\]
+\end{proof}
+
+\begin{defi}[Divergence grossière]
+\label{defi:divergence-grossiere}
+On dit qu'une série $\sum u_n$ \textbf{diverge grossièrement} si son terme général ne tend pas vers $0_E$. Par contraposition du théorème~\ref{theo:terme-general-nul}, une telle série est divergente.
+\end{defi}
+
+\begin{remarque}
+La réciproque du théorème~\ref{theo:terme-general-nul} est \textbf{fausse} : il existe des séries divergentes dont le terme général tend vers $0$. L'exemple~\ref{ex:serie-ln} en fournit un premier, puisque $\ln(1+\frac1n)\to\ln(1)=0$ alors que la série diverge. L'exemple fondamental est le suivant.
+\end{remarque}
+
+\begin{exemple}[Série harmonique]
+\label{ex:serie-harmonique}
+La série $\displaystyle\sum_{n\geq1}\frac{1}{n}$ \textbf{diverge}, bien que $\frac1n\xrightarrow[n\to+\infty]{}0$.
+\end{exemple}
+
+\begin{proof}
+Notons $H_n=\displaystyle\sum_{k=1}^{n}\frac1k$ pour $n\geq 1$. Pour tout $n\geq 1$,
+\[H_{2n}-H_n = \sum_{k=n+1}^{2n}\frac{1}{k}\]
+Cette somme comporte exactement $2n-(n+1)+1=n$ termes, et chacun vérifie $k\leq 2n$, donc $\frac1k\geq\frac{1}{2n}$. Par croissance de la somme finie,
+\[\forall n\geq 1,\qquad H_{2n}-H_n \geq n\times\frac{1}{2n} = \frac12 \qquad (\star)\]
+
+Supposons par l'absurde que $(H_n)_{n\geq1}$ converge, vers $\ell\in\mathbb{R}$. En appliquant la définition de la convergence avec $\varepsilon=\frac18$, il existe $N_0\in\mathbb{N}$, que l'on peut supposer $\geq 1$, tel que
+\[\forall n\geq N_0,\qquad |H_n-\ell|\leq\frac18\]
+Comme $N_0\geq 1$, on a $2N_0\geq N_0$, donc cette majoration s'applique aussi bien à l'indice $N_0$ qu'à l'indice $2N_0$. L'inégalité triangulaire donne alors
+\[|H_{2N_0}-H_{N_0}| = |(H_{2N_0}-\ell)-(H_{N_0}-\ell)| \leq \frac18+\frac18 = \frac14\]
+ce qui contredit $(\star)$ appliquée à $n=N_0$, laquelle donne $H_{2N_0}-H_{N_0}\geq\frac12>\frac14$.
+
+Donc $(H_n)$ diverge, c'est-à-dire que $\sum_{n\geq1}\frac1n$ diverge. Comme par ailleurs $\frac1n\to0$, la réciproque du théorème~\ref{theo:terme-general-nul} est bien mise en défaut.
+\end{proof}
+
+\begin{remarque}
+L'argument ci-dessus consiste à observer que $(H_n)$ n'est pas de Cauchy : les « paquets » $H_{2n}-H_n$ ne deviennent jamais petits. On n'a utilisé que la définition de la convergence, aucune théorie supplémentaire n'est nécessaire.
+\end{remarque}
+
+\section{Séries à termes positifs}
+\label{sec:stp}
+
+Dans toute cette section, on se place dans $E=\mathbb{R}$ muni de la valeur absolue, et l'on considère une suite $(u_n)\in\mathbb{R}^{\mathbb{N}}$ \textbf{positive}, c'est-à-dire telle que $u_n\geq 0$ pour tout $n\in\mathbb{N}$. La relation d'ordre de $\mathbb{R}$ est ici essentielle : rien de ce qui suit n'a de sens dans un e.v.n. général.
+
+\begin{prop}
+\label{prop:stp-croissante}
+Si $u_n\geq 0$ pour tout $n\in\mathbb{N}$, alors la suite $(S_n)_{n\in\mathbb{N}}$ des sommes partielles de $\sum u_n$ est croissante.
+\end{prop}
+
+\begin{proof}
+Pour tout $n\in\mathbb{N}$, $S_{n+1}-S_n = u_{n+1} \geq 0$, donc $S_n\leq S_{n+1}$ : c'est la définition d'une suite croissante (définition~\ref{defi:suite-monotone}).
+\end{proof}
+
+\begin{theo}[Critère de majoration]
+\label{theo:stp-majoree}
+Soit $(u_n)\in\mathbb{R}^{\mathbb{N}}$ telle que $u_n\geq 0$ pour tout $n$, et $(S_n)$ ses sommes partielles. Alors
+\[\sum u_n \text{ converge} \iff (S_n)_{n\in\mathbb{N}} \text{ est majorée}\]
+et, dans ce cas,
+\[\sum_{n=0}^{+\infty}u_n = \sup_{n\in\mathbb{N}} S_n\]
+\end{theo}
+
+\begin{proof}
+$(\Leftarrow)$ Supposons $(S_n)$ majorée. D'après la proposition~\ref{prop:stp-croissante}, $(S_n)$ est croissante ; étant de plus majorée, le théorème de la limite monotone~\ref{theo:limite-monotone} assure qu'elle converge, et que sa limite vaut $\sup_{n}S_n$. Par définition, $\sum u_n$ converge et sa somme est $\sup_n S_n$.
+
+$(\Rightarrow)$ Supposons $\sum u_n$ convergente, c'est-à-dire $(S_n)$ convergente. Toute suite convergente est bornée (proposition~\ref{prop:convergente-bornee}) : il existe $M\geq 0$ tel que $|S_n|\leq M$ pour tout $n$, donc $S_n\leq M$ pour tout $n$ et $(S_n)$ est majorée.
+\end{proof}
+
+\begin{coro}
+\label{coro:stp-dichotomie}
+Une série à termes positifs $\sum u_n$ n'a que deux comportements possibles : soit elle converge, soit $S_n\xrightarrow[n\to+\infty]{}+\infty$. On écrit alors respectivement $\sum_{n=0}^{+\infty}u_n<+\infty$ et $\sum_{n=0}^{+\infty}u_n=+\infty$.
+\end{coro}
+
+\begin{proof}
+La suite $(S_n)$ est croissante (proposition~\ref{prop:stp-croissante}), donc admet une limite dans $\overline{\mathbb{R}}$ (corollaire~\ref{coro:limite-monotone-rbar}) : elle vaut $\sup_n S_n\in\mathbb{R}$ si $(S_n)$ est majorée, et $+\infty$ sinon. Le théorème~\ref{theo:stp-majoree} identifie le premier cas à la convergence de la série.
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[xscale=3.4]
+  \draw[->] (-0.15,0) -- (4.15,0) node[below right] {$\mathbb{R}$};
+  \foreach \x/\lab in {0.7/{S_0}, 1.7/{S_1}, 2.3/{S_2}, 2.62/{S_3}} {
+    \node[circle,fill,inner sep=1.2pt] at (\x,0) {};
+    \node[below=3pt] at (\x,0) {$\lab$};
+  }
+  \foreach \x in {2.78, 2.86, 2.90} {
+    \node[circle,fill,inner sep=1.2pt] at (\x,0) {};
+  }
+  \draw[dashed] (2.95,-0.3) -- (2.95,0.72);
+  \node[above] at (2.95,0.72) {$\ell=\sup\limits_{n} S_n$};
+  \draw[dashed] (3.7,-0.3) -- (3.7,0.72);
+  \node[above] at (3.7,0.72) {$M$};
+  \draw[<->] (0.7,0.3) -- (1.7,0.3) node[midway,above] {$u_1$};
+  \draw[<->] (1.7,0.3) -- (2.3,0.3) node[midway,above] {$u_2$};
+  \draw[<->] (2.3,0.3) -- (2.62,0.3) node[midway,above] {$u_3$};
+\end{tikzpicture}
+\end{center}
+
+\begin{remarque}
+L'hypothèse « $u_n\geq 0$ pour tout $n$ » peut être affaiblie en « $u_n\geq 0$ pour tout $n$ assez grand » : s'il existe $n_1$ tel que $u_n\geq 0$ pour $n\geq n_1$, la suite $(v_n)$ définie par $v_n=0$ si $n<n_1$ et $v_n=u_n$ sinon est positive, et $\sum u_n$ a même nature que $\sum v_n$ d'après la proposition~\ref{prop:nombre-fini-termes}. Seule la valeur de la somme change.
+\end{remarque}
+
+\begin{exemple}
+\label{ex:stp-integrale}
+Pour $n\in\mathbb{N}$, posons
+\[u_n = \int_{n}^{n+1}\frac{\mathrm{d}t}{1+t^4}\]
+Alors $\sum u_n$ converge, et $\sum_{n=0}^{+\infty}u_n\leq 1+\frac{\pi}{4}$.
+\end{exemple}
+
+\begin{proof}
+La fonction $f:t\mapsto\frac{1}{1+t^4}$ est définie et continue sur $\mathbb{R}$ (le dénominateur ne s'annule pas car $1+t^4\geq 1>0$), et positive. Comme $n\leq n+1$, la positivité de l'intégrale donne $u_n\geq 0$ : la série $\sum u_n$ est bien à termes positifs, et le théorème~\ref{theo:stp-majoree} s'applique. Il suffit donc de majorer les sommes partielles.
+
+\textbf{Calcul de $S_n$.} La relation de Chasles et une récurrence immédiate sur $n$ donnent, pour tout $n\in\mathbb{N}$,
+\[S_n = \sum_{k=0}^{n}\int_{k}^{k+1} f(t)\,\mathrm{d}t = \int_{0}^{n+1} f(t)\,\mathrm{d}t = \int_{0}^{1}f(t)\,\mathrm{d}t + \int_{1}^{n+1}f(t)\,\mathrm{d}t\]
+
+\textbf{Majoration de la première intégrale.} Pour $t\in[0,1]$, $1+t^4\geq 1$ donc $f(t)\leq 1$. Par croissance de l'intégrale sur $[0,1]$,
+\[\int_{0}^{1}\frac{\mathrm{d}t}{1+t^4} \leq \int_{0}^{1}1\,\mathrm{d}t = 1\]
+
+\textbf{Majoration de la seconde intégrale.} C'est ici qu'il faut être attentif : pour $t\geq 1$, on a $t^2\geq 1$ donc $t^4=t^2\cdot t^2\geq t^2$, d'où $1+t^4\geq 1+t^2>0$ et, en passant aux inverses (qui renverse l'inégalité entre réels strictement positifs),
+\[\forall t\geq 1,\qquad \frac{1}{1+t^4}\leq\frac{1}{1+t^2}\]
+Par croissance de l'intégrale sur $[1,n+1]$ (segment non vide car $n+1\geq 1$),
+\[\int_{1}^{n+1}\frac{\mathrm{d}t}{1+t^4} \leq \int_{1}^{n+1}\frac{\mathrm{d}t}{1+t^2} = \arctan(n+1)-\arctan(1) \leq \frac{\pi}{2}-\frac{\pi}{4} = \frac{\pi}{4}\]
+
+\textbf{Conclusion.} Pour tout $n\in\mathbb{N}$, $S_n\leq 1+\frac{\pi}{4}$ : la suite $(S_n)$ est majorée. La série étant à termes positifs, le théorème~\ref{theo:stp-majoree} donne sa convergence, ainsi que la majoration $\sum_{n=0}^{+\infty}u_n=\sup_n S_n\leq 1+\frac{\pi}{4}$.
+\end{proof}
+
+\begin{remarque}
+La majoration $\frac{1}{1+t^4}\leq\frac{1}{1+t^2}$ n'est valable que pour $t\geq 1$ : sur $[0,1]$ l'inégalité est renversée. C'est précisément pour cette raison que l'on a découpé $\int_0^{n+1}$ en $\int_0^1+\int_1^{n+1}$, plutôt que de majorer directement sur $[0,n+1]$.
+\end{remarque}

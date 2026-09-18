@@ -533,6 +533,32 @@ d'où $P_1+\dots+P_k=\id_E$.
 Soit $i\neq j$. On a $F_j\subset \widehat{F_i} = \Ker(P_i)$, donc $P_i(F_j)=\{0\}$, d'où $(P_i\circ P_j)(E) = P_i(\Img P_j) = P_i(F_j) = \{0\}$, c'est-à-dire $P_i\circ P_j=0$. Pour $i=j$, $P_i\circ P_i = P_i$ par idempotence. On conclut $P_i\circ P_j=\delta_{ij}P_j$.
 \end{proof}
 
+\begin{defi}[Symétrie]
+\label{defi:symetrie}
+Un endomorphisme $s\in\mathcal{L}(E)$ est une \textbf{symétrie} si $s\circ s=\id_E$.
+\end{defi}
+
+\begin{prop}
+\label{prop:symetrie}
+On suppose $2$ inversible dans $K$ (c'est le cas pour $K=\mathbb{R}$ ou $\mathbb{C}$). Si $s\in\mathcal{L}(E)$ est une symétrie, alors
+\[E = \Ker(s-\id_E)\oplus\Ker(s+\id_E)\]
+et $s$ est la symétrie par rapport à $F=\Ker(s-\id_E)$ parallèlement à $G=\Ker(s+\id_E)$ : si $x=x_F+x_G$ avec $x_F\in F$ et $x_G\in G$, alors $s(x)=x_F-x_G$.
+\end{prop}
+
+\begin{proof}
+\textbf{La somme est directe :} soit $x\in\Ker(s-\id_E)\cap\Ker(s+\id_E)$. Alors $s(x)=x$ et $s(x)=-x$, donc $2x=0$, puis $x=0$ car $2$ est inversible dans $K$.
+
+\textbf{La somme vaut $E$ :} soit $x\in E$. Écrivons
+\[x = \underbrace{\tfrac12\big(x+s(x)\big)}_{=\,x_F} + \underbrace{\tfrac12\big(x-s(x)\big)}_{=\,x_G}\]
+Comme $s\circ s=\id_E$, on a $s(x_F)=\tfrac12\big(s(x)+x\big)=x_F$, donc $x_F\in\Ker(s-\id_E)$ ; et $s(x_G)=\tfrac12\big(s(x)-x\big)=-x_G$, donc $x_G\in\Ker(s+\id_E)$.
+
+\textbf{Expression de $s$ :} par linéarité, $s(x)=s(x_F)+s(x_G)=x_F-x_G$.
+\end{proof}
+
+\begin{remarque}
+L'hypothèse sur $2$ est indispensable : si $2=0$ dans $K$, alors $s+\id_E=s-\id_E$, et la somme ci-dessus n'est jamais directe dès que $\Ker(s-\id_E)\neq\{0\}$.
+\end{remarque}
+
 \subsection{Sous-espaces stables et restriction}
 
 \begin{prop}
@@ -798,6 +824,21 @@ Si $c\neq 0$, les lignes $(-1,a,b)$ et $(0,0,c)$ ne sont pas colinéaires, donc 
 \[A \text{ est diagonalisable} \iff c=0\]
 et dans ce cas $E_2(A)=\Vect\big((a,1,0),\,(b,0,1)\big)$.
 \end{exemple}
+
+\begin{coro}[Projecteurs et symétries]
+\label{coro:proj-sym-diago}
+Soit $E$ de dimension finie $n\geq 1$ et $E=F\oplus G$.
+\begin{enumerate}
+\item Le projecteur $p$ sur $F$ parallèlement à $G$ est diagonalisable, avec $\Spec(p)\subset\{0,1\}$.
+\item Si $2$ est inversible dans $K$, toute symétrie $s\in\mathcal{L}(E)$ est diagonalisable, avec $\Spec(s)\subset\{-1,1\}$.
+\end{enumerate}
+\end{coro}
+
+\begin{proof}
+\textbf{1.} D'après la proposition~\ref{prop:projecteur}, $p(x)=x$ pour $x\in F$ et $p(x)=0$ pour $x\in G=\Ker p$. Choisissons une base de $F$ et une base de $G$ : leur concaténation est une base de $E=F\oplus G$ (lemme~\ref{lemme:base-adaptee}). Chacun de ses vecteurs est non nul et vérifie $p(x)=x$ ou $p(x)=0\cdot x$ : c'est un vecteur propre de $p$, associé à $1$ ou à $0$. Donc $p$ est diagonalisable, et une valeur propre de $p$ ne peut être que $0$ ou $1$ (car $X^2-X$ annule $p$, proposition~\ref{prop:vp-racines-annulateur}).
+
+\textbf{2.} D'après la proposition~\ref{prop:symetrie}, $E=\Ker(s-\id_E)\oplus\Ker(s+\id_E)$. On conclut de même en concaténant une base de chacun de ces deux sous-espaces : on obtient une base de $E$ formée de vecteurs non nuls vérifiant $s(x)=x$ ou $s(x)=-x$, donc de vecteurs propres. Enfin $X^2-1$ annule $s$, donc $\Spec(s)\subset\{-1,1\}$.
+\end{proof}
 
 \subsection{Utilisation de la diagonalisation}
 

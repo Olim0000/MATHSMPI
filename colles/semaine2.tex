@@ -1,0 +1,504 @@
+\documentclass[11pt]{article}
+
+\IfFileExists{preambule.tex}{\input{preambule}}{\input{../preambule}}
+
+\newcounter{qnum}
+\newcommand{\question}[1]{%
+\stepcounter{qnum}%
+\bigskip
+\noindent\textbf{Question \theqnum.} #1\par}
+\newcommand{\reponse}{\noindent\textit{Réponse.}\ }
+
+\title{Fiche de colle --- Semaine 2\\ \large Réponses rédigées aux questions de cours\\ Chapitres 2 et 3 (MPI/MPI*)}
+\author{}
+\date{du 21/09/26 au 25/09/26}
+
+\begin{document}
+\maketitle
+
+\noindent\textit{Conventions.} Dans toute la fiche, $K$ désigne un corps commutatif ; à partir de la question~7, $K\in\{\mathbb{R},\mathbb{C}\}$ et $(E,\|\cdot\|)$ est un espace vectoriel normé. Pour $u\in\mathcal{L}(E)$ et $\lambda\in K$, on note $E_\lambda(u)=\Ker(u-\lambda\,\id_E)$ et $\Spec(u)$ l'ensemble des valeurs propres de $u$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Soit $u\in\mathcal{L}(E,F)$ : tout supplémentaire de $\Ker u$ est isomorphe à $\Img u$.}
+\reponse
+
+\begin{prop}
+\label{prop:supplementaire-noyau}
+Soient $E,F$ deux $K$-espaces vectoriels, $u\in\mathcal{L}(E,F)$ et $S$ un supplémentaire de $\Ker u$ dans $E$, c'est-à-dire un sous-espace vectoriel de $E$ tel que $E=\Ker u\oplus S$. Alors l'application
+\[v : S\longrightarrow \Img u, \qquad x\longmapsto u(x)\]
+est un isomorphisme. En particulier $S$ et $\Img u$ sont isomorphes.
+\end{prop}
+
+\begin{proof}
+\textbf{$v$ est bien définie et linéaire.} Pour $x\in S\subset E$, $u(x)\in\Img u$ : $v$ est bien à valeurs dans $\Img u$. Elle est linéaire comme restriction d'une application linéaire à un sous-espace vectoriel : pour $x,y\in S$ et $\lambda\in K$, $\lambda x+y\in S$ ($S$ sous-espace) et $v(\lambda x+y)=u(\lambda x+y)=\lambda u(x)+u(y)=\lambda v(x)+v(y)$.
+
+\textbf{Injectivité.} On a
+\[\Ker v = \{x\in S \mid u(x)=0_F\} = S\cap\Ker u = \{0_E\}\]
+la dernière égalité car la somme $\Ker u + S$ est directe. Donc $v$ est injective.
+
+\textbf{Surjectivité.} Soit $y\in\Img u$ : il existe $x\in E$ tel que $y=u(x)$. Comme $E=\Ker u\oplus S$, on décompose $x=x_K+x_S$ avec $x_K\in\Ker u$ et $x_S\in S$. Par linéarité,
+\[y = u(x) = u(x_K)+u(x_S) = 0_F + v(x_S) = v(x_S)\]
+donc $y\in\Img v$.
+
+Ainsi $v$ est un isomorphisme de $S$ sur $\Img u$.
+\end{proof}
+
+\begin{remarque}
+Aucune hypothèse de dimension finie n'est nécessaire. Lorsque $E$ est de dimension finie, $\Ker u$ admet un supplémentaire $S$ (théorème de la base incomplète), et la proposition donne $\dim S=\dim\Img u$ ; comme $\dim E=\dim\Ker u+\dim S$, on retrouve le \textbf{théorème du rang} :
+\[\dim(\Ker u)+\dim(\Img u)=\dim E \tag{$\star$}\label{eq:rang}\]
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Si $F_1,\dots,F_h$ sont des sous-espaces de dimension finie de $E$, alors $\dim\left(\sum_{j=1}^{h}F_j\right)\leq\sum_{j=1}^{h}\dim F_j$, avec égalité si et seulement si la somme est directe.}
+\reponse
+
+\begin{defi}[Somme, somme directe]
+\label{defi:somme}
+Soient $F_1,\dots,F_h$ des sous-espaces vectoriels de $E$. L'application
+\[\varphi : F_1\times\cdots\times F_h\longrightarrow E, \qquad (x_1,\dots,x_h)\longmapsto x_1+\dots+x_h\]
+est linéaire, et l'on pose $F_1+\dots+F_h=\Img\varphi$. La somme est dite \textbf{directe}, et notée $\bigoplus_{j=1}^{h}F_j$, lorsque $\varphi$ est injective, c'est-à-dire lorsque
+\[\forall (x_1,\dots,x_h)\in F_1\times\cdots\times F_h,\quad x_1+\dots+x_h=0 \implies x_1=\dots=x_h=0\]
+\end{defi}
+
+\begin{lemme}
+\label{lemme:dim-produit}
+Si $F_1,\dots,F_h$ sont de dimension finie, alors $F_1\times\cdots\times F_h$ est de dimension finie et $\dim(F_1\times\cdots\times F_h)=\sum_{j=1}^{h}\dim F_j$.
+\end{lemme}
+
+\begin{proof}
+Notons $d_j=\dim F_j$ et $\mathcal{B}_j=(e_{1,j},\dots,e_{d_j,j})$ une base de $F_j$. Pour $j\in\inter{1}{h}$ et $i\in\inter{1}{d_j}$, soit $\varepsilon_{i,j}=(0,\dots,0,e_{i,j},0,\dots,0)$ le vecteur de $F_1\times\cdots\times F_h$ dont la $j$-ième composante vaut $e_{i,j}$ et les autres sont nulles. Tout $(x_1,\dots,x_h)$ s'écrit $\sum_{j}\sum_{i}a_{i,j}\varepsilon_{i,j}$ où $x_j=\sum_i a_{i,j}e_{i,j}$ : la famille est génératrice. Et si $\sum_j\sum_i a_{i,j}\varepsilon_{i,j}=0$, l'égalité composante par composante donne $\sum_i a_{i,j}e_{i,j}=0_{F_j}$ pour chaque $j$, donc $a_{i,j}=0$ par liberté de $\mathcal{B}_j$ : la famille est libre. C'est donc une base, de cardinal $\sum_j d_j$.
+\end{proof}
+
+\begin{prop}
+\label{prop:dim-somme}
+Soient $F_1,\dots,F_h$ des sous-espaces vectoriels de dimension finie de $E$. Alors $\sum_{j=1}^{h}F_j$ est de dimension finie et
+\[\dim\left(\sum_{j=1}^{h}F_j\right) \leq \sum_{j=1}^{h}\dim F_j\]
+avec égalité si et seulement si la somme $F_1+\dots+F_h$ est directe.
+\end{prop}
+
+\begin{proof}
+Reprenons l'application linéaire $\varphi$ de la définition~\ref{defi:somme}. Son espace de départ $P=F_1\times\cdots\times F_h$ est de dimension finie $\sum_{j}\dim F_j$ d'après le lemme~\ref{lemme:dim-produit}, et $\Img\varphi=\sum_j F_j$ est donc de dimension finie (image d'un espace de dimension finie). Le théorème du rang~\eqref{eq:rang} appliqué à $\varphi$ donne
+\[\sum_{j=1}^{h}\dim F_j = \dim P = \dim(\Ker\varphi)+\dim\left(\sum_{j=1}^{h}F_j\right)\]
+Comme $\dim(\Ker\varphi)\geq 0$, on obtient l'inégalité annoncée. De plus, il y a égalité si et seulement si $\dim(\Ker\varphi)=0$, c'est-à-dire $\Ker\varphi=\{0\}$, c'est-à-dire $\varphi$ injective : c'est exactement la définition du caractère direct de la somme (définition~\ref{defi:somme}).
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{$u$ est diagonalisable si et seulement si $E=\bigoplus_{\lambda} E_\lambda(u)$.}
+\reponse
+Dans cette question et les suivantes, $E$ est un $K$-e.v.\ de dimension finie $n\geq 1$ et $u\in\mathcal{L}(E)$.
+
+\begin{defi}[Éléments propres, diagonalisabilité]
+\label{defi:diago}
+$\lambda\in K$ est une \textbf{valeur propre} de $u$ s'il existe $x\in E\setminus\{0\}$ tel que $u(x)=\lambda x$ ; un tel $x$ est un \textbf{vecteur propre} associé. On note $\Spec(u)$ l'ensemble des valeurs propres et $E_\lambda(u)=\Ker(u-\lambda\,\id_E)$ l'\textbf{espace propre} associé à $\lambda$. Ainsi
+\[\lambda\in\Spec(u) \iff E_\lambda(u)\neq\{0\} \iff u-\lambda\,\id_E \text{ non injectif}\]
+Enfin, $u$ est dit \textbf{diagonalisable} s'il existe une base de $E$ formée de vecteurs propres de $u$.
+\end{defi}
+
+\begin{lemme}[Les espaces propres sont en somme directe]
+\label{lemme:somme-directe-propres}
+Soient $\lambda_1,\dots,\lambda_h\in K$ deux à deux distincts. Alors la somme $E_{\lambda_1}(u)+\dots+E_{\lambda_h}(u)$ est directe.
+\end{lemme}
+
+\begin{proof}
+Par récurrence sur $h\geq 1$. Pour $h=1$ c'est immédiat. Supposons le résultat acquis au rang $h$, et soient $\lambda_1,\dots,\lambda_{h+1}$ deux à deux distincts et $x_j\in E_{\lambda_j}(u)$ tels que
+\[x_1+\dots+x_h+x_{h+1}=0 \tag{1}\]
+En appliquant $u$ et en utilisant $u(x_j)=\lambda_j x_j$ :
+\[\lambda_1x_1+\dots+\lambda_hx_h+\lambda_{h+1}x_{h+1}=0 \tag{2}\]
+Le calcul $(2)-\lambda_{h+1}\cdot(1)$ élimine $x_{h+1}$ :
+\[(\lambda_1-\lambda_{h+1})x_1+\dots+(\lambda_h-\lambda_{h+1})x_h=0\]
+Chaque terme $(\lambda_j-\lambda_{h+1})x_j$ appartient à $E_{\lambda_j}(u)$ ; par hypothèse de récurrence la somme $E_{\lambda_1}(u)+\dots+E_{\lambda_h}(u)$ est directe, donc $(\lambda_j-\lambda_{h+1})x_j=0$ pour tout $j\in\inter{1}{h}$. Comme $\lambda_j\neq\lambda_{h+1}$, le scalaire $\lambda_j-\lambda_{h+1}$ est non nul, d'où $x_j=0$. En reportant dans $(1)$, il vient $x_{h+1}=0$. La somme est donc directe au rang $h+1$.
+\end{proof}
+
+\begin{coro}
+\label{coro:spec-fini}
+$\Card\big(\Spec(u)\big)\leq n$ : le spectre de $u$ est fini.
+\end{coro}
+
+\begin{proof}
+Soient $\lambda_1,\dots,\lambda_m\in\Spec(u)$ deux à deux distincts. Chaque $E_{\lambda_i}(u)$ est non nul, donc $\dim E_{\lambda_i}(u)\geq 1$. La somme étant directe (lemme~\ref{lemme:somme-directe-propres}) et incluse dans $E$, la proposition~\ref{prop:dim-somme} donne
+\[m \leq \sum_{i=1}^{m}\dim E_{\lambda_i}(u) = \dim\left(\bigoplus_{i=1}^{m}E_{\lambda_i}(u)\right) \leq \dim E = n\]
+Donc toute partie finie de $\Spec(u)$ a au plus $n$ éléments, et $\Card(\Spec(u))\leq n$.
+\end{proof}
+
+\begin{lemme}[Base adaptée à une somme directe]
+\label{lemme:base-adaptee}
+Soient $F_1,\dots,F_h$ des sous-espaces de dimension finie de $E$ dont la somme est directe, et $\mathcal{B}_j$ une base de $F_j$ pour chaque $j$. Alors la concaténation $\mathcal{B}$ de $\mathcal{B}_1,\dots,\mathcal{B}_h$ est une base de $\bigoplus_{j=1}^{h}F_j$.
+\end{lemme}
+
+\begin{proof}
+Notons $\mathcal{B}_j=(e_{1,j},\dots,e_{d_j,j})$ et $S=\bigoplus_j F_j$.
+
+\emph{Génératrice :} tout $x\in S$ s'écrit $x=x_1+\dots+x_h$ avec $x_j\in F_j$, et chaque $x_j$ est combinaison linéaire de $\mathcal{B}_j$ ; donc $x\in\Vect(\mathcal{B})$. Réciproquement $\mathcal{B}\subset S$, d'où $\Vect(\mathcal{B})=S$.
+
+\emph{Libre :} si $\sum_{j=1}^{h}\sum_{i=1}^{d_j}a_{i,j}e_{i,j}=0$, posons $y_j=\sum_{i}a_{i,j}e_{i,j}\in F_j$. Alors $y_1+\dots+y_h=0$ avec $y_j\in F_j$, donc $y_j=0$ pour tout $j$ puisque la somme est directe ; la liberté de $\mathcal{B}_j$ donne alors $a_{i,j}=0$ pour tout $i$.
+\end{proof}
+
+\begin{theo}
+\label{theo:diago-somme-directe}
+Écrivons $\Spec(u)=\{\lambda_1,\dots,\lambda_k\}$, les $\lambda_i$ étant deux à deux distincts (c'est licite d'après le corollaire~\ref{coro:spec-fini}). Alors
+\[u \text{ est diagonalisable} \iff E=\bigoplus_{i=1}^{k}E_{\lambda_i}(u)\]
+\end{theo}
+
+\begin{proof}
+Rappelons d'abord que la somme $\sum_{i=1}^{k}E_{\lambda_i}(u)$ est \emph{toujours} directe (lemme~\ref{lemme:somme-directe-propres}) et incluse dans $E$ : seule l'égalité est en jeu.
+
+$(\Rightarrow)$ Soit $\mathcal{B}=(v_1,\dots,v_n)$ une base de $E$ formée de vecteurs propres de $u$. Chaque $v_j$ est un vecteur propre, donc associé à une valeur propre de $u$ : il existe $i$ tel que $v_j\in E_{\lambda_i}(u)$ (en particulier $k\geq 1$). Comme $\sum_{i=1}^{k}E_{\lambda_i}(u)$ est un sous-espace vectoriel de $E$ contenant tous les $v_j$, il contient $\Vect(v_1,\dots,v_n)=E$. D'où $E=\sum_{i}E_{\lambda_i}(u)=\bigoplus_{i}E_{\lambda_i}(u)$.
+
+$(\Leftarrow)$ Supposons $E=\bigoplus_{i=1}^{k}E_{\lambda_i}(u)$. Chaque $E_{\lambda_i}(u)$ est un sous-espace de $E$, donc de dimension finie ; choisissons-en une base $\mathcal{B}_i$. D'après le lemme~\ref{lemme:base-adaptee}, la concaténation $\mathcal{B}$ des $\mathcal{B}_i$ est une base de $E$. Or tout vecteur de $\mathcal{B}_i$ est non nul (élément d'une famille libre) et appartient à $E_{\lambda_i}(u)=\Ker(u-\lambda_i\id_E)$ : c'est donc un vecteur propre de $u$ associé à $\lambda_i$. Ainsi $\mathcal{B}$ est une base de vecteurs propres, et $u$ est diagonalisable.
+\end{proof}
+
+\begin{remarque}
+Si $\Spec(u)=\varnothing$ (cas possible sur $K=\mathbb{R}$, par exemple pour la rotation d'angle $\pi/2$ du plan, de matrice $\begin{pmatrix}0&-1\\1&0\end{pmatrix}$), on convient qu'une somme vide de sous-espaces vaut $\{0\}$. Comme $n\geq 1$, les deux membres de l'équivalence sont alors faux : $u$ n'a aucun vecteur propre, donc aucune base n'en est formée.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Un projecteur et une symétrie sont des endomorphismes diagonalisables.}
+\reponse
+
+\begin{defi}
+\label{defi:proj-sym}
+Soit $p\in\mathcal{L}(E)$. On dit que $p$ est un \textbf{projecteur} si $p\circ p=p$. Soit $s\in\mathcal{L}(E)$ ; on dit que $s$ est une \textbf{symétrie} si $s\circ s=\id_E$.
+\end{defi}
+
+\begin{prop}
+\label{prop:projecteur-diago}
+Tout projecteur $p$ de $E$ ($E$ de dimension finie) est diagonalisable :
+\[E = \Ker p \oplus \Ker(p-\id_E)\]
+et ces deux sous-espaces sont respectivement $E_0(p)$ et $E_1(p)$. Il existe donc une base dans laquelle la matrice de $p$ est $\diag(0,\dots,0,1,\dots,1)$, le nombre de $1$ valant $\rg(p)$.
+\end{prop}
+
+\begin{proof}
+\textbf{La somme est directe.} Si $x\in\Ker p\cap\Ker(p-\id_E)$, alors $p(x)=0$ et $p(x)=x$, donc $x=0$.
+
+\textbf{La somme vaut $E$.} Pour $x\in E$, écrivons
+\[x = \underbrace{\big(x-p(x)\big)}_{=:\,y} + \underbrace{p(x)}_{=:\,z}\]
+On a $p(y)=p(x)-p^2(x)=p(x)-p(x)=0$, donc $y\in\Ker p$ ; et $(p-\id_E)(z)=p^2(x)-p(x)=0$, donc $z\in\Ker(p-\id_E)$. Ainsi $E=\Ker p+\Ker(p-\id_E)$, et la somme est directe.
+
+\textbf{Conclusion.} $\Ker p=E_0(p)$ et $\Ker(p-\id_E)=E_1(p)$ par définition des espaces propres. En concaténant une base de $E_0(p)$ et une base de $E_1(p)$ on obtient, d'après le lemme~\ref{lemme:base-adaptee}, une base de $E$ formée de vecteurs propres : $p$ est diagonalisable, et sa matrice dans cette base est diagonale à coefficients dans $\{0,1\}$. Enfin $\Img p=\Ker(p-\id_E)$ : l'inclusion $\supset$ est claire ($p(x)=x\Rightarrow x\in\Img p$), et si $x=p(t)$ alors $p(x)=p^2(t)=p(t)=x$ ; le nombre de $1$ est donc $\dim\Img p=\rg(p)$.
+\end{proof}
+
+\begin{prop}
+\label{prop:symetrie-diago}
+On suppose $2\neq 0$ dans $K$ (c'est le cas si $K=\mathbb{R}$ ou $K=\mathbb{C}$). Toute symétrie $s$ de $E$ ($E$ de dimension finie) est diagonalisable :
+\[E = \Ker(s-\id_E)\oplus\Ker(s+\id_E) = E_1(s)\oplus E_{-1}(s)\]
+et il existe une base dans laquelle la matrice de $s$ est $\diag(1,\dots,1,-1,\dots,-1)$.
+\end{prop}
+
+\begin{proof}
+\textbf{La somme est directe.} Si $x\in\Ker(s-\id_E)\cap\Ker(s+\id_E)$, alors $s(x)=x$ et $s(x)=-x$, donc $2x=0$, d'où $x=0$ puisque $2$ est inversible dans $K$.
+
+\textbf{La somme vaut $E$.} Pour $x\in E$, posons
+\[y = \tfrac{1}{2}\big(x+s(x)\big), \qquad z = \tfrac{1}{2}\big(x-s(x)\big)\]
+(licite car $2$ est inversible). On a bien $x=y+z$. De plus, comme $s\circ s=\id_E$,
+\[s(y) = \tfrac12\big(s(x)+s^2(x)\big) = \tfrac12\big(s(x)+x\big) = y, \qquad s(z) = \tfrac12\big(s(x)-s^2(x)\big) = \tfrac12\big(s(x)-x\big) = -z\]
+donc $y\in\Ker(s-\id_E)$ et $z\in\Ker(s+\id_E)$.
+
+\textbf{Conclusion.} $E=E_1(s)\oplus E_{-1}(s)$ ; en concaténant une base de chacun de ces deux espaces propres, le lemme~\ref{lemme:base-adaptee} fournit une base de $E$ formée de vecteurs propres de $s$ : $s$ est diagonalisable, de matrice $\diag(1,\dots,1,-1,\dots,-1)$ dans cette base.
+\end{proof}
+
+\begin{remarque}
+Les deux démonstrations suivent le même schéma, qui est celui du lemme des noyaux : le polynôme $X^2-X=X(X-1)$ annule $p$, le polynôme $X^2-1=(X-1)(X+1)$ annule $s$, et dans les deux cas ce polynôme annulateur est scindé à racines simples. On peut aussi remarquer que $p\mapsto s=2p-\id_E$ établit une bijection entre projecteurs et symétries (d'inverse $s\mapsto p=\frac12(s+\id_E)$), qui échange les décompositions ci-dessus.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{$u$ est diagonalisable si et seulement si $\dim E=\sum_{\lambda}\dim E_\lambda(u)$.}
+\reponse
+
+\begin{theo}
+\label{theo:diago-dim}
+Soit $E$ de dimension finie $n\geq 1$, $u\in\mathcal{L}(E)$ et $\Spec(u)=\{\lambda_1,\dots,\lambda_k\}$ (valeurs propres deux à deux distinctes). Alors
+\[u \text{ est diagonalisable} \iff \sum_{i=1}^{k}\dim E_{\lambda_i}(u) = n\]
+\end{theo}
+
+\begin{proof}
+D'après le théorème~\ref{theo:diago-somme-directe}, il suffit de montrer l'équivalence entre
+\[(2)\ \ E=\bigoplus_{i=1}^{k}E_{\lambda_i}(u) \qquad\text{et}\qquad (3)\ \ \sum_{i=1}^{k}\dim E_{\lambda_i}(u)=n\]
+Posons $S=\bigoplus_{i=1}^{k}E_{\lambda_i}(u)$ : c'est un sous-espace vectoriel de $E$, et la somme est directe d'après le lemme~\ref{lemme:somme-directe-propres}. La proposition~\ref{prop:dim-somme} (cas d'égalité, la somme étant directe) donne
+\[\dim S = \sum_{i=1}^{k}\dim E_{\lambda_i}(u) \tag{$\dagger$}\]
+
+$(2)\Rightarrow(3)$ : si $S=E$ alors $\dim S=n$, et $(\dagger)$ conclut.
+
+$(3)\Rightarrow(2)$ : supposons $\sum_{i}\dim E_{\lambda_i}(u)=n$. Alors $(\dagger)$ donne $\dim S=n=\dim E$. Soit $\mathcal{B}_S$ une base de $S$ : c'est une famille libre de $E$ à $n$ éléments. Par le théorème de la base incomplète, on peut la compléter en une base de $E$ ; or toutes les bases de $E$ ont exactement $n$ éléments, donc aucun vecteur n'a été ajouté : $\mathcal{B}_S$ est déjà une base de $E$, et $E=\Vect(\mathcal{B}_S)=S$.
+\end{proof}
+
+\begin{remarque}
+En pratique, on calcule $\dim E_{\lambda_i}(u)=n-\rg(u-\lambda_i\,\id_E)$ par le théorème du rang~\eqref{eq:rang}. Comme $1\leq\dim E_{\lambda_i}(u)$ pour chaque $i$ et que $\sum_i\dim E_{\lambda_i}(u)\leq n$ toujours (proposition~\ref{prop:dim-somme}), la condition $(3)$ est bien une \emph{égalité} à atteindre, jamais à dépasser.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Si $A\in\mathcal{M}_n(K)$ possède $n$ valeurs propres deux à deux distinctes, alors $A$ est diagonalisable (condition suffisante).}
+\reponse
+
+\begin{coro}
+\label{coro:n-vp-distinctes}
+Soit $E$ de dimension finie $n\geq 1$ et $u\in\mathcal{L}(E)$. Si $u$ possède $n$ valeurs propres deux à deux distinctes, alors $u$ est diagonalisable. Matriciellement : si $A\in\mathcal{M}_n(K)$ possède $n$ valeurs propres deux à deux distinctes, alors $A$ est diagonalisable, c'est-à-dire qu'il existe $P\in GL_n(K)$ et $D$ diagonale telles que $P^{-1}AP=D$.
+\end{coro}
+
+\begin{proof}
+Supposons $\Card\big(\Spec(u)\big)=n$ et écrivons $\Spec(u)=\{\lambda_1,\dots,\lambda_n\}$, les $\lambda_i$ étant deux à deux distincts. Pour chaque $i$, $\lambda_i$ est une valeur propre, donc $E_{\lambda_i}(u)\neq\{0\}$ et $\dim E_{\lambda_i}(u)\geq 1$. Par conséquent
+\[\sum_{i=1}^{n}\dim E_{\lambda_i}(u) \geq n\]
+Réciproquement, la somme $\bigoplus_{i=1}^{n}E_{\lambda_i}(u)$ est directe (lemme~\ref{lemme:somme-directe-propres}) et incluse dans $E$, donc par la proposition~\ref{prop:dim-somme}
+\[\sum_{i=1}^{n}\dim E_{\lambda_i}(u) = \dim\left(\bigoplus_{i=1}^{n}E_{\lambda_i}(u)\right) \leq \dim E = n\]
+On a donc l'égalité $\sum_{i=1}^{n}\dim E_{\lambda_i}(u)=n$, et le théorème~\ref{theo:diago-dim} donne la diagonalisabilité de $u$. (Au passage, chaque espace propre est alors exactement de dimension $1$.)
+
+\textbf{Version matricielle.} Soit $A\in\mathcal{M}_n(K)$ et $u$ l'endomorphisme de $K^n$ canoniquement associé à $A$ (celui dont la matrice dans la base canonique $\mathcal{B}_0$ est $A$) ; $A$ et $u$ ont mêmes valeurs propres. Par ce qui précède, $u$ est diagonalisable : il existe une base $\mathcal{B}$ de $K^n$ formée de vecteurs propres, dans laquelle $\mathrm{Mat}(u,\mathcal{B})=D=\diag(\lambda_1,\dots,\lambda_n)$. En notant $P$ la matrice de passage de $\mathcal{B}_0$ à $\mathcal{B}$ (dont les colonnes sont les vecteurs propres), la formule de changement de base donne $P^{-1}AP=D$.
+\end{proof}
+
+\begin{remarque}
+La condition n'est \emph{pas} nécessaire : pour $n\geq 2$, l'homothétie $u=\alpha\,\id_E$ est diagonalisable (toute base convient) alors que $\Spec(u)=\{\alpha\}$ n'a qu'un élément. Par ailleurs, une matrice de $\mathcal{M}_n(K)$ a au plus $n$ valeurs propres distinctes (corollaire~\ref{coro:spec-fini}) : l'hypothèse est donc celle du nombre maximal possible.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Une boule est un ensemble convexe.}
+\reponse
+À partir d'ici, $K\in\{\mathbb{R},\mathbb{C}\}$ et $(E,\|\cdot\|)$ est un $K$-espace vectoriel normé.
+
+\begin{defi}[Norme, boules, convexité]
+\label{defi:norme-boule}
+Une \textbf{norme} sur $E$ est une application $\|\cdot\| : E\to\mathbb{R}$ vérifiant : (i) $\|x\|\geq 0$ ; (ii) $\|x\|=0\implies x=0_E$ ; (iii) $\|\lambda x\|=|\lambda|\,\|x\|$ pour tous $\lambda\in K,\ x\in E$ ; (iv) $\|x+y\|\leq\|x\|+\|y\|$.
+
+Pour $a\in E$ et $r>0$, on pose
+\begin{align*}
+B(a,r) &= \{x\in E \mid \|x-a\|<r\} &&\text{(boule ouverte)}\\
+\overline{B}(a,r) &= \{x\in E \mid \|x-a\|\leq r\} &&\text{(boule fermée)}
+\end{align*}
+Une partie $C\subset E$ est \textbf{convexe} si $\forall x,y\in C,\ \forall t\in[0,1],\ (1-t)x+ty\in C$.
+\end{defi}
+
+\begin{prop}
+\label{prop:boule-convexe}
+Toute boule de $E$, ouverte ou fermée, est convexe.
+\end{prop}
+
+\begin{proof}
+Soient $a\in E$, $r>0$, et $t\in[0,1]$. Comme $t\in[0,1]$, on a $|t|=t$ et $|1-t|=1-t$.
+
+\textbf{Boule fermée.} Soient $x,y\in\overline{B}(a,r)$ et $z=(1-t)x+ty$. Puisque $(1-t)+t=1$, on peut écrire $a=(1-t)a+ta$, d'où
+\[z-a = (1-t)(x-a)+t(y-a)\]
+L'inégalité triangulaire puis l'homogénéité donnent
+\[\|z-a\| \leq \|(1-t)(x-a)\|+\|t(y-a)\| = (1-t)\|x-a\|+t\|y-a\| \leq (1-t)r+tr = r\]
+donc $z\in\overline{B}(a,r)$.
+
+\textbf{Boule ouverte.} Soient $x,y\in B(a,r)$, donc $\|x-a\|<r$ et $\|y-a\|<r$. La même majoration donne
+\[\|z-a\| \leq (1-t)\|x-a\|+t\|y-a\|\]
+Si $t\in\,]0,1[$, les deux coefficients $1-t$ et $t$ sont strictement positifs, donc $(1-t)\|x-a\|<(1-t)r$ et $t\|y-a\|<tr$, d'où $\|z-a\|<r$ : $z\in B(a,r)$. Si $t=0$ alors $z=x\in B(a,r)$ ; si $t=1$ alors $z=y\in B(a,r)$. Dans tous les cas $z\in B(a,r)$.
+\end{proof}
+
+\begin{remarque}
+Le passage par les cas $t=0$ et $t=1$ est indispensable dans le cas ouvert : pour $t\in\{0,1\}$ l'un des deux coefficients est nul et l'inégalité stricte correspondante disparaît.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Une boule ouverte est un ensemble ouvert.}
+\reponse
+
+\begin{defi}[Voisinage, ouvert, fermé]
+\label{defi:ouvert}
+Soit $a\in E$. Une partie $V\subset E$ est un \textbf{voisinage} de $a$ s'il existe $r>0$ tel que $B(a,r)\subset V$. Une partie $O\subset E$ est un \textbf{ouvert} de $E$ si elle est voisinage de chacun de ses points :
+\[\forall x\in O,\ \exists r_x>0,\quad B(x,r_x)\subset O\]
+Une partie $W\subset E$ est un \textbf{fermé} de $E$ si $E\setminus W$ est un ouvert de $E$.
+\end{defi}
+
+\begin{prop}
+\label{prop:boule-ouverte-ouvert}
+Pour tous $a\in E$ et $r>0$, la boule ouverte $B(a,r)$ est un ouvert de $E$.
+\end{prop}
+
+\begin{proof}
+Soit $x\in B(a,r)$, c'est-à-dire $\|x-a\|<r$. Posons
+\[\rho = r-\|x-a\| > 0\]
+Montrons que $B(x,\rho)\subset B(a,r)$. Soit $y\in B(x,\rho)$, c'est-à-dire $\|y-x\|<\rho$. L'inégalité triangulaire donne
+\[\|y-a\| = \|(y-x)+(x-a)\| \leq \|y-x\|+\|x-a\| < \rho+\|x-a\| = r\]
+donc $y\in B(a,r)$. Ainsi $B(a,r)$ est voisinage de chacun de ses points : c'est un ouvert.
+\end{proof}
+
+\begin{remarque}
+Cette proposition justifie la terminologie : dans la définition~\ref{defi:ouvert}, on aurait pu craindre que « boule ouverte » et « ouvert » soient deux notions sans rapport.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Une boule fermée est un ensemble fermé.}
+\reponse
+
+\begin{prop}
+\label{prop:boule-fermee-fermee}
+Pour tous $a\in E$ et $R>0$, la boule fermée $\overline{B}(a,R)$ est un fermé de $E$.
+\end{prop}
+
+\begin{proof}
+Par définition, il s'agit de montrer que le complémentaire $\Omega=E\setminus\overline{B}(a,R)$ est un ouvert de $E$. On a
+\[\Omega = \{x\in E \mid \|x-a\|>R\}\]
+Soit $x\in\Omega$. Posons
+\[\rho = \|x-a\|-R > 0\]
+Montrons que $B(x,\rho)\subset\Omega$. Soit $y\in B(x,\rho)$, c'est-à-dire $\|x-y\|<\rho$. L'inégalité triangulaire appliquée à $x-a=(x-y)+(y-a)$ donne
+\[\|x-a\| \leq \|x-y\|+\|y-a\| < \rho+\|y-a\|\]
+d'où
+\[\|y-a\| > \|x-a\|-\rho = \|x-a\|-\big(\|x-a\|-R\big) = R\]
+donc $y\notin\overline{B}(a,R)$, c'est-à-dire $y\in\Omega$. Ainsi $\Omega$ est voisinage de chacun de ses points : $\Omega$ est ouvert, et $\overline{B}(a,R)$ est fermée.
+\end{proof}
+
+\begin{remarque}
+« Fermé » n'est pas la négation de « ouvert » : $\varnothing$ et $E$ sont à la fois ouverts et fermés (pour $E$ : tout $x$ vérifie $B(x,1)\subset E$ ; pour $\varnothing$ : la condition est vraie par vacuité ; et leurs complémentaires sont $E$ et $\varnothing$), tandis que $[0,1[$ n'est ni ouvert ni fermé dans $\mathbb{R}$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Réunion et intersection d'ouverts, de fermés.}
+\reponse
+
+\begin{prop}
+\label{prop:union-ouverts}
+Soit $(O_i)_{i\in I}$ une famille d'ouverts de $E$.
+\begin{enumerate}
+\item $\displaystyle\bigcup_{i\in I}O_i$ est un ouvert de $E$ (réunion \emph{quelconque}).
+\item Si $I$ est \emph{fini}, $\displaystyle\bigcap_{i\in I}O_i$ est un ouvert de $E$ (intersection \emph{finie}).
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\textbf{1.} Soit $x\in\bigcup_{i\in I}O_i$ : il existe $i_0\in I$ tel que $x\in O_{i_0}$. Comme $O_{i_0}$ est ouvert, il existe $r>0$ tel que $B(x,r)\subset O_{i_0}$, et a fortiori $B(x,r)\subset\bigcup_{i\in I}O_i$.
+
+\textbf{2.} Si $I=\varnothing$, l'intersection vaut $E$ par convention, qui est ouvert. Sinon, quitte à renuméroter, $I=\inter{1}{m}$ avec $m\geq 1$. Soit $x\in\bigcap_{i=1}^{m}O_i$. Pour chaque $i$, $x\in O_i$ ouvert, donc il existe $r_i>0$ tel que $B(x,r_i)\subset O_i$. Posons
+\[\rho = \min(r_1,\dots,r_m)\]
+Ce minimum existe (famille finie non vide de réels) et $\rho>0$ comme minimum d'un nombre \emph{fini} de réels strictement positifs. Pour tout $i$, $B(x,\rho)\subset B(x,r_i)\subset O_i$, donc $B(x,\rho)\subset\bigcap_{i=1}^{m}O_i$.
+\end{proof}
+
+\begin{coro}
+\label{coro:fermes}
+Soit $(W_i)_{i\in I}$ une famille de fermés de $E$.
+\begin{enumerate}
+\item $\displaystyle\bigcap_{i\in I}W_i$ est un fermé de $E$ (intersection \emph{quelconque}).
+\item Si $I$ est \emph{fini}, $\displaystyle\bigcup_{i\in I}W_i$ est un fermé de $E$ (réunion \emph{finie}).
+\end{enumerate}
+\end{coro}
+
+\begin{proof}
+On passe au complémentaire à l'aide des lois de De Morgan :
+\[E\setminus\bigcap_{i\in I}W_i = \bigcup_{i\in I}\big(E\setminus W_i\big), \qquad E\setminus\bigcup_{i\in I}W_i = \bigcap_{i\in I}\big(E\setminus W_i\big)\]
+Chaque $E\setminus W_i$ est un ouvert, par définition d'un fermé. Le premier membre de droite est donc un ouvert comme réunion quelconque d'ouverts (proposition~\ref{prop:union-ouverts}.1), ce qui montre 1. ; et lorsque $I$ est fini, le second est un ouvert comme intersection finie d'ouverts (proposition~\ref{prop:union-ouverts}.2), ce qui montre 2.
+\end{proof}
+
+\begin{remarque}[Les hypothèses de finitude sont indispensables]
+Dans $\mathbb{R}$ :
+\[\bigcap_{n\geq 1}\left]-\tfrac1n,\tfrac1n\right[ \ = \ \{0\}\]
+(en effet $0$ appartient à tous ces intervalles ; et si $x\neq 0$, tout $n\geq 1/|x|$ donne $1/n\leq|x|$, donc $x\notin\,]-1/n,1/n[$). Or $\{0\}$ n'est pas un ouvert de $\mathbb{R}$ : aucune boule $]-r,r[$, $r>0$, n'est incluse dans $\{0\}$. Une intersection infinie d'ouverts n'est donc pas ouverte en général.
+
+De même,
+\[\bigcup_{n\geq 2}\left[-1+\tfrac1n,\ 1-\tfrac1n\right] \ = \ ]-1,1[\]
+est une réunion infinie de fermés qui n'est pas fermée (son complémentaire $]-\infty,-1]\cup[1,+\infty[$ n'est pas ouvert : toute boule $]1-r,1+r[$ rencontre $]-1,1[$).
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Norme sur un espace produit.}
+\reponse
+
+\begin{prop}[Norme produit]
+\label{prop:norme-produit}
+Soient $(E_1,\|\cdot\|_1),\dots,(E_m,\|\cdot\|_m)$ des espaces vectoriels normés sur un même corps $K\in\{\mathbb{R},\mathbb{C}\}$, avec $m\geq 1$, et soit $F=E_1\times\cdots\times E_m$ muni de sa structure de $K$-espace vectoriel produit (opérations composante par composante). Alors l'application
+\[N : F\to\mathbb{R}, \qquad N(x_1,\dots,x_m) = \max_{1\leq i\leq m}\|x_i\|_i\]
+est une norme sur $F$, appelée \textbf{norme produit} et notée $\|\cdot\|_F$ ou $\|\cdot\|_\infty$.
+\end{prop}
+
+\begin{proof}
+Remarquons d'abord que $N$ est bien définie : le maximum porte sur un nombre fini ($m\geq 1$) de réels.
+
+\emph{(i) Positivité.} $N(x)$ est un maximum de réels positifs, donc $N(x)\geq 0$.
+
+\emph{(ii) Séparation.} Soit $x=(x_1,\dots,x_m)$ tel que $N(x)=0$. Pour chaque $i$, $0\leq\|x_i\|_i\leq\max_j\|x_j\|_j=N(x)=0$, donc $\|x_i\|_i=0$, donc $x_i=0_{E_i}$ par séparation de $\|\cdot\|_i$. Ainsi $x=0_F$.
+
+\emph{(iii) Homogénéité.} Soient $\lambda\in K$ et $x\in F$. Comme $|\lambda|\geq 0$, la multiplication par $|\lambda|$ est croissante sur $\mathbb{R}$ et commute donc au passage au maximum :
+\[N(\lambda x) = \max_{1\leq i\leq m}\|\lambda x_i\|_i = \max_{1\leq i\leq m}\big(|\lambda|\,\|x_i\|_i\big) = |\lambda|\max_{1\leq i\leq m}\|x_i\|_i = |\lambda|\,N(x)\]
+
+\emph{(iv) Inégalité triangulaire.} Soient $x,y\in F$. Pour tout $i\in\inter{1}{m}$, l'inégalité triangulaire dans $E_i$ donne
+\[\|x_i+y_i\|_i \leq \|x_i\|_i+\|y_i\|_i \leq N(x)+N(y)\]
+Le réel $N(x)+N(y)$ majore donc les $m$ quantités $\|x_i+y_i\|_i$ : il majore leur maximum, c'est-à-dire
+\[N(x+y) \leq N(x)+N(y)\]
+\end{proof}
+
+\begin{remarque}
+Sauf mention contraire, un produit fini d'e.v.n.\ est toujours muni de cette norme. En particulier $K^n=K\times\cdots\times K$ est par défaut muni de $\|z\|_\infty=\max_{1\leq i\leq n}|z_i|$. On dispose aussi sur $F$ des normes $\sum_i\|x_i\|_i$ et $\big(\sum_i\|x_i\|_i^2\big)^{1/2}$ ; en dimension finie elles sont équivalentes à la norme produit.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Toute suite monotone bornée est convergente. (On admet que toute partie non vide et majorée de $\mathbb{R}$ possède une borne supérieure.)}
+\reponse
+
+\begin{theo}[Limite monotone]
+\label{theo:limite-monotone}
+Toute suite réelle monotone et bornée converge. Plus précisément :
+\begin{itemize}
+\item si $(u_n)_{n\in\mathbb{N}}$ est croissante et majorée, alors elle converge et $\displaystyle\lim_{n\to+\infty}u_n = \sup_{n\in\mathbb{N}}u_n$ ;
+\item si $(u_n)_{n\in\mathbb{N}}$ est décroissante et minorée, alors elle converge et $\displaystyle\lim_{n\to+\infty}u_n = \inf_{n\in\mathbb{N}}u_n$.
+\end{itemize}
+\end{theo}
+
+\begin{proof}
+\textbf{Cas croissant.} Supposons $(u_n)$ croissante (c'est-à-dire $u_n\leq u_{n+1}$ pour tout $n$, d'où par récurrence immédiate $u_p\leq u_n$ dès que $p\leq n$) et majorée par un réel $M$. L'ensemble
+\[A = \{u_n \mid n\in\mathbb{N}\} \subset \mathbb{R}\]
+est non vide (il contient $u_0$) et majoré par $M$. Par la propriété de la borne supérieure (admise), $A$ admet une borne supérieure $\ell=\sup A\in\mathbb{R}$.
+
+Montrons que $u_n\to\ell$. Soit $\varepsilon>0$. Comme $\ell$ est le \emph{plus petit} des majorants de $A$ et que $\ell-\varepsilon<\ell$, le réel $\ell-\varepsilon$ n'est pas un majorant de $A$ : il existe donc $n_0\in\mathbb{N}$ tel que
+\[\ell-\varepsilon < u_{n_0}\]
+Soit $n\geq n_0$. La croissance donne $u_{n_0}\leq u_n$, et $\ell$ majore $A$ donc $u_n\leq\ell$. Par conséquent
+\[\ell-\varepsilon < u_{n_0} \leq u_n \leq \ell < \ell+\varepsilon\]
+d'où $|u_n-\ell|<\varepsilon$. Ceci valant pour tout $\varepsilon>0$, on a bien $u_n\xrightarrow[n\to+\infty]{}\ell=\sup_n u_n$.
+
+\textbf{Cas décroissant.} Si $(u_n)$ est décroissante et minorée par $m$, alors $(-u_n)$ est croissante et majorée par $-m$. Par le cas précédent, $(-u_n)$ converge vers $\sup_n(-u_n)=-\inf_n u_n$, donc $(u_n)$ converge vers $\inf_n u_n$.
+
+Une suite monotone et bornée est croissante et majorée, ou décroissante et minorée : dans les deux cas elle converge.
+\end{proof}
+
+\begin{remarque}
+L'hypothèse de bornitude ne sert qu'« du bon côté » : une suite croissante est automatiquement minorée par $u_0$. Sans majoration, on a encore une limite, mais dans $\overline{\mathbb{R}}$ : si $(u_n)$ est croissante et non majorée, alors pour tout $M\in\mathbb{R}$ il existe $n_0$ avec $u_{n_0}>M$, et par croissance $u_n\geq u_{n_0}>M$ pour tout $n\geq n_0$, c'est-à-dire $u_n\to+\infty$. Ainsi \emph{toute} suite monotone admet une limite dans $\overline{\mathbb{R}}$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Théorème(s) d'encadrement.}
+\reponse
+Il y a trois énoncés à connaître : l'encadrement pour une limite finie (« théorème des gendarmes »), la comparaison pour les limites infinies, et la version « par la norme » dans un espace vectoriel normé.
+
+\begin{theo}[Encadrement, dit « des gendarmes »]
+\label{theo:gendarmes}
+Soient $(u_n)$, $(v_n)$, $(w_n)$ trois suites réelles telles que
+\[\forall n\in\mathbb{N},\quad u_n \leq v_n \leq w_n\]
+Si $(u_n)$ et $(w_n)$ convergent vers une \emph{même} limite $\ell\in\mathbb{R}$, alors $(v_n)$ converge et $\lim_{n\to+\infty}v_n=\ell$.
+\end{theo}
+
+\begin{proof}
+Soit $\varepsilon>0$. Comme $u_n\to\ell$, il existe $n_1\in\mathbb{N}$ tel que $\forall n\geq n_1,\ |u_n-\ell|\leq\varepsilon$, et en particulier $\ell-\varepsilon\leq u_n$. Comme $w_n\to\ell$, il existe $n_2\in\mathbb{N}$ tel que $\forall n\geq n_2,\ |w_n-\ell|\leq\varepsilon$, et en particulier $w_n\leq\ell+\varepsilon$. Posons $N_0=\max(n_1,n_2)$. Pour tout $n\geq N_0$,
+\[\ell-\varepsilon \leq u_n \leq v_n \leq w_n \leq \ell+\varepsilon\]
+c'est-à-dire $|v_n-\ell|\leq\varepsilon$. Ceci valant pour tout $\varepsilon>0$, $(v_n)$ converge vers $\ell$.
+\end{proof}
+
+\begin{remarque}
+L'énoncé affirme à la fois l'\emph{existence} de la limite de $(v_n)$ et sa valeur : on n'a pas le droit de supposer $(v_n)$ convergente au départ. L'hypothèse « même limite » est essentielle : $u_n=-1$, $v_n=(-1)^n$, $w_n=1$ vérifient $u_n\leq v_n\leq w_n$ sans que $(v_n)$ converge. Enfin, il suffit que l'encadrement ait lieu à partir d'un certain rang.
+\end{remarque}
+
+\begin{prop}[Comparaison, limites infinies]
+\label{prop:comparaison}
+Soient $(u_n)$ et $(v_n)$ deux suites réelles telles que $u_n\leq v_n$ pour tout $n$.
+\begin{enumerate}
+\item Si $u_n\xrightarrow[n\to+\infty]{}+\infty$, alors $v_n\xrightarrow[n\to+\infty]{}+\infty$.
+\item Si $v_n\xrightarrow[n\to+\infty]{}-\infty$, alors $u_n\xrightarrow[n\to+\infty]{}-\infty$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\textbf{1.} Soit $A\in\mathbb{R}$. Comme $u_n\to+\infty$, il existe $N_0$ tel que $\forall n\geq N_0,\ u_n\geq A$. Alors, pour tout $n\geq N_0$, $v_n\geq u_n\geq A$. C'est la définition de $v_n\to+\infty$.
+
+\textbf{2.} Soit $A\in\mathbb{R}$. Comme $v_n\to-\infty$, il existe $N_0$ tel que $\forall n\geq N_0,\ v_n\leq A$. Alors, pour tout $n\geq N_0$, $u_n\leq v_n\leq A$. C'est la définition de $u_n\to-\infty$.
+\end{proof}
+
+\begin{coro}[Encadrement dans un e.v.n.]
+\label{coro:encadrement-evn}
+Soit $(E,\|\cdot\|)$ un e.v.n., $(x_n)$ une suite de $E$, $a\in E$ et $(\varepsilon_n)$ une suite réelle telle que
+\[\forall n\in\mathbb{N},\quad \|x_n-a\| \leq \varepsilon_n \qquad\text{et}\qquad \varepsilon_n\xrightarrow[n\to+\infty]{}0\]
+Alors $(x_n)$ converge vers $a$, c'est-à-dire $\|x_n-a\|\to 0$.
+\end{coro}
+
+\begin{proof}
+Rappelons que, par définition, $x_n\to a$ signifie $\forall\varepsilon>0,\ \exists N_0,\ \forall n\geq N_0,\ \|x_n-a\|\leq\varepsilon$, autrement dit que la suite réelle $\big(\|x_n-a\|\big)$ tend vers $0$. Or
+\[\forall n\in\mathbb{N},\quad 0 \leq \|x_n-a\| \leq \varepsilon_n\]
+la minoration par $0$ étant la positivité de la norme. Les suites constantes nulles et $(\varepsilon_n)$ convergent toutes deux vers $0$ : le théorème~\ref{theo:gendarmes} appliqué à l'encadrement ci-dessus donne $\|x_n-a\|\to 0$, c'est-à-dire $x_n\to a$.
+\end{proof}
+
+\end{document}

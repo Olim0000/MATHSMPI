@@ -9,6 +9,7 @@
 \item $\mathcal{L}(E,F)$ : ensemble des applications linéaires de $E$ dans $F$ ; $\mathcal{L}(E)=\mathcal{L}(E,E)$ : \emph{endomorphismes} de $E$ ; $\id_E$ : identité de $E$ ;
 \item $\mathcal{M}_{n,p}(K)$ : matrices à $n$ lignes et $p$ colonnes ; $\mathcal{M}_n(K)=\mathcal{M}_{n,n}(K)$ ; $GL_n(K)$ : matrices inversibles de $\mathcal{M}_n(K)$ ;
 \item déterminant $\det$, trace $\operatorname{tr}$, rang $\rg$, matrice $\mathrm{Mat}(u,\mathcal{B})$ d'un endomorphisme dans une base $\mathcal{B}$ ;
+\item matrice de passage $\mathcal{P}_{\mathcal{B}\to\mathcal{B}'}$ d'une base $\mathcal{B}$ vers une base $\mathcal{B}'$ (ses colonnes sont les coordonnées des vecteurs de $\mathcal{B}'$ dans $\mathcal{B}$) et formule de changement de base : pour $u\in\mathcal{L}(E)$ et $P=\mathcal{P}_{\mathcal{B}\to\mathcal{B}'}$, $\mathrm{Mat}(u,\mathcal{B}')=P^{-1}\,\mathrm{Mat}(u,\mathcal{B})\,P$ ;
 \item pour $u\in\mathcal{L}(E)$ et $P=\sum_{k=0}^d a_kX^k \in K[X]$, on note $P(u)=\sum_{k=0}^d a_k\,u^k \in \mathcal{L}(E)$, avec la convention $u^0=\id_E$. On rappelle que $P\mapsto P(u)$ est un morphisme d'algèbres ; en particulier, deux polynômes en $u$ commutent toujours entre eux, et avec $u$.
 \end{itemize}
 
@@ -282,6 +283,7 @@ On a $\Img\varphi = \{XP \mid P\in\mathbb{C}[X]\} = X\mathbb{C}[X]$ et $\Spec\va
 \end{exemple}
 
 \begin{defi}[Diagonalisabilité]
+\label{defi:diagonalisable}
 Soit $u\in\mathcal{L}(E)$, $E$ un $K$-e.v. de dimension finie. On dit que $u$ est diagonalisable s'il existe une base de $E$ constituée de vecteurs propres de $u$.
 \end{defi}
 
@@ -478,6 +480,19 @@ Supposons $\lambda_1,\dots,\lambda_m,\lambda_{m+1}$ distincts deux à deux valeu
 ce qui est absurde. Donc $u$ possède au plus $m$ valeurs propres distinctes.
 \end{proof}
 
+\begin{lemme}[Base adaptée à une somme directe]
+\label{lemme:base-adaptee}
+Soient $F_1,\dots,F_h$ des sous-espaces vectoriels de dimension finie de $E$ dont la somme est directe, et, pour chaque $j\in\inter{1}{h}$, $\mathcal{B}_j$ une base de $F_j$. Alors la famille $\mathcal{B}$ obtenue en concaténant $\mathcal{B}_1,\dots,\mathcal{B}_h$ est une base de $\displaystyle\bigoplus_{j=1}^{h} F_j$. On dit qu'une telle base est \textbf{adaptée} à la décomposition.
+\end{lemme}
+
+\begin{proof}
+Notons $d_j=\dim F_j$, $\mathcal{B}_j=(e_{1,j},\dots,e_{d_j,j})$ et $S=\bigoplus_{j=1}^{h}F_j$.
+
+\textbf{$\mathcal{B}$ est génératrice de $S$ :} soit $x\in S$. Par définition de la somme (définition~\ref{defi:somme}), $x=x_1+\dots+x_h$ avec $x_j\in F_j$, et chaque $x_j$ s'écrit $x_j=\sum_{i=1}^{d_j}a_{i,j}e_{i,j}$ puisque $\mathcal{B}_j$ engendre $F_j$. Donc $x=\sum_{j=1}^{h}\sum_{i=1}^{d_j}a_{i,j}e_{i,j}$ est combinaison linéaire de $\mathcal{B}$. Réciproquement $\mathcal{B}$ est contenue dans $S$, donc $\Vect(\mathcal{B})=S$.
+
+\textbf{$\mathcal{B}$ est libre :} soient des scalaires $(a_{i,j})$ tels que $\sum_{j=1}^{h}\sum_{i=1}^{d_j}a_{i,j}e_{i,j}=0$. Posons $y_j=\sum_{i=1}^{d_j}a_{i,j}e_{i,j}\in F_j$. Alors $y_1+\dots+y_h=0$ avec $y_j\in F_j$, donc $y_j=0$ pour tout $j$ car la somme est directe (définition~\ref{defi:somme-directe}). La famille $\mathcal{B}_j$ étant libre, on en déduit $a_{i,j}=0$ pour tout $i\in\inter{1}{d_j}$. Tous les scalaires sont donc nuls.
+\end{proof}
+
 \subsection{Projecteur associé à une décomposition en somme directe}
 
 \begin{prop}
@@ -648,6 +663,7 @@ En concaténant, pour chaque $i$, une base de $F_i$ plongée dans $F_1\times\cdo
 \end{proof}
 
 \begin{prop}
+\label{prop:dim-somme}
 Soient $F_1,\dots,F_h$ des sous-espaces vectoriels de dimension finie de $E$. Alors
 \[\dim\left(\sum_{i=1}^h F_i\right) \leq \sum_{i=1}^h \dim(F_i)\]
 avec égalité si et seulement si la somme $F_1+\dots+F_h$ est directe.
@@ -662,3 +678,183 @@ Comme $\dim(\Ker\varphi)\geq 0$, on obtient
 \[\dim\left(\sum_{i=1}^h F_i\right) \leq \sum_{i=1}^h \dim(F_i)\]
 avec égalité si et seulement si $\dim(\Ker\varphi)=0$, i.e. $\Ker\varphi=\{0\}$, i.e. $\varphi$ est injective — ce qui est précisément la définition de « la somme $F_1+\dots+F_h$ est directe » (définition~\ref{defi:somme-directe}).
 \end{proof}
+
+\section{Diagonalisation}
+
+Dans toute cette section, $E$ désigne un $K$-e.v. de \emph{dimension finie} $n\geq 1$.
+
+\subsection{Traduction matricielle}
+
+Rappelons (définition~\ref{defi:diagonalisable}) que $u\in\mathcal{L}(E)$ est dit diagonalisable s'il existe une base de $E$ constituée de vecteurs propres de $u$. La terminologie s'explique par la proposition suivante.
+
+\begin{prop}
+\label{prop:diago-matrice-diagonale}
+Soit $u\in\mathcal{L}(E)$. Alors
+\[u \text{ est diagonalisable} \iff \exists\,\mathcal{B} \text{ base de } E,\ \mathrm{Mat}(u,\mathcal{B}) \text{ est diagonale}\]
+Plus précisément, si $\mathcal{B}=(v_1,\dots,v_n)$ est une base de vecteurs propres et si $\lambda_j$ désigne la valeur propre associée à $v_j$, alors $\mathrm{Mat}(u,\mathcal{B})=\diag(\lambda_1,\dots,\lambda_n)$.
+\end{prop}
+
+\begin{proof}
+$(\Rightarrow)$ Soit $\mathcal{B}=(v_1,\dots,v_n)$ une base de $E$ formée de vecteurs propres : pour chaque $j\in\inter{1}{n}$, il existe $\lambda_j\in K$ tel que $u(v_j)=\lambda_j v_j$. La $j$-ième colonne de $\mathrm{Mat}(u,\mathcal{B})$ est formée des coordonnées de $u(v_j)=\lambda_j v_j$ dans $\mathcal{B}$, c'est-à-dire de $\lambda_j$ en $j$-ième position et de $0$ ailleurs. Donc $\mathrm{Mat}(u,\mathcal{B})=\diag(\lambda_1,\dots,\lambda_n)$.
+
+$(\Leftarrow)$ Soit $\mathcal{B}=(e_1,\dots,e_n)$ une base de $E$ telle que $\mathrm{Mat}(u,\mathcal{B})=\diag(\alpha_1,\dots,\alpha_n)$. En lisant la $j$-ième colonne, $u(e_j)=\alpha_j e_j$. Or $e_j\neq 0_E$, car $e_j$ appartient à une famille libre : $e_j$ est donc un vecteur propre de $u$, associé à $\alpha_j$ (définition~\ref{defi:elements-propres}). Ainsi $\mathcal{B}$ est une base de vecteurs propres et $u$ est diagonalisable.
+\end{proof}
+
+\begin{defi}[Matrice diagonalisable]
+\label{defi:matrice-diagonalisable}
+Soit $A\in\mathcal{M}_n(K)$. On dit que $A$ est \textbf{diagonalisable} si $A$ est semblable à une matrice diagonale, c'est-à-dire
+\[\exists\, P\in GL_n(K),\ \exists\, D\in\mathcal{M}_n(K) \text{ diagonale},\qquad P^{-1}AP=D\]
+\end{defi}
+
+\begin{defi}[Endomorphisme canoniquement associé]
+\label{defi:endo-canonique}
+Soit $A\in\mathcal{M}_n(K)$. L'\textbf{endomorphisme canoniquement associé} à $A$ est
+\[u_A : K^n\longrightarrow K^n, \qquad x\longmapsto Ax\]
+les éléments de $K^n$ étant identifiés à des matrices colonnes. En notant $\mathcal{C}=(e_1,\dots,e_n)$ la base canonique de $K^n$, on a $u_A(e_j)=\mathrm{Col}_j(A)$ pour tout $j\in\inter{1}{n}$, autrement dit
+\[\mathrm{Mat}(u_A,\mathcal{C}) = A\]
+Les valeurs propres, vecteurs propres, espaces propres et le spectre de $A$ sont par définition ceux de $u_A$ ; on note $E_\lambda(A)=\Ker(A-\lambda I_n)$.
+\end{defi}
+
+\begin{prop}
+\label{prop:diago-matrice-endo}
+Soit $A\in\mathcal{M}_n(K)$. Alors
+\[A \text{ est diagonalisable} \iff u_A \text{ est diagonalisable}\]
+De plus, si $P\in GL_n(K)$ vérifie $P^{-1}AP=\diag(\alpha_1,\dots,\alpha_n)$, alors les colonnes de $P$ forment une base de $K^n$ constituée de vecteurs propres de $A$, la $j$-ième colonne étant associée à $\alpha_j$.
+\end{prop}
+
+\begin{proof}
+Observons d'abord le lien entre matrices de passage et matrices inversibles. Si $\mathcal{B}'$ est une base de $K^n$ et $P=\mathcal{P}_{\mathcal{C}\to\mathcal{B}'}$, alors $P\in GL_n(K)$ et la formule de changement de base donne
+\[\mathrm{Mat}(u_A,\mathcal{B}') = P^{-1}\,\mathrm{Mat}(u_A,\mathcal{C})\,P = P^{-1}AP\]
+Réciproquement, soit $P\in GL_n(K)$ et $\mathcal{B}'$ la famille de ses colonnes : $\mathcal{B}'$ est une famille de $n$ vecteurs de $K^n$ dont la matrice des coordonnées dans $\mathcal{C}$ est $P$, inversible ; c'est donc une base de $K^n$, et $P=\mathcal{P}_{\mathcal{C}\to\mathcal{B}'}$.
+
+$(\Rightarrow)$ Soit $P\in GL_n(K)$ telle que $D=P^{-1}AP$ soit diagonale, et $\mathcal{B}'$ la base formée des colonnes de $P$. Alors $\mathrm{Mat}(u_A,\mathcal{B}')=D$ est diagonale, donc $u_A$ est diagonalisable et $\mathcal{B}'$ est une base de vecteurs propres, la $j$-ième colonne étant associée au $j$-ième coefficient diagonal de $D$ (proposition~\ref{prop:diago-matrice-diagonale}).
+
+$(\Leftarrow)$ Si $u_A$ est diagonalisable, il existe une base $\mathcal{B}'$ de $K^n$ telle que $D=\mathrm{Mat}(u_A,\mathcal{B}')$ soit diagonale (proposition~\ref{prop:diago-matrice-diagonale}). En posant $P=\mathcal{P}_{\mathcal{C}\to\mathcal{B}'}\in GL_n(K)$, on obtient $P^{-1}AP=D$ : $A$ est diagonalisable.
+\end{proof}
+
+\subsection{Caractérisation par les espaces propres}
+
+Soit $u\in\mathcal{L}(E)$. Le spectre de $u$ est fini (corollaire~\ref{coro:card-spec}) : écrivons $\Spec(u)=\{\lambda_1,\dots,\lambda_k\}$ avec $\lambda_1,\dots,\lambda_k$ deux à deux distincts et $k=\Card\big(\Spec(u)\big)$. D'après la proposition~\ref{prop:somme-directe-espaces-propres}, la somme des espaces propres est \emph{toujours} directe, et chacun d'eux est un sous-espace de $E$ :
+\[\bigoplus_{i=1}^{k} E_{\lambda_i}(u) \subset E\]
+Diagonaliser $u$, c'est exactement obtenir l'égalité.
+
+\begin{theo}[Caractérisations de la diagonalisabilité]
+\label{theo:caracterisation-diago}
+Soit $E$ un $K$-e.v. de dimension finie $n\geq 1$, $u\in\mathcal{L}(E)$ et $\Spec(u)=\{\lambda_1,\dots,\lambda_k\}$ comme ci-dessus. Les assertions suivantes sont équivalentes :
+\begin{enumerate}
+\item $u$ est diagonalisable ;
+\item $E = \displaystyle\bigoplus_{i=1}^{k} E_{\lambda_i}(u)$ ;
+\item $\displaystyle\sum_{i=1}^{k} \dim E_{\lambda_i}(u) = n$.
+\end{enumerate}
+\end{theo}
+
+\begin{proof}
+$(1)\Rightarrow(2)$ Soit $\mathcal{B}=(v_1,\dots,v_n)$ une base de $E$ formée de vecteurs propres de $u$. Chaque $v_j$ est associé à une valeur propre de $u$, donc appartient à $E_{\lambda_i}(u)$ pour un certain $i$ ; en particulier $k\geq 1$. Comme $\sum_{i=1}^{k}E_{\lambda_i}(u)$ est un sous-espace vectoriel de $E$ contenant tous les $v_j$, il contient $\Vect(v_1,\dots,v_n)=E$, d'où
+\[E = \sum_{i=1}^{k} E_{\lambda_i}(u)\]
+et cette somme est directe d'après la proposition~\ref{prop:somme-directe-espaces-propres}.
+
+$(2)\Rightarrow(1)$ Supposons $E=\bigoplus_{i=1}^{k}E_{\lambda_i}(u)$ et choisissons, pour chaque $i$, une base $\mathcal{B}_i$ de $E_{\lambda_i}(u)$ (c'est un sous-espace de $E$, donc de dimension finie). D'après le lemme~\ref{lemme:base-adaptee}, la concaténation $\mathcal{B}$ des $\mathcal{B}_i$ est une base de $E$. Chaque vecteur de $\mathcal{B}_i$ est non nul (élément d'une famille libre) et appartient à $E_{\lambda_i}(u)=\Ker(u-\lambda_i\,\id_E)$ : c'est donc un vecteur propre de $u$. Ainsi $\mathcal{B}$ est une base de vecteurs propres et $u$ est diagonalisable.
+
+$(2)\Rightarrow(3)$ La somme étant directe, la proposition~\ref{prop:dim-somme} donne $\dim E=\sum_{i=1}^{k}\dim E_{\lambda_i}(u)$, et $\dim E=n$.
+
+$(3)\Rightarrow(2)$ Posons $S=\bigoplus_{i=1}^{k}E_{\lambda_i}(u)$, sous-espace vectoriel de $E$. La somme étant directe, la proposition~\ref{prop:dim-somme} donne
+\[\dim S = \sum_{i=1}^{k}\dim E_{\lambda_i}(u) = n = \dim E\]
+Soit $\mathcal{B}_S$ une base de $S$ : c'est une famille libre de $E$ à $n$ éléments. Par le théorème de la base incomplète, on peut la compléter en une base de $E$, laquelle a exactement $n$ éléments (proposition~\ref{prop:dimension}) : aucun vecteur n'a donc été ajouté, et $\mathcal{B}_S$ est déjà une base de $E$. D'où $E=\Vect(\mathcal{B}_S)=S$.
+\end{proof}
+
+\begin{remarque}
+Si $\Spec(u)=\varnothing$ (cas possible sur $K=\mathbb{R}$, cf. la matrice de rotation $\begin{pmatrix} 0 & -1 \\ 1 & 0\end{pmatrix}$), on convient qu'une somme vide de sous-espaces vaut $\{0\}$ et qu'une somme vide de scalaires vaut $0$. Comme $n\geq 1$, les assertions $(2)$ et $(3)$ sont alors fausses, de même que $(1)$ : un endomorphisme sans valeur propre n'admet aucun vecteur propre, donc aucune base n'en est formée. Les trois assertions restent bien équivalentes.
+\end{remarque}
+
+\begin{coro}[Condition suffisante de diagonalisabilité]
+\label{coro:n-vp-distinctes}
+Soit $E$ de dimension finie $n\geq 1$ et $u\in\mathcal{L}(E)$. Si $u$ possède $n$ valeurs propres deux à deux distinctes, alors $u$ est diagonalisable.
+\end{coro}
+
+\begin{proof}
+Supposons $\Card\big(\Spec(u)\big)=n$ et notons $\Spec(u)=\{\lambda_1,\dots,\lambda_n\}$. Pour chaque $i$, $\lambda_i$ étant valeur propre, $E_{\lambda_i}(u)\neq\{0\}$ (proposition~\ref{prop:critere-vp}), donc $\dim E_{\lambda_i}(u)\geq 1$ et
+\[\sum_{i=1}^{n}\dim E_{\lambda_i}(u) \geq n\]
+Par ailleurs $\bigoplus_{i=1}^{n}E_{\lambda_i}(u)$ est un sous-espace de $E$, donc sa dimension est majorée par $n$ ; d'après la proposition~\ref{prop:dim-somme}, $\sum_{i=1}^{n}\dim E_{\lambda_i}(u)\leq n$. On en déduit l'égalité, et $u$ est diagonalisable d'après le théorème~\ref{theo:caracterisation-diago}.
+\end{proof}
+
+\begin{remarque}
+Cette condition n'est \emph{pas} nécessaire : pour $n\geq 2$, l'homothétie $u=\alpha\,\id_E$ est diagonalisable (toute base de $E$ est formée de vecteurs propres) alors que $\Spec(u)=\{\alpha\}$ n'a qu'un seul élément.
+\end{remarque}
+
+\begin{exemple}
+Soient $a,b,c\in K$ et
+\[A = \begin{pmatrix} 1 & a & b \\ 0 & 2 & c \\ 0 & 0 & 2\end{pmatrix} \in \mathcal{M}_3(K)\]
+La matrice $XI_3-A$ étant triangulaire supérieure, $\chi_A(X)=(X-1)(X-2)^2$, donc $\Spec(A)=\{1,2\}$ (proposition~\ref{prop:spec-racines-chi}).
+
+\textbf{Dimension de $E_1(A)$.} On a
+\[A-I_3 = \begin{pmatrix} 0 & a & b \\ 0 & 1 & c \\ 0 & 0 & 1\end{pmatrix}\]
+Sa première colonne est nulle, et ses deux dernières colonnes $(a,1,0)$ et $(b,c,1)$ forment une famille libre (si $\mu(a,1,0)+\nu(b,c,1)=0$, la dernière coordonnée donne $\nu=0$, puis la deuxième $\mu=0$). Donc $\rg(A-I_3)=2$ et, par le théorème du rang~\ref{theo:rang}, $\dim E_1(A)=3-2=1$.
+
+\textbf{Conclusion.} Comme $\dim E_1(A)=1$, le théorème~\ref{theo:caracterisation-diago} donne
+\[A \text{ diagonalisable} \iff \dim E_1(A)+\dim E_2(A)=3 \iff \dim E_2(A)=2 \iff \rg(A-2I_3)=1\]
+Or
+\[A-2I_3 = \begin{pmatrix} -1 & a & b \\ 0 & 0 & c \\ 0 & 0 & 0\end{pmatrix}\]
+Si $c\neq 0$, les lignes $(-1,a,b)$ et $(0,0,c)$ ne sont pas colinéaires, donc $\rg(A-2I_3)=2$. Si $c=0$, la matrice n'a qu'une ligne non nulle, donc $\rg(A-2I_3)=1$. Finalement
+\[A \text{ est diagonalisable} \iff c=0\]
+et dans ce cas $E_2(A)=\Vect\big((a,1,0),\,(b,0,1)\big)$.
+\end{exemple}
+
+\subsection{Utilisation de la diagonalisation}
+
+\begin{prop}[Conjugaison]
+\label{prop:conjugaison}
+Soit $P\in GL_n(K)$. L'application
+\[\varphi_P : \mathcal{M}_n(K)\longrightarrow\mathcal{M}_n(K), \qquad M\longmapsto P^{-1}MP\]
+est un automorphisme de la $K$-algèbre $\mathcal{M}_n(K)$, de réciproque $\varphi_{P^{-1}}$. En particulier,
+\[\forall Q\in K[X],\ \forall M\in\mathcal{M}_n(K),\qquad \varphi_P\big(Q(M)\big) = Q\big(\varphi_P(M)\big)\]
+\end{prop}
+
+\begin{proof}
+\textbf{Linéarité :} pour $M,N\in\mathcal{M}_n(K)$ et $\lambda\in K$,
+\[\varphi_P(\lambda M+N) = P^{-1}(\lambda M+N)P = \lambda P^{-1}MP + P^{-1}NP = \lambda\varphi_P(M)+\varphi_P(N)\]
+
+\textbf{Multiplicativité :} en insérant $PP^{-1}=I_n$,
+\[\varphi_P(MN) = P^{-1}MNP = (P^{-1}MP)(P^{-1}NP) = \varphi_P(M)\,\varphi_P(N)\]
+
+\textbf{Unité :} $\varphi_P(I_n) = P^{-1}I_nP = I_n$.
+
+\textbf{Bijectivité :} pour tout $M$, $\varphi_{P^{-1}}\big(\varphi_P(M)\big) = P\,(P^{-1}MP)\,P^{-1} = M$, et symétriquement $\varphi_P\big(\varphi_{P^{-1}}(M)\big)=M$. Donc $\varphi_P$ est bijective, de réciproque $\varphi_{P^{-1}}$.
+
+Ainsi $\varphi_P$ est un morphisme d'algèbres bijectif. Montrons enfin par récurrence que $\varphi_P(M^h)=\varphi_P(M)^h$ pour tout $h\in\mathbb{N}$ : c'est vrai pour $h=0$ puisque $M^0=I_n$ et $\varphi_P(I_n)=I_n$ ; et si $\varphi_P(M^h)=\varphi_P(M)^h$, alors
+\[\varphi_P(M^{h+1}) = \varphi_P(M^h M) = \varphi_P(M^h)\,\varphi_P(M) = \varphi_P(M)^{h+1}\]
+Pour $Q=\sum_{h=0}^{d}q_hX^h$, la linéarité de $\varphi_P$ donne alors $\varphi_P(Q(M))=\sum_{h=0}^{d}q_h\varphi_P(M)^h = Q(\varphi_P(M))$.
+\end{proof}
+
+\begin{coro}[Puissances et polynômes d'une matrice diagonalisable]
+\label{coro:puissances}
+Soient $A\in\mathcal{M}_n(K)$, $P\in GL_n(K)$ et $D=\diag(\alpha_1,\dots,\alpha_n)$ telles que $P^{-1}AP=D$. Alors, pour tout $Q\in K[X]$,
+\[Q(A) = P\,Q(D)\,P^{-1} = P\,\diag\big(Q(\alpha_1),\dots,Q(\alpha_n)\big)\,P^{-1}\]
+En particulier $A^h = P\,\diag\big(\alpha_1^{\,h},\dots,\alpha_n^{\,h}\big)\,P^{-1}$ pour tout $h\in\mathbb{N}$.
+\end{coro}
+
+\begin{proof}
+D'après la proposition~\ref{prop:conjugaison} appliquée à $M=A$, $Q(D)=Q\big(\varphi_P(A)\big)=\varphi_P\big(Q(A)\big)=P^{-1}Q(A)P$, d'où $Q(A)=P\,Q(D)\,P^{-1}$.
+
+Il reste à calculer $Q(D)$. Le produit de deux matrices diagonales est diagonal, de coefficients diagonaux les produits terme à terme ; une récurrence immédiate donne $D^h=\diag(\alpha_1^{\,h},\dots,\alpha_n^{\,h})$ pour tout $h\in\mathbb{N}$ (le cas $h=0$ étant $D^0=I_n$). Comme une combinaison linéaire de matrices diagonales est diagonale, de coefficients les combinaisons linéaires terme à terme, on obtient $Q(D)=\diag(Q(\alpha_1),\dots,Q(\alpha_n))$.
+\end{proof}
+
+\begin{exemple}[Exercice de cours]
+On suppose ici que $3$ est inversible dans $K$, ce qui est le cas pour $K=\mathbb{R}$ ou $K=\mathbb{C}$. Soit $A\in\mathcal{M}_n(K)$ telle que $A^2=3A$.
+
+\textbf{1. Puissances de $A$.} Montrons par récurrence que $A^h=3^{\,h-1}A$ pour tout $h\geq 1$. Pour $h=1$, $3^0A=A$. Si $A^h=3^{\,h-1}A$, alors
+\[A^{h+1} = A^h A = 3^{\,h-1}A^2 = 3^{\,h-1}\cdot 3A = 3^{\,h}A\]
+(Noter qu'on n'a pas eu besoin de diagonaliser $A$ ; la relation $A^2=3A$ suffit.)
+
+\textbf{2. $A$ est diagonalisable.} Le polynôme $Q(X)=X^2-3X=X(X-3)$ est annulateur de $A$, donc $\Spec(A)\subset\{0,3\}$ (proposition~\ref{prop:vp-racines-annulateur}). Montrons que
+\[K^n = \Ker A \oplus \Ker(A-3I_n)\]
+
+\emph{La somme est directe :} soit $x\in\Ker A\cap\Ker(A-3I_n)$. Alors $Ax=0$ et $Ax=3x$, donc $3x=0$, puis $x=0$ car $3$ est inversible dans $K$.
+
+\emph{La somme vaut $K^n$ :} soit $x\in K^n$. Écrivons
+\[x = \underbrace{\left(x-\tfrac{1}{3}Ax\right)}_{=\,x_0} + \underbrace{\tfrac{1}{3}Ax}_{=\,x_3}\]
+On a $A\,x_0 = Ax-\tfrac{1}{3}A^2x = Ax-\tfrac{1}{3}\cdot 3Ax = 0$, donc $x_0\in\Ker A$ ; et
+\[(A-3I_n)\,x_3 = \tfrac{1}{3}A^2x - 3\cdot\tfrac{1}{3}Ax = Ax - Ax = 0\]
+donc $x_3\in\Ker(A-3I_n)$.
+
+En concaténant une base de $\Ker A$ et une base de $\Ker(A-3I_n)$, on obtient une base de $K^n$ (lemme~\ref{lemme:base-adaptee}). Chacun de ses vecteurs est non nul et appartient à $\Ker(A-\lambda I_n)$ pour $\lambda=0$ ou $\lambda=3$ : c'est donc un vecteur propre de $A$. Ainsi $A$ est diagonalisable, et $A$ est semblable à $\diag(0,\dots,0,3,\dots,3)$ avec $\rg(A)$ coefficients égaux à $3$, puisque $\Ker A=E_0(A)$ est de dimension $n-\rg(A)$ par le théorème du rang~\ref{theo:rang}.
+\end{exemple}

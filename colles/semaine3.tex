@@ -1,0 +1,489 @@
+\documentclass[11pt]{article}
+
+\IfFileExists{preambule.tex}{\input{preambule}}{\input{../preambule}}
+
+\newcounter{qnum}
+\newcommand{\question}[1]{%
+\stepcounter{qnum}%
+\bigskip
+\noindent\textbf{Question \theqnum.} #1\par}
+\newcommand{\reponse}{\noindent\textit{Réponse.}\ }
+
+\title{Fiche de colle --- Semaine 3\\ \large Réponses rédigées aux questions de cours\\ Chapitres 3 et 4 (MPI/MPI*)}
+\author{}
+\date{du 28/09/26 au 02/10/26}
+
+\begin{document}
+\maketitle
+
+\noindent\textit{Conventions.} Dans toute la fiche, $K$ désigne $\mathbb{R}$ ou $\mathbb{C}$ et $(E,\|\cdot\|)$ un $K$-espace vectoriel normé. Une suite $(u_n)\in E^{\mathbb{N}}$ \textbf{converge} vers $\ell\in E$ si
+\[\forall\varepsilon>0,\ \exists N_0\in\mathbb{N},\ \forall n\geq N_0,\quad\|u_n-\ell\|\leq\varepsilon\]
+c'est-à-dire si la suite \emph{réelle} $(\|u_n-\ell\|)$ tend vers $0$. On utilise librement les résultats de première année sur les suites réelles : opérations sur les limites, théorème d'encadrement, passage à la limite dans les inégalités larges, théorème de la limite monotone (une suite réelle croissante et majorée converge vers sa borne supérieure ; croissante et non majorée, elle tend vers $+\infty$), limites de $(q^n)$ pour $q\in\mathbb{R}$, croissances comparées, inégalité de Taylor--Lagrange.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Unicité de la limite pour une suite convergente dans un e.v.n.}
+\reponse
+
+\begin{prop}
+\label{prop:unicite-limite}
+Si $(u_n)\in E^{\mathbb{N}}$ converge vers $\ell_1$ et vers $\ell_2$, alors $\ell_1=\ell_2$. On note alors $\lim_{n\to+\infty}u_n$ cette limite.
+\end{prop}
+
+\begin{proof}
+Par l'axiome de séparation de la norme, il suffit de montrer que $\|\ell_1-\ell_2\|=0$.
+
+Soit $\varepsilon>0$. Il existe $N_1$ tel que $\|u_n-\ell_1\|\leq\varepsilon$ pour $n\geq N_1$, et $N_2$ tel que $\|u_n-\ell_2\|\leq\varepsilon$ pour $n\geq N_2$. Pour $n=\max(N_1,N_2)$, l'inégalité triangulaire donne
+\[\|\ell_1-\ell_2\|=\|(\ell_1-u_n)+(u_n-\ell_2)\|\leq\|u_n-\ell_1\|+\|u_n-\ell_2\|\leq 2\varepsilon\]
+(on a utilisé $\|\ell_1-u_n\|=|-1|\,\|u_n-\ell_1\|$). Ainsi le réel $A=\|\ell_1-\ell_2\|\geq 0$ vérifie $A\leq 2\varepsilon$ pour tout $\varepsilon>0$. Si l'on avait $A>0$, le choix $\varepsilon=\frac A4$ donnerait $A\leq\frac A2$, donc $A\leq 0$ : contradiction. Donc $A=0$ et $\ell_1=\ell_2$.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Une suite convergente d'un e.v.n.\ est bornée.}
+\reponse
+
+Une partie $X\subset E$ est \textbf{bornée} s'il existe $M\in\mathbb{R}$ tel que $\|x\|\leq M$ pour tout $x\in X$ ; une suite est bornée si l'ensemble de ses termes l'est.
+
+\begin{prop}
+\label{prop:convergente-bornee}
+Toute suite convergente de $E$ est bornée.
+\end{prop}
+
+\begin{proof}
+Soit $(u_n)$ convergeant vers $\ell$. La définition appliquée avec $\varepsilon=1$ fournit $N_1$ tel que $\|u_n-\ell\|\leq 1$ pour $n\geq N_1$ ; pour ces indices,
+\[\|u_n\|=\|(u_n-\ell)+\ell\|\leq\|u_n-\ell\|+\|\ell\|\leq 1+\|\ell\|\]
+Posons $M=\max\big(\|u_0\|,\dots,\|u_{N_1}\|,\ 1+\|\ell\|\big)$, maximum d'un nombre \emph{fini} de réels. Alors $\|u_n\|\leq M$ pour tout $n$ : les indices $n<N_1$ sont couverts par les premiers termes du maximum, les indices $n\geq N_1$ par le dernier.
+\end{proof}
+
+\begin{remarque}
+La réciproque est fausse : dans $\mathbb{R}$, la suite $((-1)^n)$ est bornée mais diverge (ses termes pairs valent $1$ et ses termes impairs $-1$).
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{La somme de deux suites convergentes d'un e.v.n.\ est convergente.}
+\reponse
+
+\begin{prop}
+\label{prop:somme-limites}
+Si $u_n\to\ell_1$ et $v_n\to\ell_2$ dans $E$, alors $u_n+v_n\to\ell_1+\ell_2$. De même, pour $\lambda\in K$, $\lambda u_n\to\lambda\ell_1$.
+\end{prop}
+
+\begin{proof}
+\textbf{Somme.} Soit $\varepsilon>0$. Il existe $N_1$ tel que $\|u_n-\ell_1\|\leq\frac\varepsilon2$ pour $n\geq N_1$, et $N_2$ tel que $\|v_n-\ell_2\|\leq\frac\varepsilon2$ pour $n\geq N_2$. Pour $n\geq\max(N_1,N_2)$, l'inégalité triangulaire donne
+\[\big\|(u_n+v_n)-(\ell_1+\ell_2)\big\|=\big\|(u_n-\ell_1)+(v_n-\ell_2)\big\|\leq\|u_n-\ell_1\|+\|v_n-\ell_2\|\leq\varepsilon\]
+
+\textbf{Produit par un scalaire.} Soit $\varepsilon>0$ ; il existe $N_0$ tel que $\|u_n-\ell_1\|\leq\frac{\varepsilon}{|\lambda|+1}$ pour $n\geq N_0$, d'où $\|\lambda u_n-\lambda\ell_1\|=|\lambda|\,\|u_n-\ell_1\|\leq\frac{|\lambda|}{|\lambda|+1}\varepsilon\leq\varepsilon$. (Diviser par $|\lambda|+1>0$ traite d'un coup le cas $\lambda=0$.)
+\end{proof}
+
+\begin{remarque}
+Ainsi l'ensemble des suites convergentes de $E$ est un sous-espace vectoriel de $E^{\mathbb{N}}$, et $(u_n)\mapsto\lim u_n$ est linéaire (elle est bien définie par la question 1).
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Soit $B$ bilinéaire telle que $\exists M,\ \forall x,y,\ \|B(x,y)\|_1\leq M\|x\|_2\|y\|_3$. Si $x_n\to x$ et $y_n\to y$, alors $B(x_n,y_n)\to B(x,y)$.}
+\reponse
+
+\begin{theo}
+\label{theo:bilineaire}
+Soient $(E,\|\cdot\|_2)$, $(F,\|\cdot\|_3)$, $(G,\|\cdot\|_1)$ trois $K$-e.v.n.\ et $B:E\times F\to G$ une application \textbf{bilinéaire} (c'est-à-dire linéaire par rapport à chacune de ses deux variables, l'autre étant fixée). On suppose qu'il existe $M\geq 0$ tel que
+\[\forall(x,y)\in E\times F,\qquad\|B(x,y)\|_1\leq M\,\|x\|_2\,\|y\|_3\tag{$\star$}\]
+Si $x_n\to x$ dans $E$ et $y_n\to y$ dans $F$, alors $B(x_n,y_n)\to B(x,y)$ dans $G$.
+\end{theo}
+
+\begin{proof}
+En intercalant $B(x,y_n)$ et en utilisant la linéarité par rapport à la première puis à la seconde variable :
+\[B(x_n,y_n)-B(x,y)=\big[B(x_n,y_n)-B(x,y_n)\big]+\big[B(x,y_n)-B(x,y)\big]=B(x_n-x,\,y_n)+B(x,\,y_n-y)\]
+L'inégalité triangulaire dans $G$ puis $(\star)$ donnent, pour tout $n$,
+\[0\leq\big\|B(x_n,y_n)-B(x,y)\big\|_1\leq M\,\|x_n-x\|_2\,\|y_n\|_3+M\,\|x\|_2\,\|y_n-y\|_3\]
+La suite $(y_n)$ converge, donc est bornée (question 2) : il existe $M'\geq 0$ tel que $\|y_n\|_3\leq M'$ pour tout $n$. D'où
+\[0\leq\big\|B(x_n,y_n)-B(x,y)\big\|_1\leq MM'\,\|x_n-x\|_2+M\|x\|_2\,\|y_n-y\|_3\]
+Par hypothèse $\|x_n-x\|_2\to 0$ et $\|y_n-y\|_3\to 0$ ; les coefficients $MM'$ et $M\|x\|_2$ étant constants, le majorant tend vers $0$ (opérations sur les limites réelles). Par encadrement, $\|B(x_n,y_n)-B(x,y)\|_1\to 0$, c'est-à-dire $B(x_n,y_n)\to B(x,y)$.
+\end{proof}
+
+\begin{remarque}
+L'hypothèse $(\star)$ est satisfaite par le produit de $K$ ($|xy|=|x|\,|y|$), par la loi externe $(\lambda,x)\mapsto\lambda x$ ($\|\lambda x\|=|\lambda|\,\|x\|$) et par le produit scalaire (inégalité de Cauchy--Schwarz). On retrouve en particulier que le produit de deux suites convergentes de $K$ converge vers le produit des limites.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{« Être équivalente » est une relation d'équivalence sur les normes d'un e.v.}
+\reponse
+Dans les questions 5 à 7, $E$ est un $K$-e.v.\ et $N_1,N_2,N_3$ sont des normes sur $E$. Une suite « converge pour $N_1$ » si elle converge dans l'e.v.n.\ $(E,N_1)$.
+
+\begin{defi}
+\label{defi:normes-equivalentes}
+$N_1$ et $N_2$ sont \textbf{équivalentes} s'il existe $a>0$ et $b>0$ tels que
+\[\forall x\in E,\qquad N_1(x)\leq a\,N_2(x)\qquad\text{et}\qquad N_2(x)\leq b\,N_1(x)\]
+\end{defi}
+
+\begin{prop}
+\label{prop:normes-equivalentes-relation}
+Cette relation est une relation d'équivalence sur l'ensemble des normes sur $E$.
+\end{prop}
+
+\begin{proof}
+\emph{Réflexivité :} $N_1\leq 1\cdot N_1$ ; on prend $a=b=1$.
+
+\emph{Symétrie :} la définition est symétrique en $N_1$ et $N_2$ (on échange $a$ et $b$).
+
+\emph{Transitivité :} supposons $N_1\leq aN_2$, $N_2\leq bN_1$, $N_2\leq a'N_3$, $N_3\leq b'N_2$ avec $a,b,a',b'>0$. Pour tout $x\in E$, comme $a\geq 0$ et $b'\geq 0$,
+\[N_1(x)\leq a\,N_2(x)\leq aa'\,N_3(x)\qquad\text{et}\qquad N_3(x)\leq b'\,N_2(x)\leq b'b\,N_1(x)\]
+avec $aa'>0$ et $bb'>0$ : $N_1$ et $N_3$ sont équivalentes.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Si $N_1\leq aN_2$, alors toute suite qui converge pour la norme $N_2$ converge pour la norme $N_1$.}
+\reponse
+
+\begin{prop}
+\label{prop:comparaison-normes}
+On suppose qu'il existe $a>0$ tel que $N_1(x)\leq a\,N_2(x)$ pour tout $x\in E$. Alors :
+\begin{enumerate}
+\item toute suite qui converge vers $\ell$ pour $N_2$ converge vers $\ell$ pour $N_1$ ;
+\item toute partie bornée pour $N_2$ est bornée pour $N_1$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\textbf{1.} Si $N_2(u_n-\ell)\to 0$, alors $aN_2(u_n-\ell)\to 0$, et l'encadrement
+\[0\leq N_1(u_n-\ell)\leq a\,N_2(u_n-\ell)\]
+donne $N_1(u_n-\ell)\to 0$, c'est-à-dire $u_n\to\ell$ pour $N_1$.
+
+\textbf{2.} Si $N_2(x)\leq C$ pour tout $x\in X$, alors $N_1(x)\leq aC$ pour tout $x\in X$.
+\end{proof}
+
+\begin{remarque}
+En particulier, deux normes équivalentes ont les mêmes suites convergentes, avec les mêmes limites, et les mêmes parties bornées (appliquer la proposition dans les deux sens). Attention au sens : c'est l'inégalité $N_1\leq aN_2$ qui transfère la convergence \emph{de $N_2$ vers $N_1$}. Pour prouver qu'une telle inégalité est impossible, il suffit donc d'exhiber une suite qui converge pour $N_2$ et diverge pour $N_1$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Deux normes $N_1$ et $N_2$ sont équivalentes si et seulement si $(E,N_1)$ et $(E,N_2)$ ont les mêmes suites convergentes.}
+\reponse
+
+\begin{prop}
+\label{prop:normes-equivalentes-suites}
+$N_1$ et $N_2$ sont équivalentes si et seulement si toute suite de $E$ qui converge pour l'une de ces normes converge pour l'autre.
+\end{prop}
+
+\begin{proof}
+$(\Rightarrow)$ C'est la question 6 appliquée à $N_1\leq aN_2$ puis à $N_2\leq bN_1$.
+
+$(\Leftarrow)$ Supposons que $N_1$ et $N_2$ aient les mêmes suites convergentes, et montrons par l'absurde qu'il existe $a>0$ tel que $N_1\leq aN_2$. Sinon, aucun réel $a>0$ ne convient ; en particulier, pour tout $n\in\mathbb{N}^*$, $a=n$ ne convient pas : il existe $x_n\in E$ tel que
+\[N_1(x_n)>n\,N_2(x_n)\]
+Alors $x_n\neq 0$ (sinon $0>0$), donc $N_1(x_n)>0$, et l'on pose $y_n=\frac{1}{N_1(x_n)}x_n$. Par homogénéité,
+\[N_1(y_n)=1\qquad\text{et}\qquad N_2(y_n)=\frac{N_2(x_n)}{N_1(x_n)}<\frac1n\]
+Posons $z_n=\sqrt n\,y_n$. D'une part $0\leq N_2(z_n-0)=\sqrt n\,N_2(y_n)<\frac{1}{\sqrt n}\to 0$ : $(z_n)$ converge vers $0$ pour $N_2$. Par hypothèse, $(z_n)$ converge donc aussi pour $N_1$, et elle est alors bornée pour $N_1$ (question 2). D'autre part $N_1(z_n)=\sqrt n\,N_1(y_n)=\sqrt n\to+\infty$ : $(z_n)$ n'est pas bornée pour $N_1$. Contradiction.
+
+Il existe donc $a>0$ tel que $N_1\leq aN_2$ ; l'hypothèse étant symétrique en $N_1$ et $N_2$, le même raisonnement fournit $b>0$ tel que $N_2\leq bN_1$.
+\end{proof}
+
+\begin{remarque}
+On multiplie $y_n$ par $\sqrt n$ pour obtenir une suite qui tend encore vers $0$ pour $N_2$ (car $\sqrt n\cdot\frac1n\to 0$) mais n'est plus bornée pour $N_1$. La suite $(y_n)$ elle-même ne suffirait pas : elle reste de norme $1$ pour $N_1$, ce qui n'interdit pas a priori qu'elle converge pour $N_1$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Comparer les normes standards de $\mathbb{R}^n$ en précisant les meilleures constantes possibles.}
+\reponse
+Soit $n\geq 1$. Pour $x=(x_1,\dots,x_n)\in\mathbb{R}^n$ (ou $\mathbb{C}^n$), on pose
+\[\|x\|_1=\sum_{i=1}^n|x_i|,\qquad\|x\|_2=\sqrt{\sum_{i=1}^n|x_i|^2},\qquad\|x\|_\infty=\max_{1\leq i\leq n}|x_i|\]
+Ce sont trois normes (pour $\|\cdot\|_2$, l'inégalité triangulaire découle de l'inégalité de Cauchy--Schwarz).
+
+\begin{prop}
+\label{prop:comparaison-normes-rn}
+Pour tout $x\in\mathbb{R}^n$,
+\[\|x\|_\infty\leq\|x\|_1\leq n\,\|x\|_\infty,\qquad\|x\|_\infty\leq\|x\|_2\leq\sqrt n\,\|x\|_\infty,\qquad\|x\|_2\leq\|x\|_1\leq\sqrt n\,\|x\|_2\]
+et les constantes $1$, $n$, $\sqrt n$ figurant dans ces six inégalités sont les meilleures possibles. En particulier ces trois normes sont deux à deux équivalentes.
+\end{prop}
+
+\begin{proof}
+Posons $a_i=|x_i|\geq 0$ et $M=\|x\|_\infty=\max_ia_i$, atteint en un indice $i_0$.
+
+\emph{Norme 1 et norme infinie.} $M=a_{i_0}\leq\sum_ia_i$ car les autres termes sont positifs, et $\sum_ia_i\leq\sum_iM=nM$.
+
+\emph{Norme 2 et norme infinie.} $M^2=a_{i_0}^2\leq\sum_ia_i^2$ et $\sum_ia_i^2\leq nM^2$ ; on prend les racines carrées ($\sqrt{\cdot}$ est croissante sur $\mathbb{R}_+$).
+
+\emph{Norme 1 et norme 2.} D'une part, en développant le carré,
+\[\|x\|_1^2=\Big(\sum_{i=1}^na_i\Big)^2=\sum_{i=1}^na_i^2+\sum_{i\neq j}a_ia_j\geq\sum_{i=1}^na_i^2=\|x\|_2^2\]
+car les produits $a_ia_j$ sont positifs. D'autre part, $2a_ia_j\leq a_i^2+a_j^2$ puisque $(a_i-a_j)^2\geq 0$, donc
+\[\|x\|_1^2=\sum_{i=1}^n\sum_{j=1}^na_ia_j\leq\sum_{i=1}^n\sum_{j=1}^n\frac{a_i^2+a_j^2}{2}=\frac{n\sum_ia_i^2+n\sum_ja_j^2}{2}=n\,\|x\|_2^2\]
+On conclut en prenant les racines carrées.
+
+\emph{Optimalité.} Pour $e_1=(1,0,\dots,0)$, $\|e_1\|_\infty=\|e_1\|_2=\|e_1\|_1=1$ : les trois inégalités de gauche sont des égalités. Pour $u=(1,\dots,1)$, $\|u\|_\infty=1$, $\|u\|_2=\sqrt n$, $\|u\|_1=n$ : les trois inégalités de droite sont des égalités. Par exemple, si $c\in\mathbb{R}$ vérifie $\|x\|_1\leq c\,\|x\|_2$ pour tout $x$, alors en $x=u$ on obtient $n\leq c\sqrt n$, soit $c\geq\sqrt n$ ; si $c$ vérifie $\|x\|_\infty\leq c\,\|x\|_2$ pour tout $x$, alors en $x=e_1$ on obtient $c\geq 1$. Les quatre autres cas sont identiques.
+\end{proof}
+
+\begin{remarque}
+Ces encadrements prouvent directement l'équivalence de ces trois normes. Plus généralement, en dimension finie, toutes les normes sont équivalentes (théorème du cours, démontré à l'aide du théorème de Bolzano--Weierstrass). En dimension infinie c'est faux : sur $K[X]$, les normes $N_1(P)=\sum_k|a_k|$ et $N_\infty(P)=\max_k|a_k|$ ne sont pas équivalentes, car $Q_n=\frac{1}{n+1}\sum_{k=0}^nX^k$ tend vers $0$ pour $N_\infty$ tandis que $N_1(Q_n)=1$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{La série $\sum(u_n-u_{n+1})$ et la suite $(u_n)_n$ sont de même nature.}
+\reponse
+Pour $(u_n)\in E^{\mathbb{N}}$, la \textbf{série} $\sum u_n$ est la suite $(S_n)$ de ses sommes partielles $S_n=\sum_{k=0}^nu_k$ ; elle \textbf{converge} si $(S_n)$ converge, et sa \textbf{somme} est alors $\sum_{n=0}^{+\infty}u_n=\lim_{n\to+\infty}S_n$.
+
+\begin{lemme}
+\label{lemme:decalage}
+Pour $(a_n)\in E^{\mathbb{N}}$ et $\ell\in E$ : $a_n\to\ell$ si et seulement si $a_{n+1}\to\ell$.
+\end{lemme}
+
+\begin{proof}
+Si $\|a_n-\ell\|\leq\varepsilon$ pour tout $n\geq N_0$, alors $\|a_{n+1}-\ell\|\leq\varepsilon$ pour tout $n\geq N_0$. Réciproquement, si $\|a_{n+1}-\ell\|\leq\varepsilon$ pour tout $n\geq N_0$, alors $\|a_m-\ell\|\leq\varepsilon$ pour tout $m\geq N_0+1$ (écrire $m=n+1$).
+\end{proof}
+
+\begin{prop}
+\label{prop:telescopique}
+La série $\sum(u_n-u_{n+1})$ converge si et seulement si la suite $(u_n)$ converge, et dans ce cas
+\[\sum_{n=0}^{+\infty}(u_n-u_{n+1})=u_0-\lim_{n\to+\infty}u_n\]
+\end{prop}
+
+\begin{proof}
+Par récurrence sur $n$, la somme partielle vaut
+\[S_n=\sum_{k=0}^n(u_k-u_{k+1})=u_0-u_{n+1}\]
+(pour $n=0$ c'est la définition ; et $S_{n+1}=S_n+(u_{n+1}-u_{n+2})=u_0-u_{n+2}$). Si $u_n\to\ell$, alors $u_{n+1}\to\ell$ (lemme~\ref{lemme:decalage}) et $S_n=u_0-u_{n+1}\to u_0-\ell$ (question 3). Réciproquement, si $S_n\to s$, alors $u_{n+1}=u_0-S_n\to u_0-s$, donc $(u_n)$ converge (lemme~\ref{lemme:decalage}).
+\end{proof}
+
+\begin{exemple}
+\label{ex:serie-ln}
+Pour $n\geq 1$, $\ln\big(1+\frac1n\big)=\ln(n+1)-\ln n=u_n-u_{n+1}$ en posant $u_n=-\ln n$. La suite $(-\ln n)_{n\geq1}$ tend vers $-\infty$, donc diverge : la série $\sum_{n\geq1}\ln\big(1+\frac1n\big)$ diverge (la proposition s'applique à partir du rang $1$ de la même façon ; les sommes partielles valent $\ln(n+1)$).
+\end{exemple}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Le terme général d'une série convergente tend vers $0$ ; la réciproque est fausse.}
+\reponse
+
+\begin{theo}
+\label{theo:terme-general-nul}
+Si $\sum u_n$ converge, alors $u_n\xrightarrow[n\to+\infty]{}0_E$.
+\end{theo}
+
+\begin{proof}
+Soit $S=\lim S_n$. Pour $n\geq 1$, $u_n=S_n-S_{n-1}$. Comme $S_n\to S$, le lemme~\ref{lemme:decalage} (appliqué à $a_n=S_{n-1}$, $a_{n+1}=S_n$) donne $S_{n-1}\to S$, et la question 3 donne $u_n=S_n-S_{n-1}\to S-S=0_E$.
+\end{proof}
+
+Une série dont le terme général ne tend pas vers $0$ est donc divergente : on dit qu'elle \textbf{diverge grossièrement}.
+
+\begin{remarque}[La réciproque est fausse]
+La série $\sum_{n\geq1}\ln\big(1+\frac1n\big)$ diverge (exemple~\ref{ex:serie-ln}), alors que $\ln\big(1+\frac1n\big)\to\ln 1=0$ par continuité de $\ln$ en $1$. Autre contre-exemple : la série harmonique (question 11), dont le terme général $\frac1n$ tend vers $0$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{La série harmonique est divergente.}
+\reponse
+
+\begin{prop}
+\label{prop:harmonique}
+La série $\sum_{n\geq1}\frac1n$ diverge.
+\end{prop}
+
+\begin{proof}
+Notons $H_n=\sum_{k=1}^n\frac1k$. Pour $n\geq 1$, la somme $H_{2n}-H_n=\sum_{k=n+1}^{2n}\frac1k$ comporte $n$ termes, chacun supérieur ou égal à $\frac{1}{2n}$ (car $k\leq 2n$), donc
+\[\forall n\geq 1,\qquad H_{2n}-H_n\geq n\cdot\frac{1}{2n}=\frac12\tag{$\star$}\]
+Supposons par l'absurde que $H_n\to\ell\in\mathbb{R}$. Avec $\varepsilon=\frac18$, il existe $N_0\geq 1$ tel que $|H_n-\ell|\leq\frac18$ pour $n\geq N_0$. En appliquant ceci aux indices $N_0$ et $2N_0\geq N_0$,
+\[|H_{2N_0}-H_{N_0}|\leq|H_{2N_0}-\ell|+|\ell-H_{N_0}|\leq\frac14\]
+ce qui contredit $(\star)$ en $n=N_0$. Donc $(H_n)$ diverge.
+\end{proof}
+
+\begin{remarque}
+Plus précisément, $(H_n)$ est croissante et non majorée (sinon elle convergerait par le théorème de la limite monotone), donc $H_n\to+\infty$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Preuve de la règle de comparaison pour les séries positives.}
+\reponse
+Dans les questions 12 à 18, les séries sont réelles.
+
+\begin{lemme}[Critère de majoration]
+\label{lemme:stp-majoree}
+Soit $(u_n)$ une suite réelle telle que $u_n\geq 0$ pour tout $n$. Alors $(S_n)$ est croissante, et
+\[\sum u_n\ \text{converge}\iff(S_n)\ \text{est majorée}\]
+auquel cas $\sum_{n=0}^{+\infty}u_n=\sup_nS_n$ ; sinon $S_n\to+\infty$.
+\end{lemme}
+
+\begin{proof}
+$S_{n+1}-S_n=u_{n+1}\geq 0$ : $(S_n)$ est croissante. Si elle est majorée, elle converge vers $\sup_nS_n$ par le théorème de la limite monotone. Si elle converge, elle est bornée (question 2), donc majorée. Si elle n'est pas majorée, elle tend vers $+\infty$ (limite monotone).
+\end{proof}
+
+\begin{theo}[Règle de comparaison]
+\label{theo:regle-comparaison}
+Soient $(u_n)$, $(v_n)$ deux suites réelles telles que $0\leq u_n\leq v_n$ à partir d'un certain rang $n_1$.
+\begin{enumerate}
+\item Si $\sum v_n$ converge, alors $\sum u_n$ converge.
+\item Si $\sum u_n$ diverge, alors $\sum v_n$ diverge.
+\end{enumerate}
+\end{theo}
+
+\begin{proof}
+Le point 2 est la contraposée du point 1.
+
+\emph{Cas où $0\leq u_n\leq v_n$ pour tout $n$.} En sommant, $S_n(u)\leq S_n(v)$. Si $\sum v_n$ converge, le lemme~\ref{lemme:stp-majoree} donne $S_n(v)\leq\sum_{k=0}^{+\infty}v_k$ pour tout $n$ ; les sommes partielles de $\sum u_n$ sont donc majorées, et $\sum u_n$ converge par le même lemme (avec de plus $\sum_{n=0}^{+\infty}u_n\leq\sum_{n=0}^{+\infty}v_n$).
+
+\emph{Cas général.} Posons $\tilde u_n=\tilde v_n=0$ pour $n<n_1$ et $\tilde u_n=u_n$, $\tilde v_n=v_n$ pour $n\geq n_1$ ; alors $0\leq\tilde u_n\leq\tilde v_n$ pour tout $n$. Or modifier un nombre fini de termes ne change pas la nature d'une série : pour $n\geq n_1$, $S_n(\tilde u)=S_n(u)-c$ avec $c=\sum_{k=0}^{n_1-1}u_k$ constant, donc $(S_n(\tilde u))$ et $(S_n(u))$ convergent ou divergent simultanément ; de même pour $v$. On applique alors le premier cas.
+\end{proof}
+
+\begin{coro}[Domination]
+\label{coro:domination}
+Soient $(u_n)$, $(v_n)$ réelles, positives à partir d'un certain rang, telles que $u_n=O(v_n)$, c'est-à-dire qu'il existe $M\geq 0$ et $N_0$ tels que $|u_n|\leq M|v_n|$ pour $n\geq N_0$. Si $\sum v_n$ converge, alors $\sum u_n$ converge.
+\end{coro}
+
+\begin{proof}
+Quitte à augmenter $N_0$, $0\leq u_n\leq Mv_n$ pour $n\geq N_0$. La série $\sum Mv_n$ converge (question 3 appliquée aux sommes partielles), et l'on applique le théorème~\ref{theo:regle-comparaison}.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Preuve de la règle des équivalents pour les séries positives.}
+\reponse
+Deux suites réelles vérifient $u_n\sim v_n$ si $u_n-v_n=o(v_n)$, c'est-à-dire
+\[\forall\varepsilon>0,\ \exists N_0,\ \forall n\geq N_0,\quad|u_n-v_n|\leq\varepsilon|v_n|\]
+(lorsque $v_n\neq 0$ à partir d'un certain rang, cela équivaut à $\frac{u_n}{v_n}\to 1$).
+
+\begin{theo}[Règle des équivalents]
+\label{theo:regle-equivalents}
+Soient $(u_n)$, $(v_n)$ réelles telles que $v_n\geq 0$ à partir d'un certain rang et $u_n\sim v_n$. Alors $\sum u_n$ et $\sum v_n$ sont de même nature.
+\end{theo}
+
+\begin{proof}
+Soit $n_1$ tel que $v_n\geq 0$ pour $n\geq n_1$. Avec $\varepsilon=\frac12$, il existe $N_1$ tel que $|u_n-v_n|\leq\frac12|v_n|$ pour $n\geq N_1$. Pour $n\geq N_0=\max(n_1,N_1)$, on a $|v_n|=v_n$, d'où $-\frac12v_n\leq u_n-v_n\leq\frac12v_n$, soit
+\[0\leq\tfrac12v_n\leq u_n\leq\tfrac32v_n\]
+Si $\sum v_n$ converge, $\sum\frac32v_n$ converge, et $0\leq u_n\leq\frac32v_n$ donne la convergence de $\sum u_n$ (question 12). Si $\sum u_n$ converge, $0\leq\frac12v_n\leq u_n$ donne la convergence de $\sum\frac12v_n$, donc de $\sum v_n$. Les deux séries ont donc même nature.
+\end{proof}
+
+\begin{remarque}
+L'hypothèse de signe est indispensable : $v_n=\frac{(-1)^n}{\sqrt n}$ et $u_n=v_n+\frac1n$ vérifient $u_n\sim v_n$ (car $|u_n-v_n|=\frac{1}{\sqrt n}|v_n|$), mais $\sum v_n$ converge (critère des séries alternées) tandis que $\sum u_n$ diverge (somme d'une série convergente et d'une série divergente).
+\end{remarque}
+
+\begin{exemple}
+\label{ex:1-sur-n2}
+$\sum_{n\geq1}\frac{1}{n^2}$ converge : $\frac{1}{n(n+1)}=\frac1n-\frac1{n+1}$, donc $\sum_{k=1}^n\frac{1}{k(k+1)}=1-\frac{1}{n+1}\to 1$ (question 9) ; et $\frac{1}{n^2}\sim\frac{1}{n(n+1)}$ puisque le quotient $\frac{n(n+1)}{n^2}=1+\frac1n\to 1$, ces termes étant positifs.
+\end{exemple}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Preuve de la règle de d'Alembert pour les séries positives.}
+\reponse
+
+\begin{lemme}[Série géométrique]
+\label{lemme:serie-geometrique}
+Soit $q\in K$. La série $\sum q^n$ converge si et seulement si $|q|<1$, et alors $\sum_{n=0}^{+\infty}q^n=\frac{1}{1-q}$. Si $|q|\geq 1$, elle diverge grossièrement.
+\end{lemme}
+
+\begin{proof}
+Si $|q|\geq 1$, $|q^n|=|q|^n\geq 1$ pour tout $n$, donc $q^n\not\to 0$ : divergence grossière (question 10). Si $|q|<1$, alors $q\neq 1$ et $(1-q)\sum_{k=0}^nq^k=1-q^{n+1}$ (télescopage), d'où $S_n=\frac{1-q^{n+1}}{1-q}$ ; comme $|q^{n+1}|=|q|^{n+1}\to 0$, $S_n\to\frac{1}{1-q}$.
+\end{proof}
+
+\begin{lemme}[Comparaison logarithmique]
+\label{lemme:comparaison-log}
+Soient $(u_n)$, $(v_n)$ réelles et $N_0$ tels que, pour $n\geq N_0$, $u_n>0$, $v_n>0$ et $\frac{u_{n+1}}{u_n}\leq\frac{v_{n+1}}{v_n}$. Alors $u_n\leq\frac{u_{N_0}}{v_{N_0}}v_n$ pour tout $n\geq N_0$ ; en particulier $u_n=O(v_n)$.
+\end{lemme}
+
+\begin{proof}
+Pour $n\geq N_0$, en multipliant l'hypothèse par $\frac{u_n}{v_{n+1}}>0$, on obtient $\frac{u_{n+1}}{v_{n+1}}\leq\frac{u_n}{v_n}$ : la suite $\big(\frac{u_n}{v_n}\big)_{n\geq N_0}$ est décroissante, donc majorée par son premier terme $\frac{u_{N_0}}{v_{N_0}}$. On multiplie par $v_n>0$.
+\end{proof}
+
+\begin{theo}[Règle de d'Alembert]
+\label{theo:dalembert}
+Soit $(u_n)$ réelle, avec $u_n>0$ à partir d'un rang $N_0$, telle que $\frac{u_{n+1}}{u_n}\to\ell\in[0,+\infty]$.
+\begin{enumerate}
+\item Si $\ell<1$, $\sum u_n$ converge.
+\item Si $\ell>1$ (y compris $\ell=+\infty$), $\sum u_n$ diverge grossièrement.
+\item Si $\ell=1$, on ne peut pas conclure.
+\end{enumerate}
+\end{theo}
+
+\begin{proof}
+\textbf{1.} Soit $q=\frac{1+\ell}{2}$ : $\ell<q<1$ et $q>0$. Par définition de la limite (avec $\varepsilon=q-\ell>0$), il existe $N_1\geq N_0$ tel que
+\[\forall n\geq N_1,\qquad\frac{u_{n+1}}{u_n}\leq q=\frac{q^{n+1}}{q^n}\]
+Le lemme~\ref{lemme:comparaison-log} appliqué à $(u_n)$ et $(q^n)$ donne $u_n=O(q^n)$. Comme $0<q<1$, $\sum q^n$ converge (lemme~\ref{lemme:serie-geometrique}), et la domination (corollaire~\ref{coro:domination}) donne la convergence de $\sum u_n$.
+
+\textbf{2.} Si $\ell<+\infty$, soit $q=\frac{1+\ell}{2}\in\,]1,\ell[$ ; avec $\varepsilon=\ell-q$, il existe $N_1\geq N_0$ tel que $\frac{u_{n+1}}{u_n}\geq q$ pour $n\geq N_1$. Si $\ell=+\infty$, on prend $q=2$ et $N_1\geq N_0$ tel que $\frac{u_{n+1}}{u_n}\geq 2$ pour $n\geq N_1$. Dans les deux cas $q>1$ et $\frac{q^{n+1}}{q^n}\leq\frac{u_{n+1}}{u_n}$ pour $n\geq N_1$. Le lemme~\ref{lemme:comparaison-log} appliqué à $(q^n)$ et $(u_n)$ donne $q^n\leq\frac{q^{N_1}}{u_{N_1}}u_n$, soit $u_n\geq c\,q^n$ avec $c=\frac{u_{N_1}}{q^{N_1}}>0$. Comme $q>1$, $cq^n\to+\infty$, donc $u_n\to+\infty$ : en particulier $u_n\not\to 0$, et la série diverge grossièrement.
+
+\textbf{3.} Pour $u_n=\frac1n$, $\frac{u_{n+1}}{u_n}=\frac{n}{n+1}\to 1$ et $\sum u_n$ diverge (question 11) ; pour $u_n=\frac{1}{n^2}$, $\frac{u_{n+1}}{u_n}=\big(\frac{n}{n+1}\big)^2\to 1$ et $\sum u_n$ converge (exemple~\ref{ex:1-sur-n2}).
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Donner les séries de référence.}
+\reponse
+\begin{enumerate}
+\item \textbf{Série géométrique.} Pour $q\in K$, $\sum q^n$ converge si et seulement si $|q|<1$, et alors $\sum_{n=0}^{+\infty}q^n=\frac{1}{1-q}$ (lemme~\ref{lemme:serie-geometrique}). Pour $q\geq 0$ : convergence si et seulement si $q<1$.
+\item \textbf{Série exponentielle.} Pour tout $\lambda\in\mathbb{R}$, $\sum\frac{\lambda^n}{n!}$ converge et $\sum_{n=0}^{+\infty}\frac{\lambda^n}{n!}=e^\lambda$ (proposition~\ref{prop:serie-exponentielle} ci-dessous).
+\item \textbf{Séries de Riemann.} Pour $\alpha\in\mathbb{R}$, $\sum_{n\geq1}\frac{1}{n^\alpha}$ converge si et seulement si $\alpha>1$ (questions 17 et 18).
+\end{enumerate}
+
+\begin{prop}
+\label{prop:serie-exponentielle}
+Pour tout $\lambda\in\mathbb{R}$, $\displaystyle\sum_{n=0}^{+\infty}\frac{\lambda^n}{n!}=e^\lambda$.
+\end{prop}
+
+\begin{proof}
+Si $\lambda\neq 0$, la série à termes strictement positifs $\sum\frac{|\lambda|^n}{n!}$ vérifie
+\[\frac{|\lambda|^{n+1}/(n+1)!}{|\lambda|^n/n!}=\frac{|\lambda|}{n+1}\xrightarrow[n\to+\infty]{}0<1\]
+donc converge par la règle de d'Alembert (question 14), et son terme général tend vers $0$ (question 10) ; c'est aussi vrai si $\lambda=0$. Ainsi $\frac{|\lambda|^{n+1}}{(n+1)!}\to 0$ (lemme~\ref{lemme:decalage}). L'inégalité de Taylor--Lagrange appliquée à $\exp$ entre $0$ et $\lambda$ donne
+\[0\leq\left|e^\lambda-\sum_{k=0}^n\frac{\lambda^k}{k!}\right|\leq e^{|\lambda|}\frac{|\lambda|^{n+1}}{(n+1)!}\xrightarrow[n\to+\infty]{}0\]
+et par encadrement les sommes partielles convergent vers $e^\lambda$.
+\end{proof}
+
+\begin{remarque}
+En pratique, on utilise ces séries dans la règle de comparaison (question 12) ou des équivalents (question 13). Par exemple $\frac{n+1}{n^3+2}\sim\frac{1}{n^2}$ (le quotient tend vers $1$), termes positifs, donc $\sum\frac{n+1}{n^3+2}$ converge.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Si $f$ est continue, décroissante et positive, alors la série de terme général $w_n=f(n)-\int_n^{n+1}f(t)\,\mathrm{d}t$ est convergente.}
+\reponse
+
+\begin{theo}[Comparaison série-intégrale]
+\label{theo:serie-integrale}
+Soit $f:[0,+\infty[\,\to\mathbb{R}$ continue, positive et décroissante. Pour $n\in\mathbb{N}$, posons $w_n=f(n)-\int_n^{n+1}f(t)\,\mathrm{d}t$. Alors $\sum w_n$ est une série à termes positifs convergente, et $\sum_{n=0}^{+\infty}w_n\leq f(0)$.
+\end{theo}
+
+\begin{proof}
+Soit $k\in\mathbb{N}$. Pour $t\in[k,k+1]$, la décroissance de $f$ donne $f(k+1)\leq f(t)\leq f(k)$. Par croissance de l'intégrale sur ce segment de longueur $1$,
+\[f(k+1)\leq\int_k^{k+1}f(t)\,\mathrm{d}t\leq f(k)\qquad\text{donc}\qquad 0\leq w_k\leq f(k)-f(k+1)\]
+En sommant pour $k\in\inter{0}{N}$ et par télescopage,
+\[0\leq\sum_{k=0}^Nw_k\leq f(0)-f(N+1)\leq f(0)\]
+puisque $f(N+1)\geq 0$. Les sommes partielles de la série à termes positifs $\sum w_n$ sont majorées par $f(0)$ : elle converge et sa somme, borne supérieure des sommes partielles, est majorée par $f(0)$ (lemme~\ref{lemme:stp-majoree}).
+\end{proof}
+
+\begin{remarque}
+Géométriquement, $w_k$ est l'aire comprise, au-dessus de $[k,k+1]$, entre la courbe de $f$ et le segment horizontal de hauteur $f(k)$ ; ramenées dans la bande $[0,1]\times[0,f(0)]$, ces aires s'empilent sans se chevaucher. Conséquence : comme $\sum_{k=0}^Nf(k)=\sum_{k=0}^Nw_k+\int_0^{N+1}f$, la série $\sum f(n)$ converge si et seulement si la suite $\big(\int_0^Nf\big)_N$ converge.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Prouver qu'une série de Riemann est convergente lorsque $\alpha>1$.}
+\reponse
+
+\begin{prop}
+\label{prop:riemann-cv}
+Si $\alpha>1$, la série $\sum_{n\geq1}\frac{1}{n^\alpha}$ converge, et $\sum_{n=1}^{+\infty}\frac{1}{n^\alpha}\leq\frac{\alpha}{\alpha-1}$.
+\end{prop}
+
+\begin{proof}
+La fonction $f:t\mapsto t^{-\alpha}=e^{-\alpha\ln t}$ est continue et strictement positive sur $[1,+\infty[$, et décroissante (sa dérivée $t\mapsto-\alpha t^{-\alpha-1}$ y est strictement négative). Pour $k\geq 2$ et $t\in[k-1,k]$, on a $f(t)\geq f(k)$, d'où par croissance de l'intégrale sur ce segment de longueur $1$
+\[\frac{1}{k^\alpha}=\int_{k-1}^kf(k)\,\mathrm{d}t\leq\int_{k-1}^k\frac{\mathrm{d}t}{t^\alpha}\]
+En sommant pour $k\in\inter{2}{n}$ (relation de Chasles), et puisque $t\mapsto\frac{t^{1-\alpha}}{1-\alpha}$ est une primitive de $f$ ($\alpha\neq 1$),
+\[\sum_{k=2}^n\frac{1}{k^\alpha}\leq\int_1^n\frac{\mathrm{d}t}{t^\alpha}=\left[\frac{t^{1-\alpha}}{1-\alpha}\right]_1^n=\frac{1}{\alpha-1}\left(1-\frac{1}{n^{\alpha-1}}\right)\leq\frac{1}{\alpha-1}\]
+car $\alpha-1>0$ entraîne $\frac{1}{n^{\alpha-1}}>0$. Ainsi $S_n=\sum_{k=1}^n\frac{1}{k^\alpha}\leq 1+\frac{1}{\alpha-1}=\frac{\alpha}{\alpha-1}$ pour tout $n\geq 1$. La série étant à termes positifs et ses sommes partielles majorées, elle converge (lemme~\ref{lemme:stp-majoree}), et sa somme est majorée par $\frac{\alpha}{\alpha-1}$.
+\end{proof}
+
+\begin{remarque}
+Pour $\alpha\geq 2$, on peut aussi conclure par comparaison : $0<\frac{1}{n^\alpha}\leq\frac{1}{n^2}$ et $\sum\frac{1}{n^2}$ converge (exemple~\ref{ex:1-sur-n2}). La comparaison à l'intégrale est indispensable pour $1<\alpha<2$.
+\end{remarque}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Prouver qu'une série de Riemann est divergente lorsque $\alpha\leq 1$.}
+\reponse
+
+\begin{prop}
+\label{prop:riemann-dv}
+Si $\alpha\leq 1$, la série $\sum_{n\geq1}\frac{1}{n^\alpha}$ diverge.
+\end{prop}
+
+\begin{proof}
+Pour $n\geq 1$, $\frac{1}{n^\alpha}=e^{-\alpha\ln n}$ et $\ln n\geq 0$.
+
+\textbf{Cas $\alpha\leq 0$.} Alors $-\alpha\ln n\geq 0$, donc $\frac{1}{n^\alpha}\geq e^0=1$ pour tout $n\geq 1$ : le terme général ne tend pas vers $0$, et la série diverge grossièrement (question 10).
+
+\textbf{Cas $0<\alpha\leq 1$.} Alors $\alpha\ln n\leq\ln n$, donc $n^\alpha=e^{\alpha\ln n}\leq e^{\ln n}=n$ par croissance de $\exp$, et
+\[\forall n\geq 1,\qquad 0<\frac1n\leq\frac{1}{n^\alpha}\]
+La série harmonique $\sum\frac1n$ diverge (question 11) ; par la règle de comparaison (question 12, point 2), $\sum\frac{1}{n^\alpha}$ diverge.
+\end{proof}
+
+\begin{remarque}
+Avec la question 17 : $\sum_{n\geq1}\frac{1}{n^\alpha}$ converge si et seulement si $\alpha>1$. Pour $\alpha\leq 1$, la série est à termes positifs et diverge, donc ses sommes partielles tendent vers $+\infty$ (lemme~\ref{lemme:stp-majoree}).
+\end{remarque}
+
+\end{document}

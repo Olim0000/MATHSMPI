@@ -3,8 +3,9 @@
 
 \paragraph{Notations.} Dans tout ce chapitre, $K$ désigne $\mathbb{R}$ ou $\mathbb{C}$, muni de son module $|\cdot|$ (la valeur absolue si $K=\mathbb{R}$). L'hypothèse $K\in\{\mathbb{R},\mathbb{C}\}$ est essentielle : la définition d'une norme fait intervenir $|\lambda|$, et l'on utilise librement la relation d'ordre de $\mathbb{R}$. On suppose connues de première année les notions suivantes :
 \begin{itemize}
-\item espace vectoriel, sous-espace vectoriel, application linéaire (chapitre~\ref{chap:algebre-lineaire}) ;
+\item espace vectoriel, sous-espace vectoriel, application linéaire, base d'un espace de dimension finie et coordonnées dans une base (chapitre~\ref{chap:algebre-lineaire}) ;
 \item la \textbf{propriété de la borne supérieure} de $\mathbb{R}$ : toute partie non vide et majorée de $\mathbb{R}$ admet une borne supérieure dans $\mathbb{R}$ ;
+\item le \textbf{théorème de Bolzano--Weierstrass} : de toute suite bornée d'éléments de $K$ ($K=\mathbb{R}$ ou $\mathbb{C}$) on peut extraire une suite convergente (la notion de suite extraite est rappelée à la définition~\ref{defi:suite-extraite}) ;
 \item la droite réelle achevée $\overline{\mathbb{R}}=\mathbb{R}\cup\{-\infty,+\infty\}$, ainsi que les définitions
 \[\lim_{n\to+\infty} u_n = +\infty \iff \forall A\in\mathbb{R},\ \exists N_0\in\mathbb{N},\ \forall n\geq N_0,\ u_n\geq A\]
 et symétriquement pour $-\infty$ ;
@@ -35,6 +36,16 @@ d'où $N(x)\geq 0$. On garde néanmoins l'axiome 1 dans l'énoncé, conformémen
 
 Par ailleurs, la réciproque de l'axiome 2 est automatique : $N(0_E)=0$. On a donc bien $N(x)=0\iff x=0_E$.
 \end{remarque}
+
+\begin{prop}[Seconde inégalité triangulaire]
+\label{prop:inegalite-triangulaire-inverse}
+Soit $(E,\|\cdot\|)$ un e.v.n. Pour tous $x,y\in E$,
+\[\big|\,\|x\|-\|y\|\,\big| \leq \|x-y\|\]
+\end{prop}
+
+\begin{proof}
+L'inégalité triangulaire donne $\|x\|=\|(x-y)+y\|\leq\|x-y\|+\|y\|$, soit $\|x\|-\|y\|\leq\|x-y\|$. En échangeant les rôles de $x$ et $y$, $\|y\|-\|x\|\leq\|y-x\|=|-1|\,\|x-y\|=\|x-y\|$. Les deux réels $\|x\|-\|y\|$ et $-(\|x\|-\|y\|)$ sont majorés par $\|x-y\|$, donc leur maximum $\big|\,\|x\|-\|y\|\,\big|$ aussi.
+\end{proof}
 
 \begin{exemple}
 $(\mathbb{R},|\cdot|)$ et $(\mathbb{C},|\cdot|)$ sont des espaces vectoriels normés : les quatre axiomes sont les propriétés usuelles du module.
@@ -433,6 +444,46 @@ d'où, pour $n\geq N_1$,
 Posons $M=\max\big(\|u_0\|,\|u_1\|,\dots,\|u_{N_1}\|,\ 1+\|\ell\|\big)$, maximum d'un nombre \emph{fini} de réels. Alors $\|u_n\|\leq M$ pour tout $n\in\mathbb{N}$ : les indices $n<N_1$ sont couverts par les premiers termes du maximum, les indices $n\geq N_1$ par le dernier.
 \end{proof}
 
+\subsection{Suites extraites}
+
+\begin{defi}[Suite extraite]
+\label{defi:suite-extraite}
+Soit $(u_n)_{n\in\mathbb{N}}\in E^{\mathbb{N}}$. On appelle \textbf{suite extraite} (ou sous-suite) de $(u_n)$ toute suite de la forme $\big(u_{\varphi(k)}\big)_{k\in\mathbb{N}}$, où $\varphi:\mathbb{N}\to\mathbb{N}$ est strictement croissante ; une telle application $\varphi$ est appelée \textbf{extractrice}.
+\end{defi}
+
+\begin{lemme}
+\label{lemme:extractrice}
+Si $\varphi:\mathbb{N}\to\mathbb{N}$ est strictement croissante, alors $\varphi(k)\geq k$ pour tout $k\in\mathbb{N}$. De plus, la composée de deux extractrices est une extractrice.
+\end{lemme}
+
+\begin{proof}
+Par récurrence sur $k$ : $\varphi(0)\geq 0$ car $\varphi(0)\in\mathbb{N}$ ; si $\varphi(k)\geq k$, alors $\varphi(k+1)>\varphi(k)\geq k$, et comme $\varphi(k+1)$ est un entier strictement supérieur à l'entier $k$, $\varphi(k+1)\geq k+1$.
+
+Si $\varphi,\psi$ sont strictement croissantes et $k<k'$, alors $\psi(k)<\psi(k')$, puis $\varphi(\psi(k))<\varphi(\psi(k'))$ : $\varphi\circ\psi$ est strictement croissante. Ainsi une suite extraite d'une suite extraite de $(u_n)$ est encore une suite extraite de $(u_n)$ : $\big(u_{\varphi(\psi(k))}\big)_k$.
+\end{proof}
+
+\begin{prop}
+\label{prop:suite-extraite-cv}
+Si $(u_n)$ converge vers $\ell$, alors toute suite extraite de $(u_n)$ converge vers $\ell$.
+\end{prop}
+
+\begin{proof}
+Soit $\varphi$ une extractrice et $\varepsilon>0$. Il existe $N_0$ tel que $\|u_n-\ell\|\leq\varepsilon$ pour tout $n\geq N_0$. Pour $k\geq N_0$, le lemme~\ref{lemme:extractrice} donne $\varphi(k)\geq k\geq N_0$, donc $\|u_{\varphi(k)}-\ell\|\leq\varepsilon$.
+\end{proof}
+
+\begin{remarque}
+Par contraposition, si deux suites extraites de $(u_n)$ ont des limites différentes, ou si une suite extraite diverge, alors $(u_n)$ diverge. C'est l'argument employé pour $((-1)^n)$ dans la proposition~\ref{prop:suite-geometrique}.
+\end{remarque}
+
+\begin{prop}[Termes pairs et impairs]
+\label{prop:pairs-impairs}
+Si $(u_{2n})_{n\in\mathbb{N}}$ et $(u_{2n+1})_{n\in\mathbb{N}}$ convergent vers une \emph{même} limite $\ell$, alors $(u_n)$ converge vers $\ell$.
+\end{prop}
+
+\begin{proof}
+Soit $\varepsilon>0$. Il existe $N_1$ tel que $\|u_{2n}-\ell\|\leq\varepsilon$ pour $n\geq N_1$, et $N_2$ tel que $\|u_{2n+1}-\ell\|\leq\varepsilon$ pour $n\geq N_2$. Posons $N_0=\max(2N_1,2N_2+1)$ et soit $m\geq N_0$. Si $m=2n$ est pair, alors $n=m/2\geq N_1$ ; si $m=2n+1$ est impair, alors $n=(m-1)/2\geq N_2$. Dans les deux cas $\|u_m-\ell\|\leq\varepsilon$.
+\end{proof}
+
 \subsection{Théorèmes d'opérations}
 
 \begin{prop}
@@ -520,4 +571,267 @@ donne $\big\|B(x_n,y_n)-B(\ell_1,\ell_2)\big\|_G\to 0$, c'est-à-dire la converg
 
 \begin{remarque}
 L'hypothèse $(\star)$ est vérifiée par tous les exemples ci-dessus : $|xy|\leq|x|\,|y|$ dans $K$ (avec $M=1$), $\|\lambda x\|=|\lambda|\,\|x\|$, $|\langle x\mid y\rangle|\leq\|x\|_2\|y\|_2$ (Cauchy--Schwarz), et $\|AB\|\leq n\,\|A\|_\infty\|B\|_\infty$ pour des matrices de $\mathcal{M}_n(K)$. On retrouve ainsi, comme cas particuliers du théorème~\ref{theo:bilineaire-limite}, que le produit de deux suites réelles (ou complexes) convergentes converge vers le produit des limites.
+\end{remarque}
+
+\subsection{Relations de comparaison}
+\label{subsec:relations-comparaison}
+
+Dans ce paragraphe, $(u_n)\in E^{\mathbb{N}}$ est une suite de l'e.v.n.\ $E$, et $(\alpha_n)$, $(v_n)$, $(w_n)$, $(x_n)$ sont des suites de $K$.
+
+\begin{defi}[Domination, négligeabilité]
+\label{defi:domination}
+On dit que :
+\begin{itemize}
+\item $(u_n)$ est \textbf{dominée} par $(\alpha_n)$, et l'on note $u_n=O(\alpha_n)$, s'il existe $M\geq 0$ et $N_0\in\mathbb{N}$ tels que
+\[\forall n\geq N_0,\quad \|u_n\|\leq M\,|\alpha_n|\]
+\item $(u_n)$ est \textbf{négligeable} devant $(\alpha_n)$, et l'on note $u_n=o(\alpha_n)$, si
+\[\forall\varepsilon>0,\ \exists N_0\in\mathbb{N},\ \forall n\geq N_0,\quad \|u_n\|\leq\varepsilon\,|\alpha_n|\]
+\end{itemize}
+\end{defi}
+
+\begin{remarque}
+Le signe « $=$ » est ici un abus de notation : il ne désigne pas une égalité et n'est pas symétrique. On a toujours $u_n=o(\alpha_n)\implies u_n=O(\alpha_n)$ (prendre $\varepsilon=1$). Si $\alpha_n\neq 0$ pour tout $n\geq n_1$, alors, en divisant par $|\alpha_n|>0$ :
+\begin{itemize}
+\item $u_n=O(\alpha_n)$ si et seulement si la suite $\big(\frac{1}{\alpha_n}u_n\big)_{n\geq n_1}$ est bornée (une majoration valable à partir d'un rang $N_0$ s'étend à tous les $n\geq n_1$, les indices $n_1\leq n<N_0$ étant en nombre fini) ;
+\item $u_n=o(\alpha_n)$ si et seulement si $\frac{1}{\alpha_n}u_n\xrightarrow[n\to+\infty]{}0_E$.
+\end{itemize}
+En particulier $u_n=O(1)$ signifie que $(u_n)$ est bornée, et $u_n=o(1)$ que $u_n\to 0_E$.
+\end{remarque}
+
+\begin{defi}[Suites équivalentes]
+\label{defi:suites-equivalentes}
+On dit que $(v_n)$ est \textbf{équivalente} à $(w_n)$, et l'on note $v_n\sim w_n$, si $v_n-w_n=o(w_n)$, c'est-à-dire
+\[\forall\varepsilon>0,\ \exists N_0\in\mathbb{N},\ \forall n\geq N_0,\quad |v_n-w_n|\leq\varepsilon\,|w_n|\]
+\end{defi}
+
+\begin{prop}
+\label{prop:equivalence-suites-relation}
+La relation $\sim$ est une relation d'équivalence sur $K^{\mathbb{N}}$.
+\end{prop}
+
+\begin{proof}
+\emph{Réflexivité :} $|w_n-w_n|=0\leq\varepsilon|w_n|$ pour tout $n$.
+
+\emph{Symétrie :} supposons $v_n\sim w_n$ et soit $\varepsilon>0$. Posons $\eta=\min\big(\frac{\varepsilon}{2},\frac12\big)>0$ ; il existe $N_0$ tel que $|v_n-w_n|\leq\eta|w_n|$ pour $n\geq N_0$. Pour de tels $n$,
+\[|w_n| \leq |w_n-v_n|+|v_n| \leq \eta|w_n|+|v_n| \qquad\text{donc}\qquad (1-\eta)|w_n|\leq|v_n|\]
+et comme $1-\eta\geq\frac12$, il vient $|w_n|\leq 2|v_n|$. Par conséquent $|w_n-v_n|\leq\eta|w_n|\leq 2\eta|v_n|\leq\varepsilon|v_n|$ pour tout $n\geq N_0$ : $w_n\sim v_n$.
+
+\emph{Transitivité :} supposons $v_n\sim w_n$ et $w_n\sim x_n$, et soit $\varepsilon>0$. Posons $\eta=\min\big(1,\frac{\varepsilon}{3}\big)$ ; il existe $N_0$ tel que, pour $n\geq N_0$, $|v_n-w_n|\leq\eta|w_n|$ et $|w_n-x_n|\leq\eta|x_n|$ (prendre le maximum des deux rangs). Alors $|w_n|\leq|w_n-x_n|+|x_n|\leq(1+\eta)|x_n|$, puis
+\[|v_n-x_n| \leq |v_n-w_n|+|w_n-x_n| \leq \eta(1+\eta)|x_n|+\eta|x_n| = \eta(2+\eta)|x_n| \leq 3\eta|x_n|\leq\varepsilon|x_n|\]
+puisque $\eta\leq 1$. Donc $v_n\sim x_n$.
+\end{proof}
+
+La symétrie justifie que l'on dise simplement que $(v_n)$ et $(w_n)$ sont équivalentes.
+
+\begin{prop}
+\label{prop:equivalent-quotient}
+Si $w_n\neq 0$ pour tout $n\geq n_1$, alors
+\[v_n\sim w_n \iff \frac{v_n}{w_n}\xrightarrow[n\to+\infty]{}1\]
+\end{prop}
+
+\begin{proof}
+Pour $n\geq n_1$, en divisant par $|w_n|>0$, l'inégalité $|v_n-w_n|\leq\varepsilon|w_n|$ équivaut à $\big|\frac{v_n}{w_n}-1\big|\leq\varepsilon$. Les deux propriétés « à partir d'un certain rang » coïncident donc (quitte à remplacer $N_0$ par $\max(N_0,n_1)$).
+\end{proof}
+
+\begin{prop}[Encadrement]
+\label{prop:equivalent-encadrement}
+Soient $(v_n)$ et $(w_n)$ deux suites \emph{réelles} telles que $v_n\sim w_n$ et $w_n\geq 0$ à partir d'un certain rang. Alors
+\[\forall\varepsilon>0,\ \exists N_0\in\mathbb{N},\ \forall n\geq N_0,\quad (1-\varepsilon)\,w_n\leq v_n\leq(1+\varepsilon)\,w_n\]
+En particulier (avec $\varepsilon=\frac12$), $v_n\geq\frac12 w_n\geq 0$ à partir d'un certain rang.
+\end{prop}
+
+\begin{proof}
+Soit $n_1$ tel que $w_n\geq 0$ pour $n\geq n_1$, et $\varepsilon>0$. Il existe $N_1$ tel que $|v_n-w_n|\leq\varepsilon|w_n|$ pour $n\geq N_1$. Pour $n\geq N_0=\max(n_1,N_1)$, on a $|w_n|=w_n$, d'où $-\varepsilon w_n\leq v_n-w_n\leq\varepsilon w_n$, ce qui est l'encadrement annoncé.
+\end{proof}
+
+\begin{exemple}
+\label{ex:equivalents-usuels}
+\begin{enumerate}
+\item Si $P=\sum_{k=0}^{d}a_kX^k\in K[X]$ avec $a_d\neq 0$, alors $P(n)\sim a_dn^d$ : pour $n\geq 1$, $a_dn^d\neq 0$ et
+\[\frac{P(n)}{a_dn^d} = 1+\sum_{k=0}^{d-1}\frac{a_k}{a_d}\,\frac{1}{n^{d-k}}\xrightarrow[n\to+\infty]{}1\]
+car chaque $\frac{1}{n^{d-k}}$ ($d-k\geq 1$) tend vers $0$. On conclut par la proposition~\ref{prop:equivalent-quotient}.
+\item En particulier $n(n+1)=n^2+n\sim n^2$, et donc $\frac{1}{n(n+1)}\sim\frac{1}{n^2}$ : le quotient $\frac{1/(n(n+1))}{1/n^2}=\frac{n}{n+1}=\frac{1}{1+1/n}$ tend vers $1$.
+\end{enumerate}
+\end{exemple}
+
+\section{Normes équivalentes}
+\label{sec:normes-equivalentes}
+
+Dans toute cette section, $E$ est un $K$-espace vectoriel et $N_1$, $N_2$, $N_3$ désignent des normes sur $E$. Une même suite de $E$ peut converger pour l'une et diverger pour l'autre : on dira qu'une suite « converge pour $N_1$ » lorsqu'elle converge dans l'e.v.n.\ $(E,N_1)$, et de même pour les parties bornées, les ouverts, etc.
+
+\subsection{Définition}
+
+\begin{defi}[Normes équivalentes]
+\label{defi:normes-equivalentes}
+On dit que $N_1$ et $N_2$ sont \textbf{équivalentes} s'il existe deux réels $a>0$ et $b>0$ tels que
+\[\forall x\in E,\qquad N_1(x)\leq a\,N_2(x) \qquad\text{et}\qquad N_2(x)\leq b\,N_1(x)\]
+autrement dit s'il existe $\alpha,\beta>0$ tels que $\alpha N_1\leq N_2\leq\beta N_1$ (prendre $\alpha=\frac1a$, $\beta=b$).
+\end{defi}
+
+\begin{prop}
+\label{prop:normes-equivalentes-relation}
+La relation « être équivalente à » est une relation d'équivalence sur l'ensemble des normes sur $E$.
+\end{prop}
+
+\begin{proof}
+\emph{Réflexivité :} $N_1\leq 1\cdot N_1$, avec $a=b=1$.
+
+\emph{Symétrie :} la définition est symétrique en $N_1$ et $N_2$ (on échange les rôles de $a$ et $b$).
+
+\emph{Transitivité :} supposons $N_1\leq aN_2$, $N_2\leq bN_1$, $N_2\leq a'N_3$ et $N_3\leq b'N_2$ avec $a,b,a',b'>0$. Pour $x\in E$, comme $a\geq 0$,
+\[N_1(x)\leq a\,N_2(x)\leq a a'\,N_3(x) \qquad\text{et de même}\qquad N_3(x)\leq b'\,N_2(x)\leq b'b\,N_1(x)\]
+avec $aa'>0$ et $bb'>0$ : $N_1$ et $N_3$ sont équivalentes.
+\end{proof}
+
+\begin{prop}
+\label{prop:comparaison-normes}
+On suppose qu'il existe $a>0$ tel que $N_1\leq a\,N_2$. Alors :
+\begin{enumerate}
+\item toute suite qui converge vers $\ell$ pour $N_2$ converge vers $\ell$ pour $N_1$ ;
+\item toute partie bornée pour $N_2$ est bornée pour $N_1$ ;
+\item tout ouvert (resp. fermé) pour $N_1$ est un ouvert (resp. fermé) pour $N_2$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\textbf{1.} Soit $(u_n)$ convergeant vers $\ell$ pour $N_2$ : $N_2(u_n-\ell)\to 0$ (proposition~\ref{prop:norme-suite-reelle}), donc $aN_2(u_n-\ell)\to 0$. Pour tout $n$,
+\[0\leq N_1(u_n-\ell)\leq a\,N_2(u_n-\ell)\]
+et le théorème d'encadrement~\ref{theo:gendarmes} donne $N_1(u_n-\ell)\to 0$, c'est-à-dire $u_n\to\ell$ pour $N_1$.
+
+\textbf{2.} Si $N_2(x)\leq C$ pour tout $x\in X$, alors $N_1(x)\leq aC$ pour tout $x\in X$.
+
+\textbf{3.} Notons $B_1$ et $B_2$ les boules ouvertes relatives à $N_1$ et $N_2$. Pour $x\in E$ et $r>0$, on a $B_2(x,\frac ra)\subset B_1(x,r)$ : si $N_2(y-x)<\frac ra$, alors $N_1(y-x)\leq aN_2(y-x)<r$. Soit alors $O$ un ouvert pour $N_1$ et $x\in O$ : il existe $r>0$ tel que $B_1(x,r)\subset O$, donc $B_2(x,\frac ra)\subset O$. Ainsi $O$ est un ouvert pour $N_2$. Si $W$ est fermé pour $N_1$, son complémentaire est ouvert pour $N_1$, donc pour $N_2$, et $W$ est fermé pour $N_2$.
+\end{proof}
+
+\begin{remarque}
+Attention au sens : l'inégalité $N_1\leq aN_2$ permet de transférer une convergence de $N_2$ vers $N_1$, et non l'inverse. Pour montrer qu'une telle inégalité est \emph{impossible}, il suffit donc d'exhiber une suite qui converge pour $N_2$ mais pas pour $N_1$ (voir l'exemple~\ref{ex:normes-non-equivalentes}).
+\end{remarque}
+
+\begin{coro}
+\label{coro:normes-equivalentes-memes}
+Si $N_1$ et $N_2$ sont équivalentes, alors $(E,N_1)$ et $(E,N_2)$ ont les mêmes suites convergentes, avec les mêmes limites, les mêmes parties bornées, les mêmes ouverts et les mêmes fermés.
+\end{coro}
+
+\begin{proof}
+On applique la proposition~\ref{prop:comparaison-normes} à l'inégalité $N_1\leq aN_2$, puis à $N_2\leq bN_1$.
+\end{proof}
+
+\begin{prop}[Caractérisation séquentielle]
+\label{prop:normes-equivalentes-suites}
+$N_1$ et $N_2$ sont équivalentes si et seulement si $(E,N_1)$ et $(E,N_2)$ ont les mêmes suites convergentes, c'est-à-dire si toute suite de $E$ qui converge pour l'une des normes converge pour l'autre.
+\end{prop}
+
+\begin{proof}
+$(\Rightarrow)$ C'est le corollaire~\ref{coro:normes-equivalentes-memes}.
+
+$(\Leftarrow)$ Supposons que $N_1$ et $N_2$ aient les mêmes suites convergentes, et montrons par l'absurde qu'il existe $a>0$ tel que $N_1\leq aN_2$. Sinon, pour tout $a>0$ il existe $x\in E$ tel que $N_1(x)>a\,N_2(x)$ ; en appliquant ceci à $a=n$, on obtient pour tout $n\in\mathbb{N}^*$ un vecteur $x_n$ tel que
+\[N_1(x_n) > n\,N_2(x_n)\]
+Nécessairement $x_n\neq 0$ (sinon on aurait $0>0$), donc $N_1(x_n)>0$ et l'on peut poser $y_n=\frac{1}{N_1(x_n)}\,x_n$. Par homogénéité,
+\[N_1(y_n)=1 \qquad\text{et}\qquad N_2(y_n)=\frac{N_2(x_n)}{N_1(x_n)}<\frac1n\]
+Posons enfin $z_n=\sqrt{n}\,y_n$. Alors $N_2(z_n)=\sqrt n\,N_2(y_n)<\frac{1}{\sqrt n}$, donc $0\leq N_2(z_n-0)\leq\frac{1}{\sqrt n}\to 0$ : la suite $(z_n)_{n\geq1}$ converge vers $0$ pour $N_2$. Par hypothèse, elle converge donc aussi pour $N_1$, et elle est alors bornée pour $N_1$ (proposition~\ref{prop:convergente-bornee}). Or $N_1(z_n)=\sqrt n\,N_1(y_n)=\sqrt n\xrightarrow[n\to+\infty]{}+\infty$ : contradiction.
+
+Il existe donc $a>0$ tel que $N_1\leq aN_2$. Les hypothèses étant symétriques en $N_1$ et $N_2$, le même raisonnement fournit $b>0$ tel que $N_2\leq bN_1$.
+\end{proof}
+
+\begin{remarque}
+Le facteur $\sqrt n$ est l'astuce de la démonstration : la suite $(y_n)$ tend vers $0$ pour $N_2$ tout en restant de norme $1$ pour $N_1$, ce qui ne suffirait pas à contredire l'hypothèse (elle pourrait converger pour $N_1$ vers une limite non nulle, du moins a priori) ; en la multipliant par $\sqrt n$, qui tend vers $+\infty$ moins vite que $n$, on obtient une suite qui tend encore vers $0$ pour $N_2$ mais qui n'est plus bornée pour $N_1$.
+\end{remarque}
+
+\begin{exemple}[Normes usuelles sur $K^n$]
+\label{ex:comparaison-normes-kn}
+Soit $n\geq 1$. Pour tout $x\in K^n$ (normes de l'exemple~\ref{ex:normes-kn}) :
+\[\|x\|_\infty\leq\|x\|_1\leq n\,\|x\|_\infty,\qquad \|x\|_\infty\leq\|x\|_2\leq\sqrt n\,\|x\|_\infty,\qquad \|x\|_2\leq\|x\|_1\leq\sqrt n\,\|x\|_2\]
+Ces trois normes sont donc équivalentes. De plus, les constantes sont les meilleures possibles : chacune des six inégalités est une égalité pour un vecteur non nul bien choisi.
+\end{exemple}
+
+\begin{proof}
+Posons $a_i=|x_i|\geq 0$ et $M=\|x\|_\infty=\max_i a_i$, atteint en un indice $i_0$.
+
+\emph{Première chaîne.} $M=a_{i_0}\leq\sum_{i}a_i$, les autres termes étant positifs ; et $\sum_i a_i\leq\sum_i M=nM$.
+
+\emph{Deuxième chaîne.} $M^2=a_{i_0}^2\leq\sum_i a_i^2$, d'où $M\leq\|x\|_2$ par croissance de $\sqrt{\cdot}$ sur $\mathbb{R}_+$ ; et $\sum_i a_i^2\leq nM^2$, d'où $\|x\|_2\leq\sqrt n\,M$.
+
+\emph{Troisième chaîne.} D'une part
+\[\|x\|_1^2 = \Big(\sum_{i=1}^n a_i\Big)^2 = \sum_{i=1}^n a_i^2 + \sum_{i\neq j}a_ia_j \geq \sum_{i=1}^n a_i^2 = \|x\|_2^2\]
+car les $a_ia_j$ sont positifs. D'autre part, $2a_ia_j\leq a_i^2+a_j^2$ (c'est $(a_i-a_j)^2\geq 0$), donc
+\[\|x\|_1^2 = \sum_{i=1}^n\sum_{j=1}^n a_ia_j \leq \sum_{i=1}^n\sum_{j=1}^n\frac{a_i^2+a_j^2}{2} = \frac{n\sum_i a_i^2+n\sum_j a_j^2}{2} = n\,\|x\|_2^2\]
+On conclut en prenant les racines carrées (tout est positif).
+
+\emph{Optimalité.} Pour $e_1=(1,0,\dots,0)$, on a $\|e_1\|_\infty=\|e_1\|_1=\|e_1\|_2=1$ : les trois inégalités de gauche sont des égalités. Pour $u=(1,\dots,1)$, on a $\|u\|_\infty=1$, $\|u\|_2=\sqrt n$, $\|u\|_1=n$ : les trois inégalités de droite sont des égalités. Par exemple, si $c$ est un réel tel que $\|x\|_1\leq c\|x\|_\infty$ pour tout $x$, alors en $x=u$ il vient $n\leq c$ : la constante $n$ ne peut pas être diminuée. On raisonne de même pour les cinq autres inégalités.
+\end{proof}
+
+\begin{exemple}[Deux normes non équivalentes]
+\label{ex:normes-non-equivalentes}
+Soit $E=K[X]$. Pour $P=\sum_{k\geq 0}a_kX^k$ (les $a_k$ étant nuls sauf un nombre fini), on pose
+\[N_1(P)=\sum_{k\geq 0}|a_k|,\qquad N_\infty(P)=\max_{k\geq 0}|a_k|\]
+(somme et maximum portent en fait sur un nombre fini de termes non nuls). Ce sont deux normes sur $K[X]$ : la démonstration est celle de l'exemple~\ref{ex:normes-kn}, en utilisant que les coefficients de $\lambda P+Q$ sont les $\lambda a_k+b_k$ et qu'un polynôme est nul si et seulement si tous ses coefficients le sont. On a $N_\infty\leq N_1$ (chaque $|a_k|$ est majoré par la somme de tous). En revanche, il n'existe aucun $b>0$ tel que $N_1\leq b\,N_\infty$.
+
+En effet, posons $Q_n=\frac{1}{n+1}\sum_{k=0}^{n}X^k$. Alors $N_\infty(Q_n)=\frac{1}{n+1}\to 0$ : la suite $(Q_n)$ converge vers $0$ pour $N_\infty$. Si elle convergeait vers une limite $L$ pour $N_1$, elle convergerait aussi vers $L$ pour $N_\infty$ (proposition~\ref{prop:comparaison-normes} appliquée à $N_\infty\leq N_1$), d'où $L=0$ par unicité de la limite ; or $N_1(Q_n-0)=1$ ne tend pas vers $0$. Donc $(Q_n)$ diverge pour $N_1$, et les deux normes n'ont pas les mêmes suites convergentes : elles ne sont pas équivalentes (proposition~\ref{prop:normes-equivalentes-suites}). L'espace $K[X]$ étant de dimension infinie, ceci ne contredit pas le théorème suivant.
+\end{exemple}
+
+\subsection{Cas de la dimension finie}
+
+\begin{lemme}
+\label{lemme:norme-infini-base}
+Soit $E$ un $K$-e.v.\ de dimension finie $p\geq 1$ et $\mathcal{B}=(e_1,\dots,e_p)$ une base de $E$. Pour $x=\sum_{i=1}^{p}x_ie_i\in E$, on pose
+\[\|x\|_{\infty,\mathcal{B}}=\max_{1\leq i\leq p}|x_i|\]
+\begin{enumerate}
+\item $\|\cdot\|_{\infty,\mathcal{B}}$ est une norme sur $E$.
+\item Si $(z_k)$ est une suite de $E$, de coordonnées $z_k=\sum_{i=1}^{p}z_{k,i}\,e_i$, et si pour chaque $i$ la suite $(z_{k,i})_{k}$ converge dans $K$ vers $\ell_i$, alors $(z_k)$ converge vers $\ell=\sum_{i=1}^p\ell_ie_i$ pour $\|\cdot\|_{\infty,\mathcal{B}}$. Réciproquement, si $z_k\to\ell$ pour $\|\cdot\|_{\infty,\mathcal{B}}$, alors $z_{k,i}\to\ell_i$ pour tout $i$.
+\end{enumerate}
+\end{lemme}
+
+\begin{proof}
+\textbf{1.} L'application $\phi:E\to K^p$, $x\mapsto(x_1,\dots,x_p)$, qui à un vecteur associe ses coordonnées, est linéaire et bijective, et $\|x\|_{\infty,\mathcal{B}}=\|\phi(x)\|_\infty$. La positivité est claire. Si $\|x\|_{\infty,\mathcal{B}}=0$, alors $\phi(x)=0$, donc $x=0$ par injectivité de $\phi$. Enfin, par linéarité de $\phi$ et d'après l'exemple~\ref{ex:normes-kn},
+\[\|\lambda x\|_{\infty,\mathcal{B}}=\|\lambda\phi(x)\|_\infty=|\lambda|\,\|x\|_{\infty,\mathcal{B}},\qquad \|x+y\|_{\infty,\mathcal{B}}=\|\phi(x)+\phi(y)\|_\infty\leq\|x\|_{\infty,\mathcal{B}}+\|y\|_{\infty,\mathcal{B}}\]
+
+\textbf{2.} Les coordonnées de $z_k-\ell$ sont les $z_{k,i}-\ell_i$, d'où
+\[0\leq\|z_k-\ell\|_{\infty,\mathcal{B}}=\max_{1\leq i\leq p}|z_{k,i}-\ell_i|\leq\sum_{i=1}^{p}|z_{k,i}-\ell_i|\]
+Le majorant est une somme finie de suites réelles tendant vers $0$, donc tend vers $0$ (proposition~\ref{prop:somme-limites}), et l'on conclut par encadrement (théorème~\ref{theo:gendarmes}). Réciproquement, $0\leq|z_{k,i}-\ell_i|\leq\|z_k-\ell\|_{\infty,\mathcal{B}}$ pour chaque $i$.
+\end{proof}
+
+\begin{theo}[Équivalence des normes en dimension finie]
+\label{theo:normes-equivalentes-dim-finie}
+Si $E$ est un $K$-espace vectoriel de dimension finie, toutes les normes sur $E$ sont équivalentes.
+\end{theo}
+
+\begin{proof}
+Si $E=\{0\}$, la seule norme sur $E$ est l'application nulle, et il n'y a rien à démontrer. Supposons $\dim E=p\geq 1$, fixons une base $\mathcal{B}=(e_1,\dots,e_p)$ et notons $\|\cdot\|_\infty=\|\cdot\|_{\infty,\mathcal{B}}$ la norme du lemme~\ref{lemme:norme-infini-base}. Comme l'équivalence des normes est transitive (proposition~\ref{prop:normes-equivalentes-relation}), il suffit de montrer que \emph{toute} norme $N$ sur $E$ est équivalente à $\|\cdot\|_\infty$ : deux normes $N$ et $N'$ seront alors équivalentes à $\|\cdot\|_\infty$, donc entre elles.
+
+\textbf{Étape 1 : $N\leq C\|\cdot\|_\infty$.} Soit $x=\sum_{i=1}^px_ie_i\in E$. L'inégalité triangulaire (étendue à une somme finie par récurrence) et l'homogénéité donnent
+\[N(x)\leq\sum_{i=1}^{p}N(x_ie_i)=\sum_{i=1}^{p}|x_i|\,N(e_i)\leq\|x\|_\infty\sum_{i=1}^{p}N(e_i)\]
+d'où $N\leq C\|\cdot\|_\infty$ avec $C=\sum_{i=1}^pN(e_i)$, et $C>0$ puisque les $e_i$ sont non nuls.
+
+\textbf{Étape 2 : il existe $b>0$ tel que $\|\cdot\|_\infty\leq b\,N$.} Supposons le contraire. Alors pour tout $k\in\mathbb{N}$, le réel $b=k+1$ ne convient pas : il existe $x_k\in E$ tel que
+\[\|x_k\|_\infty>(k+1)\,N(x_k)\]
+Nécessairement $x_k\neq 0$, et l'on pose $z_k=\frac{1}{\|x_k\|_\infty}\,x_k$. Par homogénéité,
+\[\|z_k\|_\infty=1\qquad\text{et}\qquad N(z_k)=\frac{N(x_k)}{\|x_k\|_\infty}<\frac{1}{k+1} \tag{$\star$}\]
+Écrivons $z_k=\sum_{i=1}^p z_{k,i}\,e_i$. Pour chaque $i$, $|z_{k,i}|\leq\|z_k\|_\infty=1$ : les $p$ suites de coordonnées $(z_{k,i})_{k\in\mathbb{N}}$ sont bornées dans $K$.
+
+\emph{Extractions successives.} Montrons par récurrence sur $j\in\inter{0}{p}$ qu'il existe une extractrice $\psi_j$ telle que, pour tout $i\in\inter{1}{j}$, la suite $(z_{\psi_j(k),i})_{k\in\mathbb{N}}$ converge. Pour $j=0$, $\psi_0=\id_{\mathbb{N}}$ convient (condition vide). Si $\psi_{j-1}$ est construite ($j\geq 1$), la suite $(z_{\psi_{j-1}(k),j})_{k}$ est bornée dans $K$ ; par le théorème de Bolzano--Weierstrass, il existe une extractrice $\sigma$ telle que $(z_{\psi_{j-1}(\sigma(k)),j})_{k}$ converge. Posons $\psi_j=\psi_{j-1}\circ\sigma$, qui est une extractrice (lemme~\ref{lemme:extractrice}). Pour $i\leq j-1$, la suite $(z_{\psi_j(k),i})_k$ est extraite de la suite convergente $(z_{\psi_{j-1}(k),i})_k$, donc converge (proposition~\ref{prop:suite-extraite-cv}) ; pour $i=j$ elle converge par construction.
+
+Posons $\psi=\psi_p$, $\ell_i=\lim_{k}z_{\psi(k),i}$ et $\ell=\sum_{i=1}^p\ell_ie_i$. D'après le lemme~\ref{lemme:norme-infini-base}, $z_{\psi(k)}\to\ell$ pour $\|\cdot\|_\infty$.
+
+\emph{D'une part, $\|\ell\|_\infty=1$.} Par la seconde inégalité triangulaire (proposition~\ref{prop:inegalite-triangulaire-inverse}) et $(\star)$,
+\[\big|1-\|\ell\|_\infty\big| = \big|\,\|z_{\psi(k)}\|_\infty-\|\ell\|_\infty\big| \leq \|z_{\psi(k)}-\ell\|_\infty\xrightarrow[k\to+\infty]{}0\]
+Le réel positif $|1-\|\ell\|_\infty|$ est donc inférieur à tout $\varepsilon>0$ : il est nul.
+
+\emph{D'autre part, $\ell=0$.} D'après l'étape 1, $0\leq N(z_{\psi(k)}-\ell)\leq C\,\|z_{\psi(k)}-\ell\|_\infty\to 0$, donc $z_{\psi(k)}\to\ell$ pour $N$. Mais aussi, par $(\star)$ et le lemme~\ref{lemme:extractrice} ($\psi(k)\geq k$),
+\[0\leq N(z_{\psi(k)}-0)<\frac{1}{\psi(k)+1}\leq\frac{1}{k+1}\xrightarrow[k\to+\infty]{}0\]
+donc $z_{\psi(k)}\to 0$ pour $N$. Par unicité de la limite dans $(E,N)$ (proposition~\ref{prop:unicite-limite}), $\ell=0$, d'où $\|\ell\|_\infty=0$.
+
+Ces deux conclusions sont contradictoires. Il existe donc $b>0$ tel que $\|\cdot\|_\infty\leq bN$, et avec l'étape 1, $N$ et $\|\cdot\|_\infty$ sont équivalentes.
+\end{proof}
+
+\begin{coro}
+\label{coro:dim-finie-topologie}
+Soit $E$ de dimension finie $p\geq 1$. Les notions de suite convergente (et de limite), de partie bornée, d'ouvert et de fermé de $E$ ne dépendent pas de la norme choisie. En particulier, si $\mathcal{B}$ est une base de $E$, une suite de $E$ converge si et seulement si chacune de ses suites de coordonnées dans $\mathcal{B}$ converge, et la limite a pour coordonnées les limites des coordonnées.
+\end{coro}
+
+\begin{proof}
+Le premier point résulte du théorème~\ref{theo:normes-equivalentes-dim-finie} et du corollaire~\ref{coro:normes-equivalentes-memes}. Le second s'en déduit en choisissant la norme $\|\cdot\|_{\infty,\mathcal{B}}$, pour laquelle c'est le point 2 du lemme~\ref{lemme:norme-infini-base}.
+\end{proof}
+
+\begin{remarque}
+L'hypothèse de dimension finie est indispensable (exemple~\ref{ex:normes-non-equivalentes}). Elle intervient dans la démonstration à travers le théorème de Bolzano--Weierstrass, appliqué à un nombre \emph{fini} de suites de coordonnées ; ce théorème repose lui-même sur la propriété de la borne supérieure de $\mathbb{R}$.
 \end{remarque}

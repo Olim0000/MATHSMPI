@@ -1,0 +1,207 @@
+\chapter{Notion de probabilité}
+\label{chap:probabilites}
+
+\paragraph{Notations.} Dans tout ce chapitre, $\Omega$ désigne un ensemble non vide et $\mathcal{P}(\Omega)$ l'ensemble de ses parties. Pour $A\subset\Omega$, on note $A^c=\Omega\setminus A$ son complémentaire dans $\Omega$, et pour $A,B\subset\Omega$, $B\setminus A=B\cap A^c$. On suppose connues les notions suivantes :
+\begin{itemize}
+\item les opérations ensemblistes et les lois de De Morgan pour une famille quelconque de parties (proposition~\ref{prop:de-morgan}) ; la distributivité $B\cap\bigcup_{i\in I}A_i=\bigcup_{i\in I}(B\cap A_i)$, immédiate puisque les deux membres sont l'ensemble des $x$ tels que $x\in B$ et $\exists i\in I,\ x\in A_i$ ;
+\item la notion de tribu (définition~\ref{defi:tribu}) et celle d'ensemble au plus dénombrable (chapitre~\ref{chap:ensembles}) ;
+\item les séries réelles à termes positifs (section~\ref{sec:stp}) et la condition nécessaire de convergence (théorème~\ref{theo:terme-general-nul}) ;
+\item le cardinal d'une réunion finie d'ensembles finis deux à deux disjoints, qui est la somme des cardinaux.
+\end{itemize}
+
+\section{Espace probabilisé}
+
+\subsection{Espace probabilisable, événements}
+
+Rappelons qu'une \textbf{tribu} sur $\Omega$ est une partie $\mathcal{B}\subset\mathcal{P}(\Omega)$ qui contient $\Omega$, est stable par passage au complémentaire et par réunion dénombrable (définition~\ref{defi:tribu}).
+
+\begin{prop}
+\label{prop:tribu-stabilite}
+Soit $\mathcal{B}$ une tribu sur $\Omega$. Alors :
+\begin{enumerate}
+\item $\varnothing\in\mathcal{B}$ ;
+\item si $A_0,\dots,A_m\in\mathcal{B}$, alors $\bigcup_{k=0}^mA_k\in\mathcal{B}$ et $\bigcap_{k=0}^mA_k\in\mathcal{B}$ ;
+\item si $(A_n)_{n\in\mathbb{N}}\in\mathcal{B}^{\mathbb{N}}$, alors $\bigcap_{n\in\mathbb{N}}A_n\in\mathcal{B}$ ;
+\item si $A,B\in\mathcal{B}$, alors $B\setminus A\in\mathcal{B}$.
+\end{enumerate}
+\end{prop}
+
+\begin{proof}
+\textbf{1.} $\varnothing=\Omega^c$, avec $\Omega\in\mathcal{B}$.
+
+\textbf{3.} D'après les lois de De Morgan, $\bigcap_nA_n=\big(\bigcup_nA_n^c\big)^c$ ; chaque $A_n^c$ est dans $\mathcal{B}$, donc leur réunion dénombrable aussi, puis son complémentaire.
+
+\textbf{2.} Complétons la famille en posant $A_n=\varnothing$ pour $n>m$ : alors $\bigcup_{n\in\mathbb{N}}A_n=\bigcup_{k=0}^mA_k$, qui est donc dans $\mathcal{B}$ par stabilité par réunion dénombrable. De même, en posant $A_n=\Omega$ pour $n>m$, $\bigcap_{n\in\mathbb{N}}A_n=\bigcap_{k=0}^mA_k$ est dans $\mathcal{B}$ d'après le point 3.
+
+\textbf{4.} $B\setminus A=B\cap A^c$, intersection finie d'éléments de $\mathcal{B}$.
+\end{proof}
+
+\begin{defi}[Espace probabilisable, événements]
+\label{defi:espace-probabilisable}
+Soit $\mathcal{B}$ une tribu sur $\Omega$. Le couple $(\Omega,\mathcal{B})$ est appelé \textbf{espace probabilisable} ; l'ensemble $\Omega$ est appelé \textbf{univers}, et les éléments de $\mathcal{B}$ sont appelés \textbf{événements}.
+\end{defi}
+
+Le vocabulaire ensembliste se traduit comme suit, pour des événements $A$ et $B$ :
+\begin{center}
+\begin{tabular}{ll}
+$\Omega$ & événement certain \\
+$\varnothing$ & événement impossible \\
+$A^c$ & événement contraire de $A$ \\
+$A\cup B$ & « $A$ ou $B$ » \\
+$A\cap B$ & « $A$ et $B$ » \\
+$A\subset B$ & l'événement $A$ implique l'événement $B$ \\
+$A\cap B=\varnothing$ & $A$ et $B$ sont disjoints, ou \textbf{incompatibles}
+\end{tabular}
+\end{center}
+D'après la proposition~\ref{prop:tribu-stabilite}, toutes ces opérations, ainsi que les réunions et intersections dénombrables, produisent encore des événements.
+
+\begin{defi}[Système complet d'événements]
+\label{defi:sce}
+On appelle \textbf{système complet d'événements} (en abrégé s.c.e.) toute famille $(A_i)_{i\in I}$ d'événements, avec $I=\inter{0}{m}$ ($m\in\mathbb{N}$) ou $I=\mathbb{N}$, telle que
+\[\bigcup_{i\in I}A_i=\Omega\qquad\text{et}\qquad\forall i,j\in I,\quad i\neq j\implies A_i\cap A_j=\varnothing\]
+\end{defi}
+
+\begin{remarque}
+Un s.c.e.\ n'est pas tout à fait une partition de $\Omega$ au sens du chapitre~\ref{chap:ensembles} : certains $A_i$ peuvent être vides, alors que les parts d'une partition sont non vides. En contrepartie, un s.c.e.\ fini $(A_0,\dots,A_m)$ peut toujours être complété en un s.c.e.\ dénombrable en posant $A_i=\varnothing$ pour $i>m$.
+\end{remarque}
+
+\begin{exemple}
+\begin{itemize}
+\item Pour tout événement $A$, $(A,A^c)$ est un s.c.e. : $A\cup A^c=\Omega$ et $A\cap A^c=\varnothing$.
+\item Si $\Omega=\{\omega_n\mid n\in\mathbb{N}\}$ est dénombrable (les $\omega_n$ étant deux à deux distincts) et $\mathcal{B}=\mathcal{P}(\Omega)$, la famille $(\{\omega_n\})_{n\in\mathbb{N}}$ est un s.c.e.
+\item On verra que, pour une variable aléatoire $X$ à valeurs dans $\mathbb{N}$, la famille des événements $(X=i)_{i\in\mathbb{N}}$ est un s.c.e.
+\end{itemize}
+\end{exemple}
+
+\subsection{Probabilité}
+
+\begin{defi}[Probabilité]
+\label{defi:probabilite}
+Soit $(\Omega,\mathcal{B})$ un espace probabilisable. On appelle \textbf{probabilité} sur $(\Omega,\mathcal{B})$ toute application $P:\mathcal{B}\to[0,+\infty[$ vérifiant :
+\begin{enumerate}
+\item $P(\Omega)=1$ ;
+\item \emph{($\sigma$-additivité)} pour toute suite $(A_n)_{n\in\mathbb{N}}$ d'événements deux à deux incompatibles, la série $\sum P(A_n)$ converge et
+\[P\left(\bigcup_{n=0}^{+\infty}A_n\right)=\sum_{n=0}^{+\infty}P(A_n)\]
+\end{enumerate}
+Le triplet $(\Omega,\mathcal{B},P)$ est alors appelé \textbf{espace probabilisé}.
+\end{defi}
+
+\begin{remarque}
+Le membre de gauche a un sens car $\bigcup_nA_n\in\mathcal{B}$ (stabilité d'une tribu par réunion dénombrable). La série $\sum P(A_n)$ est à termes positifs.
+\end{remarque}
+
+\begin{exemple}[Mesure de Dirac]
+Soient $(\Omega,\mathcal{B})$ un espace probabilisable et $a\in\Omega$. Pour $A\in\mathcal{B}$, posons $\delta_a(A)=1$ si $a\in A$ et $\delta_a(A)=0$ sinon. Alors $\delta_a$ est une probabilité sur $(\Omega,\mathcal{B})$.
+\end{exemple}
+
+\begin{proof}
+$\delta_a$ est à valeurs dans $\{0,1\}\subset[0,+\infty[$, et $\delta_a(\Omega)=1$ car $a\in\Omega$. Soit $(A_n)$ une suite d'événements deux à deux incompatibles : $a$ appartient à au plus un des $A_n$. Si $a\in\bigcup_nA_n$, il existe un unique $n_0$ tel que $a\in A_{n_0}$ ; la série $\sum\delta_a(A_n)$ a un seul terme non nul, égal à $1$ : ses sommes partielles valent $1$ à partir du rang $n_0$, elle converge et sa somme vaut $1=\delta_a\big(\bigcup_nA_n\big)$. Sinon, tous les termes sont nuls et $\delta_a\big(\bigcup_nA_n\big)=0$ est la somme de la série nulle.
+\end{proof}
+
+\begin{exemple}[Probabilité uniforme]
+Soit $\Omega$ un ensemble fini non vide, muni de la tribu $\mathcal{P}(\Omega)$. L'application $P:A\mapsto\dfrac{\Card(A)}{\Card(\Omega)}$ est une probabilité sur $(\Omega,\mathcal{P}(\Omega))$.
+\end{exemple}
+
+\begin{proof}
+$P$ est positive et $P(\Omega)=1$. Soit $(A_n)$ une suite de parties de $\Omega$ deux à deux disjointes, et $J=\{n\in\mathbb{N}\mid A_n\neq\varnothing\}$. En choisissant pour chaque $n\in J$ un élément $\omega_n\in A_n$, on définit une application $J\to\Omega$ injective (si $n\neq n'$, $A_n\cap A_{n'}=\varnothing$ donc $\omega_n\neq\omega_{n'}$) : $J$ est donc fini, de cardinal au plus $\Card(\Omega)$. Alors $\bigcup_{n\in\mathbb{N}}A_n=\bigcup_{n\in J}A_n$ est une réunion finie d'ensembles deux à deux disjoints, d'où
+\[P\left(\bigcup_{n\in\mathbb{N}}A_n\right)=\frac{1}{\Card(\Omega)}\sum_{n\in J}\Card(A_n)=\sum_{n\in J}P(A_n)\]
+Enfin, la série $\sum P(A_n)$ n'a qu'un nombre fini de termes non nuls (ceux d'indice dans $J$) : ses sommes partielles sont constantes égales à $\sum_{n\in J}P(A_n)$ à partir du rang $\max J$ (ou dès le rang $0$ si $J=\varnothing$), donc elle converge vers cette valeur.
+\end{proof}
+
+\section{Propriétés élémentaires}
+
+Dans toute cette section, $(\Omega,\mathcal{B},P)$ est un espace probabilisé et $A,B,A_0,A_1,\dots$ désignent des événements.
+
+\begin{prop}
+\label{prop:proba-vide}
+$P(\varnothing)=0$.
+\end{prop}
+
+\begin{proof}
+La suite constante $A_n=\varnothing$ est formée d'événements deux à deux incompatibles (car $\varnothing\cap\varnothing=\varnothing$), et $\bigcup_nA_n=\varnothing$. La $\sigma$-additivité affirme que la série $\sum P(\varnothing)$ converge (et que sa somme vaut $P(\varnothing)$). Son terme général tend donc vers $0$ (théorème~\ref{theo:terme-general-nul}) ; or ce terme général est la constante $P(\varnothing)$, d'où $P(\varnothing)=0$.
+\end{proof}
+
+\begin{prop}[Additivité finie]
+\label{prop:additivite-finie}
+Si $A_0,\dots,A_m$ sont deux à deux incompatibles, alors
+\[P\left(\bigcup_{k=0}^{m}A_k\right)=\sum_{k=0}^{m}P(A_k)\]
+En particulier, si $A$ et $B$ sont incompatibles, $P(A\cup B)=P(A)+P(B)$.
+\end{prop}
+
+\begin{proof}
+Posons $A_n=\varnothing$ pour $n>m$. La suite $(A_n)_{n\in\mathbb{N}}$ est encore formée d'événements deux à deux incompatibles (l'intersection avec $\varnothing$ est vide), et $\bigcup_{n\in\mathbb{N}}A_n=\bigcup_{k=0}^mA_k$. Par $\sigma$-additivité,
+\[P\left(\bigcup_{k=0}^{m}A_k\right)=\sum_{n=0}^{+\infty}P(A_n)\]
+Pour $n>m$, $P(A_n)=P(\varnothing)=0$ (proposition~\ref{prop:proba-vide}) : les sommes partielles sont constantes égales à $\sum_{k=0}^mP(A_k)$ à partir du rang $m$, et la somme de la série vaut donc $\sum_{k=0}^mP(A_k)$. Le cas de deux événements correspond à $m=1$, $A_0=A$, $A_1=B$.
+\end{proof}
+
+\begin{prop}[Événement contraire]
+\label{prop:proba-complementaire}
+$P(A^c)=1-P(A)$.
+\end{prop}
+
+\begin{proof}
+$A$ et $A^c$ sont incompatibles et $A\cup A^c=\Omega$, donc $1=P(\Omega)=P(A)+P(A^c)$ (proposition~\ref{prop:additivite-finie}).
+\end{proof}
+
+\begin{prop}[Différence, croissance]
+\label{prop:proba-croissance}
+Si $A\subset B$, alors
+\[P(B\setminus A)=P(B)-P(A)\qquad\text{et}\qquad P(A)\leq P(B)\]
+\end{prop}
+
+\begin{proof}
+Comme $A\subset B$, on a $B=A\cup(B\setminus A)$, et cette réunion est disjointe puisque $A\cap(B\cap A^c)=\varnothing$. L'événement $B\setminus A$ appartient à $\mathcal{B}$ (proposition~\ref{prop:tribu-stabilite}), et l'additivité finie donne $P(B)=P(A)+P(B\setminus A)$. Enfin $P(B\setminus A)\geq 0$, d'où $P(A)\leq P(B)$.
+\end{proof}
+
+\begin{coro}
+\label{coro:proba-01}
+Pour tout événement $A$, $P(A)\in[0,1]$.
+\end{coro}
+
+\begin{proof}
+$P(A)\geq 0$ par définition, et $A\subset\Omega$ donne $P(A)\leq P(\Omega)=1$ (proposition~\ref{prop:proba-croissance}).
+\end{proof}
+
+\begin{prop}[Probabilité d'une réunion]
+\label{prop:proba-union}
+Pour tous événements $A$ et $B$,
+\[P(A\cup B)=P(A)+P(B)-P(A\cap B)\]
+\end{prop}
+
+\begin{proof}
+On décompose en réunions disjointes :
+\[A\cup B=A\cup(B\setminus A)\qquad\text{et}\qquad B=(B\setminus A)\cup(A\cap B)\]
+(dans les deux cas, les deux morceaux sont disjoints car l'un est inclus dans $A$ et l'autre dans $A^c$ ; et la seconde égalité s'obtient en découpant $B$ selon le s.c.e.\ $(A,A^c)$). L'additivité finie donne
+\[P(A\cup B)=P(A)+P(B\setminus A)\qquad\text{et}\qquad P(B)=P(B\setminus A)+P(A\cap B)\]
+En éliminant $P(B\setminus A)=P(B)-P(A\cap B)$ entre ces deux égalités, on obtient la formule.
+\end{proof}
+
+\begin{prop}[Sous-additivité finie]
+\label{prop:sous-additivite}
+Pour tous événements $A_1,\dots,A_m$ ($m\geq 1$),
+\[P\left(\bigcup_{k=1}^{m}A_k\right)\leq\sum_{k=1}^{m}P(A_k)\]
+\end{prop}
+
+\begin{proof}
+Par récurrence sur $m$. Pour $m=1$ c'est une égalité. Pour deux événements, la proposition~\ref{prop:proba-union} et la positivité de $P(A_1\cap A_2)$ donnent
+\[P(A_1\cup A_2)=P(A_1)+P(A_2)-P(A_1\cap A_2)\leq P(A_1)+P(A_2) \tag{$\ast$}\]
+Supposons l'inégalité vraie au rang $m\geq 1$. L'événement $U=\bigcup_{k=1}^mA_k$ appartient à $\mathcal{B}$ (proposition~\ref{prop:tribu-stabilite}), et $\bigcup_{k=1}^{m+1}A_k=U\cup A_{m+1}$. D'après $(\ast)$ puis l'hypothèse de récurrence,
+\[P\left(\bigcup_{k=1}^{m+1}A_k\right)\leq P(U)+P(A_{m+1})\leq\sum_{k=1}^{m}P(A_k)+P(A_{m+1})=\sum_{k=1}^{m+1}P(A_k)\qedhere\]
+\end{proof}
+
+\begin{theo}[Formule des probabilités totales]
+\label{theo:probas-totales}
+Soit $(A_i)_{i\in I}$ un système complet d'événements. Pour tout événement $B$,
+\[P(B)=\sum_{i\in I}P(A_i\cap B)\]
+où la somme est finie si $I=\inter{0}{m}$, et est la somme d'une série convergente si $I=\mathbb{N}$.
+\end{theo}
+
+\begin{proof}
+Par distributivité,
+\[B=B\cap\Omega=B\cap\bigcup_{i\in I}A_i=\bigcup_{i\in I}(A_i\cap B)\]
+Chaque $A_i\cap B$ est un événement (proposition~\ref{prop:tribu-stabilite}), et ces événements sont deux à deux incompatibles : pour $i\neq j$, $(A_i\cap B)\cap(A_j\cap B)\subset A_i\cap A_j=\varnothing$. Si $I=\mathbb{N}$, la $\sigma$-additivité donne la convergence de $\sum P(A_i\cap B)$ et l'égalité annoncée ; si $I$ est fini, c'est l'additivité finie (proposition~\ref{prop:additivite-finie}).
+\end{proof}
+
+\begin{remarque}
+Avec le s.c.e.\ $(A,A^c)$, la formule s'écrit $P(B)=P(A\cap B)+P(A^c\cap B)$ : c'est la décomposition utilisée dans la démonstration de la proposition~\ref{prop:proba-union}.
+\end{remarque}

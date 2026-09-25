@@ -1,15 +1,20 @@
 \chapter{Séries dans un espace vectoriel normé}
 \label{chap:series-evn}
 
-\paragraph{Notations.} Dans tout ce chapitre, $K$ désigne $\mathbb{R}$ ou $\mathbb{C}$ et $(E,\|\cdot\|)$ un $K$-espace vectoriel normé (chapitre~\ref{chap:evn}). On note $E^{\mathbb{N}}$ l'ensemble des suites d'éléments de $E$, qui est un $K$-e.v. pour les opérations terme à terme. En pratique on se placera toujours dans le cas où $E$ est de \emph{dimension finie} ; signalons cependant qu'aucun énoncé de ce chapitre n'utilise cette hypothèse : tous ne font intervenir que la définition de la convergence d'une suite, et la seule structure supplémentaire employée est la relation d'ordre de $\mathbb{R}$ dans la section~\ref{sec:stp}.
+\paragraph{Notations.} Dans tout ce chapitre, $K$ désigne $\mathbb{R}$ ou $\mathbb{C}$ et $(E,\|\cdot\|)$ un $K$-espace vectoriel normé (chapitre~\ref{chap:evn}). On note $E^{\mathbb{N}}$ l'ensemble des suites d'éléments de $E$, qui est un $K$-e.v. pour les opérations terme à terme. En pratique, les séries étudiées sont le plus souvent réelles, parfois complexes, plus rarement à valeurs dans un e.v.n.\ de \emph{dimension finie}. Les sections~\ref{sec:generalites-series} et~\ref{sec:condition-necessaire} n'utilisent que la définition de la convergence d'une suite ; la section~\ref{sec:stp} utilise en outre la relation d'ordre de $\mathbb{R}$ ; enfin, le théorème~\ref{theo:cv-absolue} de la section~\ref{sec:series-evn} est le seul à utiliser l'hypothèse de dimension finie.
 
 On suppose connues les notions suivantes, qui ne sont pas redéfinies ici :
 \begin{itemize}
-\item la convergence d'une suite d'un e.v.n. (définition~\ref{defi:convergence}), l'unicité de la limite (proposition~\ref{prop:unicite-limite}) et les théorèmes d'opérations (propositions~\ref{prop:somme-limites} et~\ref{prop:scalaire-limite}) ;
+\item la convergence d'une suite d'un e.v.n. (définition~\ref{defi:convergence}), l'unicité de la limite (proposition~\ref{prop:unicite-limite}), les théorèmes d'opérations (propositions~\ref{prop:somme-limites} et~\ref{prop:scalaire-limite}), les suites extraites (définition~\ref{defi:suite-extraite}) et les relations de comparaison $O$, $o$, $\sim$ (paragraphe~\ref{subsec:relations-comparaison}) ;
 \item le théorème de la limite monotone (théorème~\ref{theo:limite-monotone}) et sa version dans $\overline{\mathbb{R}}$ (corollaire~\ref{coro:limite-monotone-rbar}) ;
+\item l'équivalence des normes en dimension finie (théorème~\ref{theo:normes-equivalentes-dim-finie}) ;
+\item le \textbf{passage à la limite dans les inégalités larges} : si $(a_n)$ et $(b_n)$ sont deux suites réelles convergentes telles que $a_n\leq b_n$ à partir d'un certain rang, alors $\lim a_n\leq\lim b_n$ ;
 \item les propriétés élémentaires des sommes finies : linéarité de $(x_0,\dots,x_n)\mapsto\sum_{k=0}^n x_k$, relation de Chasles sur les indices, découpage d'une somme selon une partition de l'ensemble d'indices ;
-\item la fonction $\ln$ et ses propriétés : $\ln(ab)=\ln a+\ln b$ pour $a,b>0$, $\ln(x)\xrightarrow[x\to+\infty]{}+\infty$, $\ln(1)=0$ ;
-\item l'intégrale d'une fonction continue sur un segment : positivité, croissance, relation de Chasles, et le fait que $\arctan$ est une primitive de $t\mapsto\frac{1}{1+t^2}$ sur $\mathbb{R}$, avec $\arctan(1)=\frac{\pi}{4}$ et $\arctan(x)\leq\frac{\pi}{2}$ pour tout $x\in\mathbb{R}$.
+\item les fonctions $\ln$ et $\exp$ et leurs propriétés : $\ln(ab)=\ln a+\ln b$ pour $a,b>0$, $\ln(x)\xrightarrow[x\to+\infty]{}+\infty$, $\ln(1)=0$ ; les puissances réelles $t^\alpha=e^{\alpha\ln t}$ pour $t>0$ et $\alpha\in\mathbb{R}$ ;
+\item les \textbf{croissances comparées} : pour tous $a>0$ et $b\in\mathbb{R}$, $\dfrac{(\ln n)^b}{n^a}\xrightarrow[n\to+\infty]{}0$ ;
+\item l'intégrale d'une fonction continue sur un segment : positivité, croissance, relation de Chasles, changement de variable, primitives usuelles ($t\mapsto\frac{t^{1-\alpha}}{1-\alpha}$ est une primitive de $t\mapsto t^{-\alpha}$ sur $\mathbb{R}_+^*$ pour $\alpha\neq 1$), et le fait que $\arctan$ est une primitive de $t\mapsto\frac{1}{1+t^2}$ sur $\mathbb{R}$, avec $\arctan(1)=\frac{\pi}{4}$ et $\arctan(x)\leq\frac{\pi}{2}$ pour tout $x\in\mathbb{R}$ ;
+\item l'\textbf{inégalité de Taylor--Lagrange} appliquée à l'exponentielle : pour tous $\lambda\in\mathbb{R}$ et $n\in\mathbb{N}$,
+\[\left|e^\lambda-\sum_{k=0}^{n}\frac{\lambda^k}{k!}\right| \leq \frac{|\lambda|^{n+1}}{(n+1)!}\,e^{|\lambda|}\]
 \end{itemize}
 
 On utilisera constamment le lemme élémentaire suivant, qui dit qu'une suite et sa décalée ont même comportement.
@@ -30,6 +35,7 @@ L'équivalence sur la convergence en découle, et l'égalité des limites est as
 \end{proof}
 
 \section{Généralités}
+\label{sec:generalites-series}
 
 \subsection{Définitions}
 
@@ -173,6 +179,7 @@ Deux mises en garde sur la réciproque du point 2.
 \end{remarque}
 
 \section{Condition nécessaire de convergence}
+\label{sec:condition-necessaire}
 
 \begin{theo}
 \label{theo:terme-general-nul}
@@ -219,10 +226,29 @@ Donc $(H_n)$ diverge, c'est-à-dire que $\sum_{n\geq1}\frac1n$ diverge. Comme pa
 L'argument ci-dessus consiste à observer que $(H_n)$ n'est pas de Cauchy : les « paquets » $H_{2n}-H_n$ ne deviennent jamais petits. On n'a utilisé que la définition de la convergence, aucune théorie supplémentaire n'est nécessaire.
 \end{remarque}
 
+La condition nécessaire suffit en revanche à régler complètement le cas de la série géométrique, que l'on énonce dans $K$.
+
+\begin{prop}[Série géométrique]
+\label{prop:serie-geometrique}
+Soit $q\in K$. La série $\sum_{n\geq 0}q^n$ converge si et seulement si $|q|<1$, et dans ce cas
+\[\sum_{n=0}^{+\infty}q^n=\frac{1}{1-q}\]
+Si $|q|\geq 1$, elle diverge grossièrement.
+\end{prop}
+
+\begin{proof}
+\textbf{Cas $|q|\geq 1$.} Par récurrence, $|q^n|=|q|^n\geq 1$ pour tout $n$. Si l'on avait $q^n\to 0$, on aurait $|q^n|\leq\frac12$ à partir d'un certain rang, ce qui est faux. Donc $q^n\not\to 0$ et la série diverge grossièrement (définition~\ref{defi:divergence-grossiere}).
+
+\textbf{Cas $|q|<1$.} Alors $q\neq 1$. Pour tout $n$, en notant $S_n=\sum_{k=0}^nq^k$, on a par télescopage
+\[(1-q)S_n=\sum_{k=0}^{n}q^k-\sum_{k=0}^{n}q^{k+1}=1-q^{n+1}\qquad\text{donc}\qquad S_n=\frac{1-q^{n+1}}{1-q}\]
+Comme $|q|\in[0,1[$, la proposition~\ref{prop:suite-geometrique} donne $|q|^n\to 0$, donc $|q^{n+1}-0|=|q|^{n+1}\to 0$ (lemme~\ref{lemme:decalage}), c'est-à-dire $q^{n+1}\to 0$ dans $K$ (proposition~\ref{prop:norme-suite-reelle}). Les théorèmes d'opérations donnent alors $S_n\to\frac{1}{1-q}$.
+\end{proof}
+
 \section{Séries à termes positifs}
 \label{sec:stp}
 
-Dans toute cette section, on se place dans $E=\mathbb{R}$ muni de la valeur absolue, et l'on considère une suite $(u_n)\in\mathbb{R}^{\mathbb{N}}$ \textbf{positive}, c'est-à-dire telle que $u_n\geq 0$ pour tout $n\in\mathbb{N}$. La relation d'ordre de $\mathbb{R}$ est ici essentielle : rien de ce qui suit n'a de sens dans un e.v.n. général.
+Dans toute cette section, on se place dans $E=\mathbb{R}$ muni de la valeur absolue, et l'on étudie des séries dont le terme général est \textbf{positif}, au moins à partir d'un certain rang ; les hypothèses de signe sont précisées dans chaque énoncé. La relation d'ordre de $\mathbb{R}$ est ici essentielle : rien de ce qui suit n'a de sens dans un e.v.n. général.
+
+\subsection{Sommes partielles}
 
 \begin{prop}
 \label{prop:stp-croissante}
@@ -307,3 +333,346 @@ Par croissance de l'intégrale sur $[1,n+1]$ (segment non vide car $n+1\geq 1$),
 \begin{remarque}
 La majoration $\frac{1}{1+t^4}\leq\frac{1}{1+t^2}$ n'est valable que pour $t\geq 1$ : sur $[0,1]$ l'inégalité est renversée. C'est précisément pour cette raison que l'on a découpé $\int_0^{n+1}$ en $\int_0^1+\int_1^{n+1}$, plutôt que de majorer directement sur $[0,n+1]$.
 \end{remarque}
+
+\subsection{Règle de comparaison}
+
+\begin{theo}[Règle de comparaison]
+\label{theo:regle-comparaison}
+Soient $(u_n)$ et $(v_n)$ deux suites réelles telles que, à partir d'un certain rang $n_1$,
+\[0\leq u_n\leq v_n\]
+\begin{enumerate}
+\item Si $\sum v_n$ converge, alors $\sum u_n$ converge.
+\item Si $\sum u_n$ diverge, alors $\sum v_n$ diverge.
+\end{enumerate}
+Si de plus l'encadrement $0\leq u_n\leq v_n$ a lieu pour \emph{tout} $n\in\mathbb{N}$ et si $\sum v_n$ converge, alors $\displaystyle\sum_{n=0}^{+\infty}u_n\leq\sum_{n=0}^{+\infty}v_n$.
+\end{theo}
+
+\begin{proof}
+Le point 2 est la contraposée du point 1 ; démontrons le point 1.
+
+\emph{Cas où $0\leq u_n\leq v_n$ pour tout $n\in\mathbb{N}$.} En sommant ces inégalités, $S_n(u)\leq S_n(v)$ pour tout $n$. La série $\sum v_n$ étant à termes positifs et convergente, le théorème~\ref{theo:stp-majoree} donne $S_n(v)\leq\sup_kS_k(v)=\sum_{k=0}^{+\infty}v_k$ pour tout $n$. Ainsi
+\[\forall n\in\mathbb{N},\qquad S_n(u)\leq\sum_{k=0}^{+\infty}v_k\]
+Les sommes partielles de la série à termes positifs $\sum u_n$ sont majorées : elle converge (théorème~\ref{theo:stp-majoree}), et sa somme $\sup_nS_n(u)$ est majorée par $\sum_{k=0}^{+\infty}v_k$, ce qui prouve aussi la dernière assertion.
+
+\emph{Cas général.} Posons $\tilde u_n=\tilde v_n=0$ pour $n<n_1$, et $\tilde u_n=u_n$, $\tilde v_n=v_n$ pour $n\geq n_1$. Alors $0\leq\tilde u_n\leq\tilde v_n$ pour tout $n$. Les suites $(\tilde u_n)$ et $(u_n)$ ne diffèrent qu'en un nombre fini d'indices, de même que $(\tilde v_n)$ et $(v_n)$ : d'après la proposition~\ref{prop:nombre-fini-termes}, $\sum\tilde u_n$ a la nature de $\sum u_n$ et $\sum\tilde v_n$ celle de $\sum v_n$. On applique alors le premier cas.
+\end{proof}
+
+\begin{coro}[Règle de domination]
+\label{coro:regle-domination}
+Soient $(u_n)$ et $(v_n)$ deux suites réelles positives à partir d'un certain rang, telles que $u_n=O(v_n)$ (c'est le cas en particulier si $u_n=o(v_n)$). Si $\sum v_n$ converge, alors $\sum u_n$ converge ; par contraposée, si $\sum u_n$ diverge, alors $\sum v_n$ diverge.
+\end{coro}
+
+\begin{proof}
+Par définition de $O$, il existe $M\geq 0$ et $N_0$ tels que $|u_n|\leq M|v_n|$ pour $n\geq N_0$. Quitte à augmenter $N_0$, on peut supposer $u_n\geq 0$ et $v_n\geq 0$ pour $n\geq N_0$, d'où $0\leq u_n\leq Mv_n$. Si $\sum v_n$ converge, $\sum Mv_n$ converge (proposition~\ref{prop:linearite}), et la règle de comparaison~\ref{theo:regle-comparaison} conclut.
+\end{proof}
+
+\subsection{Règle des équivalents}
+
+\begin{theo}[Règle des équivalents]
+\label{theo:regle-equivalents}
+Soient $(u_n)$ et $(v_n)$ deux suites réelles telles que
+\begin{itemize}
+\item $v_n\geq 0$ à partir d'un certain rang ;
+\item $u_n\sim v_n$.
+\end{itemize}
+Alors les séries $\sum u_n$ et $\sum v_n$ sont de même nature.
+\end{theo}
+
+\begin{proof}
+D'après la proposition~\ref{prop:equivalent-encadrement} appliquée avec $\varepsilon=\frac12$, il existe $N_0$ tel que
+\[\forall n\geq N_0,\qquad 0\leq\tfrac12 v_n\leq u_n\leq\tfrac32 v_n\]
+Si $\sum v_n$ converge, alors $\sum\frac32v_n$ converge (linéarité), et la majoration $0\leq u_n\leq\frac32v_n$ donne la convergence de $\sum u_n$ (théorème~\ref{theo:regle-comparaison}). Réciproquement, si $\sum u_n$ converge, la majoration $0\leq\frac12v_n\leq u_n$ donne la convergence de $\sum\frac12v_n$, donc celle de $\sum v_n=\sum 2\cdot\frac12 v_n$.
+\end{proof}
+
+\begin{remarque}
+\begin{itemize}
+\item Comme $\sim$ est symétrique (proposition~\ref{prop:equivalence-suites-relation}) et que deux suites réelles équivalentes ont même signe à partir d'un certain rang (proposition~\ref{prop:equivalent-encadrement}), l'hypothèse de signe peut porter indifféremment sur $(u_n)$ ou sur $(v_n)$.
+\item Seule la \emph{nature} est conservée : en cas de convergence, les sommes n'ont aucune raison d'être égales.
+\item L'hypothèse de signe est indispensable. Pour $n\geq 1$, posons $v_n=\frac{(-1)^n}{\sqrt n}$ et $u_n=v_n+\frac1n$. Alors $u_n\sim v_n$, car $\big|u_n-v_n\big|=\frac1n=\frac{1}{\sqrt n}|v_n|$ et $\frac{1}{\sqrt n}\to 0$. Pourtant $\sum v_n$ converge (critère spécial des séries alternées, théorème~\ref{theo:cssa}), tandis que $\sum u_n$ diverge comme somme d'une série convergente et d'une série divergente (remarque suivant le corollaire~\ref{coro:sev-series-convergentes}).
+\end{itemize}
+\end{remarque}
+
+\begin{exemple}
+\label{ex:serie-1-sur-n2}
+La série $\sum_{n\geq1}\frac{1}{n^2}$ converge.
+\end{exemple}
+
+\begin{proof}
+Pour $n\geq 1$, $\frac{1}{n(n+1)}=\frac1n-\frac{1}{n+1}$, donc par télescopage (proposition~\ref{prop:telescopique} appliquée à $a_n=-\frac1n$)
+\[\sum_{k=1}^{n}\frac{1}{k(k+1)}=1-\frac{1}{n+1}\xrightarrow[n\to+\infty]{}1\]
+et $\sum_{n\geq1}\frac{1}{n(n+1)}$ converge. Or $\frac{1}{n^2}\sim\frac{1}{n(n+1)}$ (exemple~\ref{ex:equivalents-usuels} et symétrie de $\sim$), et ces termes sont positifs : la règle des équivalents~\ref{theo:regle-equivalents} donne la convergence de $\sum_{n\geq1}\frac{1}{n^2}$.
+\end{proof}
+
+\subsection{Règle de d'Alembert}
+
+\begin{lemme}[Comparaison logarithmique]
+\label{lemme:comparaison-log}
+Soient $(u_n)$ et $(v_n)$ deux suites réelles et $N_0\in\mathbb{N}$ tels que, pour tout $n\geq N_0$,
+\[u_n>0,\qquad v_n>0\qquad\text{et}\qquad\frac{u_{n+1}}{u_n}\leq\frac{v_{n+1}}{v_n}\]
+Alors $u_n\leq\dfrac{u_{N_0}}{v_{N_0}}\,v_n$ pour tout $n\geq N_0$ ; en particulier $u_n=O(v_n)$.
+\end{lemme}
+
+\begin{proof}
+Pour $n\geq N_0$, multiplions l'inégalité $\frac{u_{n+1}}{u_n}\leq\frac{v_{n+1}}{v_n}$ par le réel strictement positif $\frac{u_n}{v_{n+1}}$ : il vient $\frac{u_{n+1}}{v_{n+1}}\leq\frac{u_n}{v_n}$. La suite $\big(\frac{u_n}{v_n}\big)_{n\geq N_0}$ est donc décroissante, d'où $\frac{u_n}{v_n}\leq\frac{u_{N_0}}{v_{N_0}}$ pour $n\geq N_0$, et l'on multiplie par $v_n>0$.
+\end{proof}
+
+\begin{theo}[Règle de d'Alembert]
+\label{theo:dalembert}
+Soit $(u_n)$ une suite réelle telle que $u_n>0$ à partir d'un certain rang, et telle que
+\[\frac{u_{n+1}}{u_n}\xrightarrow[n\to+\infty]{}\ell\in[0,+\infty]\]
+\begin{enumerate}
+\item Si $\ell<1$, la série $\sum u_n$ converge.
+\item Si $\ell>1$ (y compris $\ell=+\infty$), la série $\sum u_n$ diverge grossièrement ; plus précisément $u_n\to+\infty$.
+\item Si $\ell=1$, on ne peut pas conclure en général.
+\end{enumerate}
+\end{theo}
+
+\begin{proof}
+Soit $N_0$ tel que $u_n>0$ pour tout $n\geq N_0$. Le quotient $\frac{u_{n+1}}{u_n}$ est alors strictement positif, ce qui explique que sa limite, si elle existe, appartienne à $[0,+\infty]$.
+
+\textbf{1. Cas $\ell<1$.} Posons $q=\frac{1+\ell}{2}$ : on a $\ell<q<1$ et $q\geq\frac12>0$. Appliquons la définition de la limite avec $\varepsilon=q-\ell>0$ : il existe $N_1\geq N_0$ tel que, pour tout $n\geq N_1$,
+\[\frac{u_{n+1}}{u_n}\leq\ell+\varepsilon=q=\frac{q^{n+1}}{q^n}\]
+Le lemme~\ref{lemme:comparaison-log}, appliqué à $(u_n)$ et à $(q^n)$ à partir du rang $N_1$, donne $u_n=O(q^n)$. Comme $0<q<1$, la série géométrique $\sum q^n$ converge (proposition~\ref{prop:serie-geometrique}) ; les deux séries étant à termes positifs, la règle de domination~\ref{coro:regle-domination} donne la convergence de $\sum u_n$.
+
+\textbf{2. Cas $\ell>1$.} Si $\ell\in\,]1,+\infty[$, posons $q=\frac{1+\ell}{2}\in\,]1,\ell[$ ; la définition de la limite avec $\varepsilon=\ell-q>0$ fournit $N_1\geq N_0$ tel que $\frac{u_{n+1}}{u_n}\geq\ell-\varepsilon=q$ pour $n\geq N_1$. Si $\ell=+\infty$, posons $q=2$ ; la définition de la limite $+\infty$ fournit $N_1\geq N_0$ tel que $\frac{u_{n+1}}{u_n}\geq 2=q$ pour $n\geq N_1$. Dans les deux cas $q>1$ et
+\[\forall n\geq N_1,\qquad\frac{q^{n+1}}{q^n}=q\leq\frac{u_{n+1}}{u_n}\]
+Le lemme~\ref{lemme:comparaison-log}, appliqué cette fois à $(q^n)$ et à $(u_n)$, donne $q^n\leq\frac{q^{N_1}}{u_{N_1}}u_n$, soit $u_n\geq c\,q^n$ pour $n\geq N_1$, avec $c=\frac{u_{N_1}}{q^{N_1}}>0$. Comme $q>1$, $q^n\to+\infty$ (proposition~\ref{prop:suite-geometrique}), donc $cq^n\to+\infty$ et $u_n\to+\infty$ par comparaison (proposition~\ref{prop:comparaison}). En particulier $u_n\not\to 0$ : la série diverge grossièrement.
+
+\textbf{3. Cas $\ell=1$.} Pour $u_n=\frac1n$, $\frac{u_{n+1}}{u_n}=\frac{n}{n+1}\to 1$ et $\sum u_n$ diverge (exemple~\ref{ex:serie-harmonique}). Pour $u_n=\frac{1}{n^2}$, $\frac{u_{n+1}}{u_n}=\big(\frac{n}{n+1}\big)^2\to 1$ et $\sum u_n$ converge (exemple~\ref{ex:serie-1-sur-n2}). La valeur $\ell=1$ est donc compatible avec les deux natures.
+\end{proof}
+
+\subsection{Séries de référence}
+\label{subsec:series-reference}
+
+\paragraph{Série géométrique.} D'après la proposition~\ref{prop:serie-geometrique}, pour $q\geq 0$, la série $\sum q^n$ converge si et seulement si $q<1$, et diverge (grossièrement) si et seulement si $q\geq 1$.
+
+\begin{prop}[Série exponentielle]
+\label{prop:serie-exponentielle}
+Pour tout $\lambda\in\mathbb{R}$, la série $\sum\frac{\lambda^n}{n!}$ converge, et
+\[\sum_{n=0}^{+\infty}\frac{\lambda^n}{n!}=e^{\lambda}\]
+\end{prop}
+
+\begin{proof}
+\textbf{Convergence de $\sum\frac{|\lambda|^n}{n!}$.} Si $\lambda=0$, tous les termes sont nuls à partir du rang $1$. Sinon, $u_n=\frac{|\lambda|^n}{n!}>0$ et
+\[\frac{u_{n+1}}{u_n}=\frac{|\lambda|^{n+1}}{|\lambda|^n}\cdot\frac{n!}{(n+1)!}=\frac{|\lambda|}{n+1}\xrightarrow[n\to+\infty]{}0<1\]
+donc $\sum u_n$ converge par la règle de d'Alembert~\ref{theo:dalembert}. Dans tous les cas, $\frac{|\lambda|^{n}}{n!}\to 0$ (théorème~\ref{theo:terme-general-nul}), donc aussi $\frac{|\lambda|^{n+1}}{(n+1)!}\to 0$ (lemme~\ref{lemme:decalage}).
+
+\textbf{Convergence vers $e^\lambda$.} L'inégalité de Taylor--Lagrange donne, pour tout $n$,
+\[0\leq\left|\sum_{k=0}^{n}\frac{\lambda^k}{k!}-e^\lambda\right|\leq e^{|\lambda|}\,\frac{|\lambda|^{n+1}}{(n+1)!}\xrightarrow[n\to+\infty]{}0\]
+Par encadrement, les sommes partielles de $\sum\frac{\lambda^n}{n!}$ convergent vers $e^\lambda$.
+\end{proof}
+
+\begin{theo}[Séries de Riemann]
+\label{theo:riemann}
+Soit $\alpha\in\mathbb{R}$. La série $\displaystyle\sum_{n\geq1}\frac{1}{n^\alpha}$ converge si et seulement si $\alpha>1$.
+\end{theo}
+
+\begin{proof}
+Pour $n\geq 1$, $\frac{1}{n^\alpha}=n^{-\alpha}=e^{-\alpha\ln n}>0$.
+
+\textbf{Cas $\alpha\leq 0$.} Pour $n\geq 1$, $\ln n\geq 0$ et $-\alpha\geq 0$, donc $n^{-\alpha}=e^{-\alpha\ln n}\geq e^0=1$. Le terme général ne tend pas vers $0$ : la série diverge grossièrement.
+
+\textbf{Cas $0<\alpha\leq 1$.} Pour $n\geq 1$, $\alpha\ln n\leq\ln n$, donc $n^\alpha\leq n$ par croissance de $\exp$, et $0<\frac1n\leq\frac{1}{n^\alpha}$. La série harmonique divergeant (exemple~\ref{ex:serie-harmonique}), la règle de comparaison~\ref{theo:regle-comparaison} donne la divergence de $\sum\frac{1}{n^\alpha}$.
+
+\textbf{Cas $\alpha>1$.} La fonction $f:t\mapsto t^{-\alpha}$ est continue et décroissante sur $[1,+\infty[$ (sa dérivée $t\mapsto-\alpha t^{-\alpha-1}$ y est strictement négative). Pour $k\geq 2$ et $t\in[k-1,k]$, on a donc $f(t)\geq f(k)$, et par croissance de l'intégrale sur ce segment de longueur $1$,
+\[\frac{1}{k^\alpha}=\int_{k-1}^{k}f(k)\,\mathrm{d}t\leq\int_{k-1}^{k}\frac{\mathrm{d}t}{t^\alpha}\]
+En sommant pour $k\in\inter{2}{n}$ et par la relation de Chasles, pour tout $n\geq 2$,
+\[\sum_{k=2}^{n}\frac{1}{k^\alpha}\leq\int_{1}^{n}\frac{\mathrm{d}t}{t^\alpha}=\left[\frac{t^{1-\alpha}}{1-\alpha}\right]_1^n=\frac{1}{\alpha-1}\left(1-\frac{1}{n^{\alpha-1}}\right)\leq\frac{1}{\alpha-1}\]
+Ainsi $\sum_{k=1}^n\frac{1}{k^\alpha}\leq 1+\frac{1}{\alpha-1}$ pour tout $n\geq 1$ : les sommes partielles de cette série à termes positifs sont majorées, et elle converge (théorème~\ref{theo:stp-majoree}).
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[xscale=1.7,yscale=1.4]
+  \foreach \k in {1,2,3} {
+    \fill[gray!30] (\k,0) rectangle (\k+1,{1/((\k+1)*(\k+1))});
+    \draw (\k,0) rectangle (\k+1,{1/((\k+1)*(\k+1))});
+  }
+  \draw[->] (-0.2,0) -- (4.7,0) node[below] {$t$};
+  \draw[->] (0,-0.2) -- (0,1.35);
+  \draw[thick,domain=0.87:4.5,samples=60] plot (\x,{1/(\x*\x)}) node[above] {$t\mapsto\frac{1}{t^\alpha}$};
+  \foreach \k in {1,2,3,4} \node[below] at (\k,0) {$\k$};
+\end{tikzpicture}
+\end{center}
+\noindent Le rectangle grisé posé sur $[k-1,k]$ a pour hauteur $\frac{1}{k^\alpha}$ et reste sous la courbe : c'est l'inégalité utilisée dans le cas $\alpha>1$ (figure tracée pour $\alpha=2$).
+
+\subsection{Comparaison série-intégrale}
+
+\begin{theo}
+\label{theo:serie-integrale}
+Soient $n_0\in\mathbb{N}$ et $f:[n_0,+\infty[\,\to\mathbb{R}$ une fonction continue, positive et décroissante. Pour $n\geq n_0$, posons
+\[w_n=f(n)-\int_{n}^{n+1}f(t)\,\mathrm{d}t\]
+Alors la série $\sum_{n\geq n_0}w_n$ est à termes positifs et converge, et $\displaystyle 0\leq\sum_{n=n_0}^{+\infty}w_n\leq f(n_0)$.
+\end{theo}
+
+\begin{proof}
+Soit $k\geq n_0$. Pour $t\in[k,k+1]$, la décroissance de $f$ donne $f(k+1)\leq f(t)\leq f(k)$ ; par croissance de l'intégrale sur ce segment de longueur $1$,
+\[f(k+1)\leq\int_{k}^{k+1}f(t)\,\mathrm{d}t\leq f(k)\qquad\text{donc}\qquad 0\leq w_k\leq f(k)-f(k+1)\]
+En sommant pour $k\in\inter{n_0}{N}$ et par télescopage,
+\[0\leq\sum_{k=n_0}^{N}w_k\leq\sum_{k=n_0}^{N}\big(f(k)-f(k+1)\big)=f(n_0)-f(N+1)\leq f(n_0)\]
+puisque $f(N+1)\geq 0$. Les sommes partielles de la série à termes positifs $\sum w_n$ sont majorées par $f(n_0)$ : elle converge et sa somme, qui est la borne supérieure des sommes partielles, est majorée par $f(n_0)$ (théorème~\ref{theo:stp-majoree}).
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[xscale=1.6,yscale=1.6]
+  \foreach \k in {0,1,2,3} {
+    \fill[gray!35] (\k,{2/(1+\k)}) -- plot[domain=\k:\k+1,samples=20] (\x,{2/(1+\x)}) -- (\k+1,{2/(1+\k)}) -- cycle;
+    \draw[dashed] (\k,0) -- (\k,{2/(1+\k)}) -- (\k+1,{2/(1+\k)}) -- (\k+1,0);
+  }
+  \draw[->] (-0.2,0) -- (4.7,0) node[below] {$t$};
+  \draw[->] (0,-0.2) -- (0,2.3);
+  \draw[thick,domain=0:4.5,samples=60] plot (\x,{2/(1+\x)}) node[above] {$f$};
+  \foreach \k in {1,2,3,4} \node[below] at (\k,0) {$\k$};
+  \node[below left] at (0,0) {$0$};
+  \node[left] at (0,2) {$f(0)$};
+\end{tikzpicture}
+\end{center}
+\noindent Sur chaque $[k,k+1]$, la zone grisée, comprise entre la courbe et le segment horizontal de hauteur $f(k)$, a pour aire $w_k$. Translatées horizontalement dans la bande $[0,1]\times[0,f(0)]$, ces zones s'empilent sans se chevaucher : c'est l'inégalité $\sum w_k\leq f(0)$.
+
+\begin{coro}
+\label{coro:serie-integrale-nature}
+Sous les hypothèses du théorème~\ref{theo:serie-integrale}, la série $\sum_{n\geq n_0}f(n)$ converge si et seulement si la suite $\left(\int_{n_0}^{N}f(t)\,\mathrm{d}t\right)_{N\geq n_0}$ converge, c'est-à-dire, cette suite étant croissante, si et seulement si elle est majorée.
+\end{coro}
+
+\begin{proof}
+Par la relation de Chasles, pour $N\geq n_0$,
+\[\sum_{k=n_0}^{N}f(k)=\sum_{k=n_0}^{N}w_k+\int_{n_0}^{N+1}f(t)\,\mathrm{d}t\]
+La série $\sum w_k$ convergeant, les sommes partielles de $\sum f(n)$ convergent si et seulement si $\big(\int_{n_0}^{N+1}f\big)_N$ converge (théorèmes d'opérations, dans les deux sens), c'est-à-dire si et seulement si $\big(\int_{n_0}^{N}f\big)_N$ converge (lemme~\ref{lemme:decalage}). Cette dernière suite est croissante puisque $f\geq 0$ : elle converge si et seulement si elle est majorée (théorème~\ref{theo:limite-monotone} et proposition~\ref{prop:convergente-bornee}).
+\end{proof}
+
+\subsection{Séries de Bertrand (hors programme)}
+
+Ces séries ne figurent pas au programme, mais les techniques employées (croissances comparées, comparaison série-intégrale) doivent être maîtrisées. Commençons par trois exemples.
+
+\begin{exemple}
+\label{ex:bertrand-exemples}
+\begin{enumerate}
+\item $\sum_{n\geq1}\frac{\ln n}{n}$ diverge : pour $n\geq 3>e$, $\ln n\geq 1$, donc $0\leq\frac1n\leq\frac{\ln n}{n}$, et la série harmonique diverge.
+\item $\sum_{n\geq2}\frac{1}{n^2\ln n}$ converge : pour $n\geq 2$, $\ln n\geq\ln 2>0$, donc $0\leq\frac{1}{n^2\ln n}\leq\frac{1}{\ln 2}\cdot\frac{1}{n^2}$, et $\sum\frac{1}{n^2}$ converge (exemple~\ref{ex:serie-1-sur-n2}).
+\item $\sum_{n\geq1}\frac{\ln n}{n^2}$ converge : on écrit $\frac{\ln n}{n^2}=\frac{\ln n}{n^{1/2}}\cdot\frac{1}{n^{3/2}}$. Par croissances comparées, $\frac{\ln n}{n^{1/2}}\to 0$, donc il existe $N_0$ tel que $0\leq\frac{\ln n}{n^{1/2}}\leq 1$ pour $n\geq N_0$ ; alors $0\leq\frac{\ln n}{n^2}\leq\frac{1}{n^{3/2}}$, et $\sum\frac{1}{n^{3/2}}$ converge (théorème~\ref{theo:riemann}, $\frac32>1$).
+\end{enumerate}
+\end{exemple}
+
+\begin{theo}[Séries de Bertrand]
+\label{theo:bertrand}
+Soient $\alpha,\beta\in\mathbb{R}$. La série
+\[\sum_{n\geq 2}\frac{1}{n^\alpha(\ln n)^\beta}\]
+converge si et seulement si $\alpha>1$, ou $\alpha=1$ et $\beta>1$.
+\end{theo}
+
+\begin{proof}
+Notons $u_n=\frac{1}{n^\alpha(\ln n)^\beta}$, strictement positif pour $n\geq 2$ puisque $\ln n>0$.
+
+\textbf{Cas $\alpha>1$.} Posons $\gamma=\frac{1+\alpha}{2}$, de sorte que $1<\gamma<\alpha$. Par croissances comparées ($\alpha-\gamma>0$),
+\[n^\gamma u_n=\frac{(\ln n)^{-\beta}}{n^{\alpha-\gamma}}\xrightarrow[n\to+\infty]{}0\]
+c'est-à-dire $u_n=o\big(\frac{1}{n^\gamma}\big)$. Comme $\sum\frac{1}{n^\gamma}$ converge ($\gamma>1$), la règle de domination~\ref{coro:regle-domination} donne la convergence.
+
+\textbf{Cas $\alpha<1$.} Par croissances comparées ($1-\alpha>0$), $\frac{(\ln n)^\beta}{n^{1-\alpha}}\to 0$ ; ce quotient étant strictement positif, son inverse $nu_n=\frac{n^{1-\alpha}}{(\ln n)^\beta}$ tend vers $+\infty$. Il existe donc $N_0$ tel que $nu_n\geq 1$, soit $u_n\geq\frac1n\geq 0$, pour $n\geq N_0$ : la série diverge par comparaison avec la série harmonique.
+
+\textbf{Cas $\alpha=1$ et $\beta\leq 0$.} Pour $n\geq 3$, $\ln n\geq 1$ donc $(\ln n)^\beta=e^{\beta\ln(\ln n)}\leq 1$, d'où $u_n\geq\frac1n$ : la série diverge.
+
+\textbf{Cas $\alpha=1$ et $\beta>0$.} La fonction $f:t\mapsto\frac{1}{t(\ln t)^\beta}$ est continue et strictement positive sur $[2,+\infty[$. Elle y est décroissante : $t\mapsto t$ et $t\mapsto(\ln t)^\beta$ sont croissantes et strictement positives sur $[2,+\infty[$ (car $\beta>0$), donc leur produit aussi, et l'inverse d'une fonction croissante strictement positive est décroissant. D'après le corollaire~\ref{coro:serie-integrale-nature} (avec $n_0=2$), $\sum u_n=\sum f(n)$ converge si et seulement si $\big(\int_2^Nf\big)_N$ converge. Le changement de variable $u=\ln t$ ($t\mapsto\ln t$ est de classe $\mathcal{C}^1$ et $\mathrm{d}u=\frac{\mathrm{d}t}{t}$) donne
+\[\int_{2}^{N}\frac{\mathrm{d}t}{t(\ln t)^\beta}=\int_{\ln 2}^{\ln N}\frac{\mathrm{d}u}{u^\beta}=\begin{cases}\ln(\ln N)-\ln(\ln 2) & \text{si }\beta=1,\\[4pt] \dfrac{(\ln N)^{1-\beta}-(\ln 2)^{1-\beta}}{1-\beta} & \text{si }\beta\neq 1.\end{cases}\]
+Si $\beta=1$, cette quantité tend vers $+\infty$ ($\ln N\to+\infty$ puis $\ln(\ln N)\to+\infty$). Si $\beta<1$, $(\ln N)^{1-\beta}\to+\infty$ et $1-\beta>0$ : elle tend vers $+\infty$. Si $\beta>1$, $(\ln N)^{1-\beta}=e^{(1-\beta)\ln(\ln N)}\to 0$ : elle converge vers $\frac{(\ln 2)^{1-\beta}}{\beta-1}$. La série converge donc si et seulement si $\beta>1$.
+\end{proof}
+
+\section{Séries dans un espace vectoriel normé}
+\label{sec:series-evn}
+
+On revient au cadre général d'un e.v.n.\ $(E,\|\cdot\|)$ sur $K$.
+
+\subsection{Séries absolument convergentes}
+
+\begin{defi}[Convergence absolue]
+\label{defi:cv-absolue}
+Soit $(u_n)\in E^{\mathbb{N}}$. On dit que la série $\sum u_n$ \textbf{converge absolument} si la série réelle à termes positifs $\sum\|u_n\|$ converge.
+\end{defi}
+
+\begin{exemple}
+Les séries $\sum_{n\geq1}\frac{(-1)^n}{n^2}$ et $\sum_{n\geq1}\frac{e^{in\theta}}{n^2}$ ($\theta\in\mathbb{R}$) convergent absolument, puisque $\left|\frac{(-1)^n}{n^2}\right|=\left|\frac{e^{in\theta}}{n^2}\right|=\frac{1}{n^2}$ et que $\sum\frac{1}{n^2}$ converge.
+\end{exemple}
+
+\begin{prop}
+\label{prop:domination-cv-absolue}
+Soient $(u_n)\in E^{\mathbb{N}}$ et $(\alpha_n)$ une suite réelle positive telles que $u_n=O(\alpha_n)$. Si $\sum\alpha_n$ converge, alors $\sum u_n$ converge absolument.
+\end{prop}
+
+\begin{proof}
+Par définition, $u_n=O(\alpha_n)$ signifie $\big|\,\|u_n\|\,\big|=\|u_n\|\leq M|\alpha_n|$ à partir d'un certain rang, c'est-à-dire $\|u_n\|=O(\alpha_n)$. Les suites $(\|u_n\|)$ et $(\alpha_n)$ étant positives, la règle de domination~\ref{coro:regle-domination} donne la convergence de $\sum\|u_n\|$.
+\end{proof}
+
+\begin{theo}
+\label{theo:cv-absolue}
+On suppose $E$ de \emph{dimension finie}. Si $\sum u_n$ converge absolument, alors $\sum u_n$ converge, et
+\[\left\|\sum_{n=0}^{+\infty}u_n\right\|\leq\sum_{n=0}^{+\infty}\|u_n\|\]
+\end{theo}
+
+\begin{proof}
+\textbf{Étape 1 : $E=\mathbb{R}$.} Pour $a\in\mathbb{R}$, posons $a^+=\max(a,0)$ et $a^-=\max(-a,0)$. En distinguant les cas $a\geq 0$ et $a<0$, on vérifie que
+\[a^+\geq 0,\qquad a^-\geq 0,\qquad a^+-a^-=a,\qquad a^++a^-=|a|\]
+et donc $0\leq a^\pm\leq|a|$. Si $\sum|u_n|$ converge, la règle de comparaison~\ref{theo:regle-comparaison} donne la convergence de $\sum u_n^+$ et de $\sum u_n^-$, puis la linéarité (proposition~\ref{prop:linearite}) celle de $\sum(u_n^+-u_n^-)=\sum u_n$.
+
+\textbf{Étape 2 : $E=\mathbb{C}$.} Pour $z\in\mathbb{C}$, $|z|^2=(\operatorname{Re}z)^2+(\operatorname{Im}z)^2$, donc $|\operatorname{Re}z|\leq|z|$ et $|\operatorname{Im}z|\leq|z|$. Si $\sum|u_n|$ converge, les séries réelles $\sum\operatorname{Re}u_n$ et $\sum\operatorname{Im}u_n$ convergent absolument par comparaison, donc convergent d'après l'étape 1. Comme $\sum_{k=0}^nu_k=\sum_{k=0}^n\operatorname{Re}u_k+i\sum_{k=0}^n\operatorname{Im}u_k$, les théorèmes d'opérations dans $\mathbb{C}$ donnent la convergence de $\sum u_n$.
+
+\textbf{Étape 3 : cas général.} Si $E=\{0\}$, il n'y a rien à démontrer. Sinon, soit $\mathcal{B}=(e_1,\dots,e_p)$ une base de $E$, et écrivons $u_n=\sum_{i=1}^pu_{n,i}\,e_i$. D'après le théorème~\ref{theo:normes-equivalentes-dim-finie}, la norme $\|\cdot\|_{\infty,\mathcal{B}}$ du lemme~\ref{lemme:norme-infini-base} est équivalente à $\|\cdot\|$ : il existe $c>0$ tel que $\|x\|_{\infty,\mathcal{B}}\leq c\|x\|$ pour tout $x\in E$. Pour chaque $i$,
+\[0\leq|u_{n,i}|\leq\|u_n\|_{\infty,\mathcal{B}}\leq c\,\|u_n\|\]
+donc la série $\sum_n u_{n,i}$ converge absolument dans $K$ (comparaison), donc converge d'après les étapes 1 et 2 ; notons $s_i$ sa somme. Les coordonnées de la somme partielle $S_N=\sum_{n=0}^{N}u_n$ sont les $\sum_{n=0}^Nu_{n,i}$, qui convergent vers les $s_i$ : d'après le corollaire~\ref{coro:dim-finie-topologie}, $(S_N)$ converge dans $(E,\|\cdot\|)$ vers $s=\sum_{i=1}^ps_ie_i$.
+
+\textbf{Inégalité.} Pour tout $N$, l'inégalité triangulaire puis le théorème~\ref{theo:stp-majoree} donnent
+\[\|S_N\|\leq\sum_{n=0}^{N}\|u_n\|\leq\sum_{n=0}^{+\infty}\|u_n\|\]
+Or $\big|\,\|S_N\|-\|s\|\,\big|\leq\|S_N-s\|\to 0$ (proposition~\ref{prop:inegalite-triangulaire-inverse}), donc $\|S_N\|\to\|s\|$, et le passage à la limite dans l'inégalité large conclut.
+\end{proof}
+
+\begin{remarque}
+La dimension finie n'intervient qu'à l'étape 3, à travers l'équivalence des normes. Le cas de $E=\mathbb{R}$ ou $\mathbb{C}$ suffit dans la très grande majorité des exercices.
+\end{remarque}
+
+\begin{exemple}[Exponentielle complexe]
+Pour tout $z\in\mathbb{C}$, la série $\sum\frac{z^n}{n!}$ converge absolument, puisque $\left|\frac{z^n}{n!}\right|=\frac{|z|^n}{n!}$ et que $\sum\frac{|z|^n}{n!}$ converge (proposition~\ref{prop:serie-exponentielle}). Elle converge donc d'après le théorème~\ref{theo:cv-absolue}, ce qui permet de définir $\exp(z)=\sum_{n=0}^{+\infty}\frac{z^n}{n!}$ pour $z\in\mathbb{C}$.
+\end{exemple}
+
+\subsection{Séries semi-convergentes}
+
+\begin{defi}
+\label{defi:semi-convergente}
+Une série $\sum u_n$ d'éléments de $E$ est dite \textbf{semi-convergente} si elle converge sans converger absolument.
+\end{defi}
+
+\begin{theo}[Critère spécial des séries alternées]
+\label{theo:cssa}
+Soit $(\alpha_n)_{n\in\mathbb{N}}$ une suite réelle positive, décroissante et de limite nulle. Alors la série $\sum(-1)^n\alpha_n$ converge. De plus, en notant $S_n$ ses sommes partielles et $S$ sa somme,
+\[\forall n\in\mathbb{N},\qquad S_{2n+1}\leq S\leq S_{2n}\qquad\text{et}\qquad|S-S_n|\leq\alpha_{n+1}\]
+\end{theo}
+
+\begin{proof}
+\textbf{Monotonie des suites extraites.} Pour tout $n$,
+\[S_{2n+2}-S_{2n}=-\alpha_{2n+1}+\alpha_{2n+2}\leq 0,\qquad S_{2n+3}-S_{2n+1}=\alpha_{2n+2}-\alpha_{2n+3}\geq 0\]
+par décroissance de $(\alpha_n)$ : la suite $(S_{2n})$ est décroissante et $(S_{2n+1})$ croissante. De plus $S_{2n+1}-S_{2n}=-\alpha_{2n+1}\leq 0$, d'où
+\[\forall n\in\mathbb{N},\qquad S_1\leq S_{2n+1}\leq S_{2n}\leq S_0\]
+
+\textbf{Convergence.} La suite $(S_{2n})$ est décroissante et minorée par $S_1$ : elle converge vers $S=\inf_nS_{2n}$ (théorème~\ref{theo:limite-monotone}). Comme $\alpha_n\to 0$, sa suite extraite $(\alpha_{2n+1})$ tend vers $0$ (proposition~\ref{prop:suite-extraite-cv}), donc $S_{2n+1}=S_{2n}-\alpha_{2n+1}\to S$. Les suites des termes pairs et impairs de $(S_n)$ convergeant vers la même limite $S$, la proposition~\ref{prop:pairs-impairs} donne $S_n\to S$.
+
+\textbf{Encadrement.} $(S_{2n})$ décroît vers $S$, donc $S=\inf_nS_{2n}\leq S_{2n}$ ; $(S_{2n+1})$ croît vers $S$, donc $S_{2n+1}\leq\sup_nS_{2n+1}=S$ (théorème~\ref{theo:limite-monotone}). Par conséquent
+\[0\leq S_{2n}-S\leq S_{2n}-S_{2n+1}=\alpha_{2n+1},\qquad 0\leq S-S_{2n+1}\leq S_{2n+2}-S_{2n+1}=\alpha_{2n+2}\]
+ce qui s'écrit $|S-S_n|\leq\alpha_{n+1}$ pour $n$ pair comme pour $n$ impair.
+\end{proof}
+
+\begin{remarque}
+Le critère s'applique aussi à une série $\sum_{n\geq n_0}(-1)^n\alpha_n$ lorsque $(\alpha_n)_{n\geq n_0}$ est positive, décroissante et de limite nulle : en posant $\alpha_n=\alpha_{n_0}$ pour $n<n_0$, on obtient une suite $(\alpha_n)_{n\in\mathbb{N}}$ vérifiant les hypothèses, et $\sum_{n\geq0}(-1)^n\alpha_n$ a même nature que $\sum_{n\geq n_0}(-1)^n\alpha_n$ (proposition~\ref{prop:nombre-fini-termes}). Il s'applique de même à $\sum(-1)^{n+1}\alpha_n=-\sum(-1)^n\alpha_n$.
+\end{remarque}
+
+\begin{exemple}
+La série $\sum_{n\geq1}\frac{(-1)^n}{n}$ est semi-convergente : elle converge d'après le critère spécial (la suite $(\frac1n)_{n\geq1}$ est positive, décroissante, de limite nulle), mais $\sum\left|\frac{(-1)^n}{n}\right|=\sum\frac1n$ diverge.
+\end{exemple}
+
+\begin{exemple}
+\label{ex:domaine-F}
+Déterminons l'ensemble $D_F$ des réels $x$ pour lesquels
+\[F(x)=\sum_{n=1}^{+\infty}\frac{(-1)^n}{n^x}\]
+est défini, c'est-à-dire pour lesquels la série $\sum_{n\geq1}\frac{(-1)^n}{n^x}$ converge.
+
+\emph{Si $x\leq 0$ :} pour $n\geq 1$, $\left|\frac{(-1)^n}{n^x}\right|=n^{-x}=e^{-x\ln n}\geq 1$ (car $-x\ln n\geq 0$) ; le terme général ne tend pas vers $0$ et la série diverge grossièrement. Donc $D_F\subset\,]0,+\infty[$.
+
+\emph{Si $x>0$ :} la suite $\alpha_n=n^{-x}=e^{-x\ln n}$ ($n\geq1$) est positive ; elle est décroissante car $\ln$ est croissante, $-x<0$ et $\exp$ est croissante ; et elle tend vers $0$ car $-x\ln n\to-\infty$. Le critère spécial des séries alternées (et la remarque qui le suit) donne la convergence.
+
+Ainsi $D_F=\,]0,+\infty[$. Plus précisément, d'après le théorème~\ref{theo:riemann}, la série converge absolument si $x>1$, et elle est semi-convergente si $0<x\leq 1$.
+\end{exemple}

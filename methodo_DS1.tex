@@ -1,0 +1,293 @@
+\documentclass[10pt]{article}
+\IfFileExists{preambule.tex}{\input{preambule}}{\input{../preambule}}
+\usepackage{enumitem}
+\usepackage{array}
+\setlist[enumerate]{itemsep=1pt,topsep=2pt}
+\setlist[itemize]{itemsep=1pt,topsep=2pt}
+\geometry{margin=1.8cm}
+
+\newcommand{\reflexe}[1]{\medskip\noindent\fbox{\textbf{#1}}\par\nobreak\smallskip}
+\newcommand{\piege}{$\blacktriangleright$\ }
+
+\title{\vspace{-1.5cm}\textbf{Fiche méthodo --- DS 1}\\
+\large Structures algébriques \& réduction (chapitres 1--2)}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1cm}
+
+\section{Structures : les check-lists de démonstration}
+
+Principe général : \emph{montrer qu'un objet EST une structure} $\Rightarrow$ on vérifie les axiomes
+un par un. \emph{Montrer qu'un objet est une SOUS-structure} $\Rightarrow$ on utilise le critère
+abrégé (beaucoup plus court, c'est toujours ce qu'on attend).
+
+\subsection{Sous-espace vectoriel \textnormal{(de très loin le plus fréquent)}}
+
+$F$ est un sev de $E$ si et seulement si :
+\begin{enumerate}
+\item $F \subset E$ ;
+\item $0_E \in F$ \quad (\emph{jamais} « $F\neq\emptyset$ » : on veut le vecteur nul explicitement) ;
+\item $\forall \lambda\in K,\ \forall (x,y)\in F^2,\quad \lambda x + y \in F$.
+\end{enumerate}
+Les points 2 et 3 se rédigent en trois lignes. \piege Le point 2 sert aussi à \emph{réfuter} :
+si $0_E\notin F$, c'est fini immédiatement.
+
+\reflexe{Raccourci qui évite tout calcul}
+Si $F$ s'écrit $\Ker(\varphi)$, $\Img(\varphi)$ ou $\Vect(\dots)$ avec $\varphi$ linéaire, c'est un sev
+\emph{par construction} : on le dit, on ne le redémontre pas. (C'est l'argument de I.2 du DNS~2 :
+$\Ker(u^2)$ est un sev car $u^2$ est linéaire.)
+
+\subsection{Groupe}
+
+$(G,\ast)$ est un groupe si :
+\begin{enumerate}
+\item $\ast$ est une loi de composition \textbf{interne} : $\forall (x,y)\in G^2,\ x\ast y\in G$ ;
+\item $\ast$ est \textbf{associative} ;
+\item il existe un \textbf{neutre} $e$ : $\forall x,\ x\ast e = e\ast x = x$ ;
+\item tout élément a un \textbf{symétrique} : $\forall x,\ \exists x',\ x\ast x' = x'\ast x = e$.
+\end{enumerate}
+Si de plus $\ast$ est commutative, le groupe est dit \textbf{abélien}.
+
+\textbf{Sous-groupe} (critère à utiliser) : $H\subset G$ est un sous-groupe si
+$e\in H$ et $\forall (x,y)\in H^2,\ x\ast y^{-1}\in H$.
+
+\subsection{Anneau, corps}
+
+$(A,+,\times)$ est un \textbf{anneau} si :
+\begin{enumerate}
+\item $(A,+)$ est un groupe abélien (neutre $0_A$) ;
+\item $\times$ est associative et possède un neutre $1_A$ ;
+\item $\times$ est distributive sur $+$ des deux côtés.
+\end{enumerate}
+Anneau \textbf{commutatif} si $\times$ l'est.
+
+\textbf{Sous-anneau} : $1_A\in B$, et $B$ stable par $x-y$ et par $x\times y$.
+
+\textbf{Corps} : anneau commutatif tel que $1_A\neq 0_A$ et tout élément non nul est inversible.
+
+\subsection{Algèbre \textnormal{(la question piège)}}
+
+$(A,+,\cdot,\times)$ est une \textbf{$K$-algèbre} si les \emph{trois} points suivants sont vérifiés :
+\begin{enumerate}
+\item $(A,+,\cdot)$ est un \textbf{$K$-espace vectoriel} \quad (loi externe $\cdot$) ;
+\item $(A,+,\times)$ est un \textbf{anneau} \quad (loi interne $\times$) ;
+\item \textbf{compatibilité} des deux structures :
+\[\forall \lambda\in K,\ \forall (x,y)\in A^2,\qquad
+\lambda\cdot(x\times y) = (\lambda\cdot x)\times y = x\times(\lambda\cdot y)\]
+\end{enumerate}
+
+\piege C'est le point 3 qu'on oublie, et c'est exactement celui que le correcteur cherche.
+Une algèbre, ce n'est pas « un ev qui est aussi un anneau » : il faut que la multiplication
+externe et la multiplication interne \emph{commutent entre elles}.
+
+\textbf{Sous-algèbre} $B$ de $A$ : \ (i) $1_A\in B$ ; \ (ii) $B$ est un \textbf{sev} de $A$
+(stable par $\lambda x+y$) ; \ (iii) $B$ est stable par $\times$.
+\ Les axiomes d'associativité, distributivité, etc. sont hérités de $A$ : on ne les revérifie pas.
+
+\textbf{Exemples à connaître :} $K[X]$, $K_n[X]$ (\emph{ev mais PAS algèbre} : pas stable par produit !),
+$\mathcal{M}_n(K)$, $\mathcal{L}(E)$, $\mathcal{F}(X,K)$, $K[u]=\{P(u)\mid P\in K[X]\}$.
+
+\reflexe{Fait de cours utilisable directement}
+$P\mapsto P(u)$ est un \textbf{morphisme d'algèbres} de $K[X]$ dans $\mathcal{L}(E)$.
+Conséquence exploitée en permanence : \emph{deux polynômes en $u$ commutent toujours entre eux,
+et avec $u$}.
+
+\section{Éléments propres : la méthode}
+
+\subsection{Méthode générale en dimension finie}
+
+\begin{enumerate}
+\item Écrire $A=\mathrm{Mat}_{\mathcal B}(u)$ dans une base : \textbf{les images en COLONNES}.
+\item Valeurs propres : résoudre $\det(A-\lambda I_n)=0$.
+\item Pour chaque $\lambda$ : $E_\lambda(u)=\Ker(A-\lambda I_n)$, résolution du système linéaire.
+\item Donner une \textbf{base} de chaque $E_\lambda$, et sa dimension.
+\end{enumerate}
+
+\subsection{Cas $\mathcal{M}_2(K)$ : la technique rapide}
+
+Pour $A=\begin{pmatrix} a & b \\ c & d\end{pmatrix}$, le polynôme caractéristique se retient par c\oe ur :
+\[\det(A-\lambda I_2) = \lambda^2 - \underbrace{(a+d)}_{\mathrm{tr}(A)}\lambda + \underbrace{(ad-bc)}_{\det(A)}
+= \lambda^2 - \mathrm{tr}(A)\,\lambda + \det(A)\]
+puis discriminant $\Delta = \mathrm{tr}(A)^2-4\det(A)$.
+
+\reflexe{Le principe : le noyau lit la dépendance entre les COLONNES}
+En notant $C_1,\dots,C_n$ les colonnes de $M$ et $v={}^t(x_1,\dots,x_n)$ :
+\[M v = 0 \iff x_1 C_1 + x_2 C_2 + \dots + x_n C_n = 0\]
+\emph{Le coefficient du haut de $v$ multiplie la première colonne, le suivant la deuxième, etc.}
+Autrement dit, un vecteur du noyau n'est rien d'autre qu'une \textbf{relation de dépendance
+linéaire entre les colonnes}. C'est valable en toute dimension, et c'est la bonne façon de voir.
+
+\textbf{En pratique sur $A-\lambda I_2$.} Comme $\det(A-\lambda I_2)=0$, les deux colonnes sont
+proportionnelles : si $C_2 = k\,C_1$, alors $x C_1 + y C_2 = (x+ky)C_1 = 0$ donne
+\[v_\lambda = \begin{pmatrix} -k \\ 1\end{pmatrix}\]
+Exemple : $M=\begin{pmatrix} 2 & 4 \\ 1 & 2\end{pmatrix}$, $C_2 = 2C_1$, donc
+$v={}^t(-2,1)$ --- et l'on vérifie $2(-2)+4(1)=0$, $1(-2)+2(1)=0$.
+
+\textbf{Variante par les lignes} (même résultat, parfois plus rapide) : une ligne $(\alpha,\beta)$ de
+$A-\lambda I_2$ donne $\alpha x+\beta y=0$, d'où $v_\lambda={}^t(-\beta,\ \alpha)$ --- on échange et on
+change un signe. Depuis la première ligne $(a-\lambda,\ b)$ : $v_\lambda={}^t(-b,\ a-\lambda)$.
+Attention, cette variante est propre au format $2\times2$ ; la lecture par colonnes, elle, se
+généralise au $3\times3$.
+
+\piege Si $A=\lambda I_2$, toutes les lignes et colonnes sont nulles et $E_\lambda=K^2$ tout entier :
+tout vecteur non nul convient.
+
+\subsection{Cas $\mathcal{M}_3(K)$}
+
+Développer $\det(A-\lambda I_3)$, puis \textbf{chercher une racine évidente} : tester $\lambda=0,\ 1,\ -1$,
+puis factoriser par division euclidienne.
+
+\reflexe{Deux astuces qui font gagner cinq minutes}
+\begin{itemize}
+\item Si \textbf{toutes les lignes ont la même somme} $s$, alors $A\begin{pmatrix}1\\1\\1\end{pmatrix}
+= s\begin{pmatrix}1\\1\\1\end{pmatrix}$ : $s$ est valeur propre, de vecteur propre $(1,1,1)$.
+\item Si une \textbf{colonne est nulle}, alors $0$ est valeur propre. Si deux lignes (ou colonnes) sont
+\textbf{proportionnelles}, $\det A=0$ donc $0$ est valeur propre.
+\item Pour les vecteurs propres, même principe qu'en dimension $2$ : on cherche à l'\oe il une relation
+$x_1C_1+x_2C_2+x_3C_3=0$ entre les colonnes de $A-\lambda I_3$. Une relation évidente du type
+$C_1+C_2-C_3=0$ donne directement $v={}^t(1,1,-1)$, sans résoudre le système.
+\end{itemize}
+
+\subsection{Cas triangulaire}
+
+Les valeurs propres se lisent \textbf{sur la diagonale}, car
+$\det(A-\lambda I_n)=\prod_{i=1}^n (a_{ii}-\lambda)$.
+
+\piege À ne pas confondre avec la lecture par colonnes du noyau ci-dessus : ici il s'agit du
+\emph{déterminant}, pas d'une dépendance entre colonnes. Une colonne dont l'unique coefficient non nul
+est \textbf{hors diagonale} ne donne aucune valeur propre. Seuls cas exploitables :
+colonne $j$ valant $\lambda$ en position $j$ et $0$ ailleurs ($\Rightarrow e_j$ vecteur propre) ;
+ou colonne nulle ($\Rightarrow 0$ valeur propre).
+
+\subsection{Cas sans matrice (polynômes, dimension infinie)}
+
+On revient à la définition $u(x)=\lambda x$ avec $x\neq 0$, et on raisonne \textbf{par le degré}.
+Modèle : pour $D:P\mapsto P'$ sur $K[X]$, si $\lambda\neq0$ et $P\neq0$ alors $\deg(\lambda P)=\deg P$
+mais $\deg(P')\leq \deg P-1$ : impossible. Reste $\lambda=0$, et $\Ker D=\Vect(1)\neq\{0\}$.
+D'où $\Spec(D)=\{0\}$.
+
+\subsection{Polynôme annulateur}
+
+Si $P(u)=0$ alors $\Spec(u)\subset\{\text{racines de }P\}$.
+
+\piege Inclusion \textbf{souvent stricte} : $X(X-1)$ annule $\id_E$, pourtant $0\notin\Spec(\id_E)$.
+Ne jamais conclure à l'égalité sans vérifier, pour chaque racine, que $\Ker(u-\lambda\,\id)\neq\{0\}$.
+
+\subsection{Vérifications de fin de calcul}
+
+\begin{itemize}
+\item $\mathrm{tr}(A) = $ somme des valeurs propres (avec multiplicités), $\det(A)=$ leur produit
+--- valable dès que $\chi_A$ est scindé, donc toujours sur $\mathbb{C}$.
+\emph{À utiliser comme contrôle}, pas comme théorème cité.
+\item Vérifier à la main $u(v_\lambda)=\lambda v_\lambda$ sur chaque vecteur propre trouvé : c'est
+instantané et ça rattrape toute erreur de système.
+\end{itemize}
+
+\section{Diagonalisabilité \textnormal{(avec les outils du chapitre 2 uniquement)}}
+
+\textbf{Définition :} $u$ est diagonalisable s'il existe une base de $E$ formée de vecteurs propres.
+
+\reflexe{Pour montrer que OUI}
+\begin{itemize}
+\item \textbf{Voie royale} : $n$ valeurs propres \emph{distinctes} en dimension $n$. Les vecteurs propres
+associés forment une famille libre (somme directe des espaces propres), donc une base par cardinal.
+\item \textbf{Via un polynôme annulateur} de la forme $(X-\lambda)(X-\mu)$ avec $\lambda\neq\mu$ :
+on montre $E=\Ker(u-\lambda\,\id)\oplus\Ker(u-\mu\,\id)$ par analyse-synthèse, et on recolle les bases.
+\item \textbf{Cas du projecteur} ($p^2=p$) : à savoir refaire par c\oe ur, c'est la question 17 de la khôlle.
+\end{itemize}
+
+\reflexe{Pour montrer que NON --- toujours par l'absurde}
+\begin{enumerate}
+\item \textbf{Spectre singleton} (le plus rapide) : si $\Spec(u)=\{\lambda\}$ et $u$ diagonalisable,
+alors $u=\lambda\,\id_E$. Donc il suffit d'exhiber $u\neq\lambda\,\id$. Imparable sur les nilpotents
+($\Spec=\{0\}$, donc diagonalisable $\Rightarrow u=0$).
+\item \textbf{Argument de trace} (celui du DNS~2) : si $u$ était diagonalisable, sa matrice serait
+$\mathrm{diag}(a_1,\dots,a_n)$ avec $a_i\in\Spec(u)$ ; la trace étant invariante par changement de base,
+$\sum a_i = \mathrm{tr}(u)$, ce qui \emph{force} la répartition des $a_i$, donc force $\dim E_\lambda$.
+On contredit alors le $\dim E_\lambda$ calculé directement.
+\end{enumerate}
+
+\piege Le critère « $u$ diagonalisable $\iff \sum_\lambda \dim E_\lambda = \dim E$ »
+\textbf{n'est pas au programme de ce chapitre} : ne le cite pas, utilise la trace à la place.
+
+\section{Sous-espaces stables : les quatre réflexes}
+
+$F$ est $u$-stable si $u(F)\subset F$. Rédaction type : \og soit $x\in F$, montrons $u(x)\in F$ \fg.
+
+\begin{enumerate}
+\item $\Ker P(u)$ est $u$-stable, pour \textbf{tout} polynôme $P$. \ $\Rightarrow$ règle d'un coup
+$\Ker(u^k)$, $\Ker(u-\lambda\,\id)=E_\lambda(u)$, $\Img$ d'un polynôme en $u$\dots
+\item Si $u\circ v=v\circ u$, alors $\Ker v$ et $\Img v$ sont $u$-stables.
+\item $\Vect(x_0)$ est $u$-stable $\iff$ $x_0$ est vecteur propre de $u$ \ (pour $x_0\neq0$).
+$\Rightarrow$ \textbf{chercher les droites stables = chercher les vecteurs propres}.
+\item $F$ $u$-stable $\iff$ $u$ induit un endomorphisme $u_{|F}\in\mathcal{L}(F)$.
+\end{enumerate}
+
+\textbf{Recherche de \emph{tous} les sev stables} : on raisonne par dimension.
+$\dim 0$ : $\{0\}$. \ $\dim n$ : $E$. \ $\dim 1$ : droites propres (réflexe 3).
+\ Dimensions intermédiaires : à la main, en utilisant que le sev stable contient nécessairement
+des vecteurs propres de $u_{|F}$.
+
+\section{Sommes directes et projecteurs}
+
+\subsection{Montrer $E=F\oplus G$ : trois méthodes}
+
+\begin{enumerate}
+\item \textbf{Dimension} (la plus rapide en dimension finie) :
+$F\cap G=\{0\}$ \ et \ $\dim F+\dim G=\dim E$.
+\item \textbf{Double inclusion} : $F\cap G=\{0\}$ \ et \ $F+G=E$.
+\item \textbf{Analyse-synthèse} (quand on n'a pas les dimensions) : on part de $x\in E$ quelconque,
+on \emph{suppose} $x=x_F+x_G$, on en déduit une formule explicite pour $x_F$ et $x_G$ (analyse,
+donne l'unicité), puis on vérifie que cette formule marche (synthèse, donne l'existence).
+\end{enumerate}
+
+\textbf{Modèle à connaître} --- si $(u-\lambda\,\id)(u+\lambda\,\id)=0$ avec $\lambda\neq0$ :
+\[x = \underbrace{\frac{1}{2\lambda}\big(u(x)+\lambda x\big)}_{\in\,\Ker(u-\lambda\,\id)}
+\ -\ \underbrace{\frac{1}{2\lambda}\big(u(x)-\lambda x\big)}_{\in\,\Ker(u+\lambda\,\id)}\]
+
+Pour $h$ sous-espaces : la somme est directe si
+$x_1+\dots+x_h=0 \Rightarrow x_1=\dots=x_h=0$ (\emph{pas} « deux à deux d'intersection nulle »,
+qui est strictement plus faible dès $h\geq3$).
+
+\subsection{Projecteurs}
+
+$p$ projecteur $\iff p\circ p=p$. Alors :
+\[E=\Img p\oplus\Ker p,\qquad \Img p=\Ker(p-\id)=\{x\mid p(x)=x\},\qquad \Spec(p)\subset\{0,1\}\]
+et $p$ est diagonalisable (base obtenue en recollant une base de $\Ker p$ et une base de $\Img p$).
+
+Si $E=F_1\oplus\dots\oplus F_k$ et $P_j$ est le projecteur sur $F_j$ :
+\ $P_i\circ P_j=\delta_{ij}P_j$ \ et \ $P_1+\dots+P_k=\id_E$.
+
+\section{Trouver une base adaptée \textnormal{(type DNS 2, I.3)}}
+
+Pour obtenir une base $\mathcal B=(e_1,\dots,e_n)$ dans laquelle $\mathrm{Mat}_{\mathcal B}(u)$ est imposée :
+\begin{enumerate}
+\item \textbf{Lire la matrice cible colonne par colonne} : la colonne $j$ donne les coordonnées de
+$u(e_j)$ dans $\mathcal B$, donc une équation sur $e_j$.
+\item Résoudre ces équations \textbf{dans l'ordre de dépendance} (une colonne du type $u(e_3)=e_2$
+oblige à traiter $e_2$ avant $e_3$).
+\item \textbf{Justifier que c'est une base} : $\det P\neq0$ où $P$ est la matrice de passage,
+ou famille libre $+$ cardinal $=\dim E$.
+\end{enumerate}
+
+\piege L'étape 3 est oubliée neuf fois sur dix et coûte des points à chaque fois.
+
+\section{Les pièges qui coûtent des points}
+
+\begin{itemize}
+\item Un \textbf{vecteur} propre est non nul \emph{par définition} ; une \textbf{valeur} propre peut
+parfaitement être nulle.
+\item Matrice d'un endomorphisme : les images vont en \textbf{colonnes}, pas en lignes.
+\item $\Spec(u)\subset$ racines d'un annulateur : inclusion souvent \textbf{stricte}.
+\item Sur $\mathbb{R}$, le spectre peut être \textbf{vide} (rotation d'angle $\pi/2$) ; sur $\mathbb{C}$
+en dimension finie non nulle, jamais.
+\item « Donner une base » $\Rightarrow$ toujours conclure par libre $+$ cardinal (ou génératrice $+$ cardinal).
+\item $K_n[X]$ est un espace vectoriel mais \textbf{pas une algèbre} (pas stable par produit).
+\item Pour une sous-structure, ne jamais revérifier associativité/distributivité : elles sont héritées.
+\item $\Spec(u)$ singleton n'implique pas $u$ homothétie --- il faut \textbf{en plus} la diagonalisabilité.
+\end{itemize}
+
+\end{document}
